@@ -63,53 +63,6 @@ CrocHTMLTextfield.prototype.getValue = function() {
 	return this.domObject.childNodes[0].value;
 };
 
-CrocHTMLTextfield.prototype.paint = function(context, width, height) {
-	var oldWidth = this.getWidth();
-	var oldHeight = this.getHeight();
-	
-	CrocBase.prototype.paint.call(this, context, width, height);
-
-	if(!this.visible) {
-		this.domObject.style.visibility = "hidden";
-		this.domObject.style.zIndex = "-99";
-		return;
-	}
-
+CrocHTMLTextfield.prototype.addPaintWarning() {
 	this.getRoot().addPaintWarning(this, context.getCurrentTransform(), this.domObject.childNodes[0].offsetWidth, this.domObject.childNodes[0].offsetHeight);
-	
-	var position = this.transformPoint(context.getCurrentTransform(), 0, 0);
-	this.domObject.style.position = "absolute";
-	this.domObject.style.top = position.y.toString() + "px";
-	this.domObject.style.left = position.x.toString() + "px";
-	this.domObject.style.width = this.getWidth().toString() + "px";
-	this.domObject.style.height = this.getHeight().toString() + "px";
-	this.domObject.style.overflow = "hidden";
-	
-	if(oldWidth !== this.getWidth() || oldHeight !== this.getHeight()) {
-		this.updateContents();
-	}
-	
-	else if(this.drawnInnerHTML !== this.domObject.innerHTML) {
-		this.updateContents();
-	}
-	
-	//We should draw the real DOM element z-indexed above our root canvas.
-	if(this.drawDOM) {
-		this.domObject.style.visibility = "visible";
-		this.domObject.style.zIndex = 100;
-	}
-	
-	//Draw the dummy image because we don't need to be real right now.
-	else {
-		this.domObject.style.visibility = "hidden";
-		this.domObject.style.zIndex = "-99";
-		
-		if(this.drawReady && this.drawImage.width > 0 && this.drawImage.height > 0) {
-			context.drawImage(this.drawImage, 0, 0);
-		}
-		
-		this.drawDOM = true;
- 	}
-	
-	return;
 };
