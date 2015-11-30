@@ -13,6 +13,7 @@
 		<script src="CrocPanelList.js"></script>
 		<script src="CrocLabel.js"></script>
 		<script src="CrocDOM.js"></script>
+		<script src="CrocHTMLTextfield.js"></script>
 		<script src="CrocRoot.js"></script>
 	</head>
 
@@ -42,14 +43,14 @@
 			testHoziPanelList.setOrientation("horizontal");
 			var testPanelList = new CrocPanelList(root);
 			var otherPanelList = new CrocPanelList(root);
-			var testDom = new CrocDOM(root, 
-				'<em>I</em> like ' + 
-				'<span style="color:white; text-shadow:0 0 2px blue;">' +
-				'TO BE FLASHY</span> Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going.');
+// 			var testDom = new CrocDOM(root, 
+// 				'<em>I</em> like ' + 
+// 				'<span style="color:white; text-shadow:0 0 2px blue;">' +
+// 				'TO BE FLASHY</span> Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going.');
 			
 // 			var testDom = new CrocDOM(root, '<input type="text"></input>');
 			
-// 			var testDom = new CrocDOM(root, '<input type="checkbox" name="vehicle" value="Bike">');
+			var testDom = new CrocHTMLTextfield(root, 'Testing');
 			
 			zebraImage.setScaling("stretch");
 			testLabel.setWrapping("word");

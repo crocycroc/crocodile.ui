@@ -44,8 +44,6 @@ CrocDOM.prototype.updateContents = function() {
 		'</foreignObject>' +
 		'</svg>';
 
-	console.log(data);
-		
 	var DOMURL = window.URL || window.webkitURL || window;
 	this.drawReady = false;
 	
@@ -54,8 +52,6 @@ CrocDOM.prototype.updateContents = function() {
 	var url = DOMURL.createObjectURL(svg);
 	
 	this.drawImage.onload = function () {
-		console.log("DOM Render complete!");
-		
 		DOMURL.revokeObjectURL(url);
 		currentCrocDOM.drawReady = true;
 		currentCrocDOM.getRoot().repaint();
