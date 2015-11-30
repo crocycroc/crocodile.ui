@@ -74,7 +74,7 @@ CrocDOM.prototype.setDrawDOM = function(drawDOM) {
 	this.getRoot().repaint();
 };
 
-CrocDOM.prototype.addPaintWarning() {
+CrocDOM.prototype.addPaintWarning = function(context) {
 	this.getRoot().addPaintWarning(this, context.getCurrentTransform(), this.getWidth(), this.getHeight());
 };
 
@@ -90,7 +90,7 @@ CrocDOM.prototype.paint = function(context, width, height) {
 		return;
 	}
 
-	this.addPaintWarning();
+	this.addPaintWarning(context);
 	
 	var position = this.transformPoint(context.getCurrentTransform(), 0, 0);
 	this.domObject.style.position = "absolute";

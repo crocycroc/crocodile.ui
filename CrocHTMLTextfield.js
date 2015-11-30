@@ -63,6 +63,6 @@ CrocHTMLTextfield.prototype.getValue = function() {
 	return this.domObject.childNodes[0].value;
 };
 
-CrocHTMLTextfield.prototype.addPaintWarning() {
+CrocHTMLTextfield.prototype.addPaintWarning = function(context) {
 	this.getRoot().addPaintWarning(this, context.getCurrentTransform(), this.domObject.childNodes[0].offsetWidth, this.domObject.childNodes[0].offsetHeight);
 };
