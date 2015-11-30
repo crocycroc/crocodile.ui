@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml>
+	<head>
+		<script src="canvasWrapper.js"></script>
+		<script src="util.js"></script>
+		<script src="CrocBase.js"></script>
+		<script src="CrocButton.js"></script>
+		<script src="CrocImageSimple.js"></script>
+		<script src="CrocPanel.js"></script>
+		<script src="CrocPanelBorder.js"></script>
+		<script src="CrocPanelGrid.js"></script>
+		<script src="CrocPanelSplit.js"></script>
+		<script src="CrocPanelList.js"></script>
+		<script src="CrocLabel.js"></script>
+		<script src="CrocDOM.js"></script>
+		<script src="CrocRoot.js"></script>
+	</head>
+
+	<body>
+		<canvas id="myCanvas" width="1024" height="768" style="position:fixed; right:0; top:0;" width="800" height="600">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+		<canvas id="hitCanvas" width="1024" height="768" style="position:fixed; right:0; top:0; z-index:-99">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+
+		<script>			
+			var root = new CrocRoot(document.getElementById("myCanvas"), document.getElementById("hitCanvas"), true);
+			var panel = new CrocPanel(root);
+			var button = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var buttonB = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var buttonC = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var buttonD = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var zebraImage = new CrocImageSimple(root, "imgs/zebra.jpg");
+			var testLabel = new CrocLabel(root, "Hello World! Long time no see, good to know that all is well and I can trust that the future is bright! With word wrapping we can easily create rich text experiances.", "18px Arial", "Red");
+			testLabel.setAlignment("center", "start");
+			var testBorderPanel = new CrocPanelBorder(root, "imgs/topright.png", "imgs/top.png", "imgs/topleft.png", "imgs/left.png", "imgs/right.png", "imgs/bottomleft.png", "imgs/bottom.png", "imgs/bottomright.png", "imgs/background.png");
+			var otherBorderPanel = new CrocPanelBorder(root, "imgs/topright.png", "imgs/top.png", "imgs/topleft.png", "imgs/left.png", "imgs/right.png", "imgs/bottomleft.png", "imgs/bottom.png", "imgs/bottomright.png", "imgs/background.png");
+			var zebraBorderPanel = new CrocPanelBorder(root, "imgs/topright.png", "imgs/top.png", "imgs/topleft.png", "imgs/left.png", "imgs/right.png", "imgs/bottomleft.png", "imgs/bottom.png", "imgs/bottomright.png", "imgs/background.png");
+			var testHoziPanelList = new CrocPanelList(root);
+			var buttonsPanelList = new CrocPanelList(root);
+			testHoziPanelList.setOrientation("horizontal");
+			var testPanelList = new CrocPanelList(root);
+			var otherPanelList = new CrocPanelList(root);
+			var testDom = new CrocDOM(root, 
+				'<em>I</em> like ' + 
+				'<span style="color:white; text-shadow:0 0 2px blue;">' +
+				'TO BE FLASHY</span> Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going.');
+			
+// 			var testDom = new CrocDOM(root, '<input type="text"></input>');
+			
+// 			var testDom = new CrocDOM(root, '<input type="checkbox" name="vehicle" value="Bike">');
+			
+			zebraImage.setScaling("stretch");
+			testLabel.setWrapping("word");
+			
+			var croc = new CrocImageSimple(root, "imgs/crocodile.png");
+			
+			panel.addChild(croc, 100, 100);
+			croc.setVisible(false);
+			
+			button.addEventListener("click", function(e) {
+			
+				var myO = this.parent.getChildOrientation(this);
+				var o = zebraImage.parent.getChildOrientation(zebraImage);
+				
+				myO.rotation = myO.rotation - Math.PI/3;
+				o.y = o.y - 10;
+				
+				zebraImage.parent.setChildOrientation(zebraImage, o.x);
+				this.parent.setChildOrientation(this, myO.x, myO.y, myO.rotation); 
+				
+				return false;
+			});
+			
+			buttonB.addEventListener("click", function(e) {
+				croc.setVisible(!croc.getVisible());
+				
+				return false;
+			});
+			
+			buttonC.addEventListener("click", function(e) {
+				
+				if(zebraImage.scaling === "none") {
+					zebraImage.setScaling("stretch");
+				}
+				
+				else if(zebraImage.scaling === "stretch") {
+					zebraImage.setScaling("target");
+				}
+				
+				else {
+					zebraImage.setScaling("none");
+				}
+				
+				return false;
+			});
+			
+			buttonD.addEventListener("click", function(e) {
+			
+				if(testLabel.alignmentHorizontal === "start") {
+					testLabel.setAlignment("center");
+				}
+				
+				else {
+					testLabel.setAlignment("start");
+				}
+			});
+			
+			zebraImage.setTargetWidth("42%");
+			zebraImage.setTargetHeight("200px");
+			
+			root.addChild(panel);
+
+			panel.addChild(testHoziPanelList, 0, 0);
+			
+			testHoziPanelList.setTargetWidth("100%");
+			testHoziPanelList.setTargetHeight("100%");
+			
+			testHoziPanelList.addChild(testPanelList, 0, 0);
+			testPanelList.addChild(testBorderPanel);
+// 			testHoziPanelList.addChild(testLabel);
+			testBorderPanel.addChild(testDom);
+			testPanelList.addChild(zebraBorderPanel);
+			zebraBorderPanel.addChild(zebraImage);
+			testPanelList.setTargetWidth("100%");
+			testPanelList.setTargetHeight("100%");
+			
+			testHoziPanelList.addChild(otherBorderPanel, 0, 0);
+			otherBorderPanel.addChild(buttonsPanelList);
+			buttonsPanelList.addChild(button);
+			buttonsPanelList.addChild(buttonB);
+			buttonsPanelList.addChild(buttonC);
+			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			buttonsPanelList.addChild(buttonD);
+// 			otherBorderPanel.addChild(button, 70, 100, 90 * (Math.PI/180));
+// 			otherBorderPanel.addChild(buttonB, 70, 100, 0);
+// 			otherBorderPanel.addChild(buttonC, 80, 100, Math.PI/4, 1.0, 2.0);
+// 			otherBorderPanel.addChild(buttonD, 10, 400);
+			
+		</script>
+
+	</body>
+</html>
