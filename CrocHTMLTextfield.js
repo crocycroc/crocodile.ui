@@ -52,3 +52,13 @@ CrocHTMLTextfield.prototype.updateContents = function() {
 	
 	this.drawImage.src = url;
 };
+
+CrocHTMLTextfield.prototype.setValue = function(value) {
+	this.domObject.childNodes[0].value = value.toString();
+	
+	this.updateContents();
+};
+
+CrocHTMLTextfield.prototype.getValue = function() {
+	return this.domObject.childNodes[0].value;
+};
