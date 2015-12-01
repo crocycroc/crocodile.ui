@@ -1,7 +1,7 @@
 
 function CrocHTMLTextfield(root, value) {
 	
-	var initialContent = '<input type="text" value="' + value.toString() + '"></input>'
+	var initialContent = '<input type="text" value="' + value.toString() + '" style="border:none; background:transparent"></input>'
 	
 	CrocDOM.call(this, root, initialContent);
 	
@@ -15,6 +15,11 @@ function CrocHTMLTextfield(root, value) {
 //We inherit everything from CrocBase
 CrocHTMLTextfield.prototype = Object.create(CrocDOM.prototype);
 
+CrocHTMLTextfield.prototype.setSize = function(size) {
+	this.domObject.childNodes[0].size = size;
+	return;
+};
+
 CrocHTMLTextfield.prototype.updateContents = function() {
 	var currentCrocDOM = this;
 	
@@ -23,7 +28,7 @@ CrocHTMLTextfield.prototype.updateContents = function() {
 	var data = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="' + this.domObject.childNodes[0].offsetWidth.toString() + 'px" height="' + this.domObject.childNodes[0].offsetHeight.toString() + 'px">' +
 		'<foreignObject x="0" y="0" width="100%" height="100%" requiredExtensions="http://www.w3.org/1999/xhtml">' +
 		'<div xmlns="http://www.w3.org/1999/xhtml"> ' +
-		'<input type="text" value="' + this.domObject.childNodes[0].value + '">' +
+		'<input type="text" value="' + this.domObject.childNodes[0].value + '" style="border:none; background:transparent">' +
 		'</input>' + 
 		'</div>' +
 		'</foreignObject>' +

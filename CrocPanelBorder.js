@@ -4,6 +4,16 @@
 function CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg) {
 	CrocPanel.call(this, root);
 	
+	tr = tr || "theme/CrocPanelBorder/topright.png";
+	t = t || "theme/CrocPanelBorder/top.png";
+	tl = tl || "theme/CrocPanelBorder/topleft.png";
+	l = l || "theme/CrocPanelBorder/left.png";
+	r = r || "theme/CrocPanelBorder/right.png";
+	bl = bl || "theme/CrocPanelBorder/bottomleft.png";
+	b = b || "theme/CrocPanelBorder/bottom.png";
+	br = br || "theme/CrocPanelBorder/bottomright.png";
+	bkg = bkg || "theme/CrocPanelBorder/background.png";
+	
 	this.backgroundImage = new CrocImageSimple(root, bkg);
 	
 	// tl---t----tr
