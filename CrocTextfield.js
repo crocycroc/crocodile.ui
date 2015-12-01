@@ -10,6 +10,11 @@ function CrocTextfield(root, value) {
 //We inherit everything from CrocBase
 CrocTextfield.prototype = Object.create(CrocBase.prototype);
 
+CrocTextfield.prototype.setSize = function(size) {
+	this.htmlTextfield.setSize(size);
+	return;
+};
+
 CrocTextfield.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
