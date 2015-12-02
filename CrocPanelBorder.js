@@ -68,10 +68,10 @@ CrocPanelBorder.prototype.hitTest = function(context, x, y, width, height) {
 	interiorWidth = this.width - this.topLeftImage.getWidth() - this.topLeftImage.getWidth();	
 	interiorHeight = this.height - this.topLeftImage.getHeight() - this.topLeftImage.getHeight();
 	
-	for(var key in this.children) {
+	for(var i = 0; i < this.children.length; i++) {
 		context.translate(this.topLeftImage.getWidth(), this.topLeftImage.getHeight());
 		
-		var currentChild = this.children[key];
+		var currentChild = this.children[i];
 		var currentOrientation = this.childrenOrientations[currentChild.uuid];
 		
 		context.translate(currentOrientation.x, currentOrientation.y);

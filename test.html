@@ -15,6 +15,7 @@
 		<script src="CrocDOM.js"></script>
 		<script src="CrocHTMLTextfield.js"></script>
 		<script src="CrocTextfield.js"></script>
+		<script src="CrocSlider.js"></script>
 		<script src="CrocRoot.js"></script>
 	</head>
 
@@ -52,6 +53,8 @@
 // 			var testDom = new CrocDOM(root, '<input type="text"></input>');
 			
 			var testDom = new CrocTextfield(root, 'Testing');
+			var testSlider = new CrocSlider(root);
+			testSlider.setTargetWidth("400px");
 			
 			zebraImage.setScaling("stretch");
 			testLabel.setWrapping("word");
@@ -123,6 +126,7 @@
 			testPanelList.addChild(testBorderPanel);
 // 			testHoziPanelList.addChild(testLabel);
 			testBorderPanel.addChild(testDom, 200, 200);
+			testBorderPanel.addChild(testSlider, 10, 10);
 			testPanelList.addChild(zebraBorderPanel);
 			zebraBorderPanel.addChild(zebraImage);
 			testPanelList.setTargetWidth("100%");
