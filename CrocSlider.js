@@ -38,6 +38,8 @@ function CrocSlider(root) {
 		
 		else {
 			this.globalPointToValue(e.x, e.y);
+			
+			this.event('valuechanged', this.getValue());
 		}
 		
 		return false;
@@ -56,6 +58,8 @@ function CrocSlider(root) {
 		this.focus();
 		
 		this.globalPointToValue(e.x, e.y);
+		
+		this.event('valuechanged', this.getValue());
 		
 		this.setMode('focus');
 	});

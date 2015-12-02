@@ -419,6 +419,14 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	return hitReturn;
 };
 
+CrocRoot.prototype.setSmooth = function(smooth) {
+	this.context['imageSmoothingEnabled'] = smooth;       /* standard */
+	this.context['mozImageSmoothingEnabled'] = smooth;    /* Firefox */
+	this.context['oImageSmoothingEnabled'] = smooth;      /* Opera */
+	this.context['webkitImageSmoothingEnabled'] = smooth; /* Safari */
+	this.context['msImageSmoothingEnabled'] = smooth;     /* IE */
+};
+
 CrocRoot.prototype.paint = function() {
 
 	//When we initialize the context there needs to be a currenTransform value.
@@ -435,6 +443,8 @@ CrocRoot.prototype.paint = function() {
 		
 		//Reset context transformation
 		this.clear();
+		
+		this.setSmooth(false);
 		
 		var i = this.children.length;
 		while(i--) {

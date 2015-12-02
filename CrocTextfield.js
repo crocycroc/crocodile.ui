@@ -92,6 +92,11 @@ CrocTextfield.prototype.setFont = function(font) {
 	return;
 };
 
+CrocTextfield.prototype.setValue = function(value) {
+	this.htmlTextfield.setValue(value);
+	return;
+};
+
 CrocTextfield.prototype.setMode = function(mode) {
 	this.mode = mode;
 	this.getRoot().repaint();
