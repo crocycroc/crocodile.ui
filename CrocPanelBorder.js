@@ -106,8 +106,8 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	
 	this.topLeftImage.paint(context, width, height);
 	
-	interiorWidth = this.width - this.topLeftImage.getWidth() - this.topLeftImage.getWidth();	
-	interiorHeight = this.height - this.topLeftImage.getHeight() - this.topLeftImage.getHeight();
+	interiorWidth = this.width - this.topLeftImage.getWidth() - this.bottomRightImage.getWidth();	
+	interiorHeight = this.height - this.topLeftImage.getHeight() - this.bottomRightImage.getHeight();
 		
 	context.translate(this.topLeftImage.getWidth(), 0);
 	this.topImage.setTargetHeight(this.topLeftImage.getHeight());

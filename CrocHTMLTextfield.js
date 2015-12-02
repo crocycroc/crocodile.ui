@@ -20,15 +20,29 @@ CrocHTMLTextfield.prototype.setSize = function(size) {
 	return;
 };
 
+CrocHTMLTextfield.prototype.setColor = function(color) {
+	this.domObject.childNodes[0].style.color = color;
+	return;
+};
+
+CrocHTMLTextfield.prototype.setFont = function(font) {
+	this.domObject.childNodes[0].style.font = font;
+	return;
+};
+
 CrocHTMLTextfield.prototype.updateContents = function() {
 	var currentCrocDOM = this;
 	
 	this.drawnInnerHTML = this.domObject.innerHTML;
 
 	var data = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="' + this.domObject.childNodes[0].offsetWidth.toString() + 'px" height="' + this.domObject.childNodes[0].offsetHeight.toString() + 'px">' +
-		'<foreignObject x="0" y="-1" width="100%" height="100%" requiredExtensions="http://www.w3.org/1999/xhtml">' +
+		'<foreignObject x="0" y="0" width="100%" height="100%" requiredExtensions="http://www.w3.org/1999/xhtml">' +
 		'<div xmlns="http://www.w3.org/1999/xhtml"> ' +
-		'<input type="text" value="' + this.domObject.childNodes[0].value + '" style="border:none; background:transparent">' +
+		'<input type="text" size="' + this.domObject.childNodes[0].size.toString() + 
+			'" value="' + this.domObject.childNodes[0].value + 
+			'" style="border:none; background:transparent; color:' + 
+			this.domObject.childNodes[0].style.color + '; font:' +
+			this.domObject.childNodes[0].style.font + '">' +
 		'</input>' + 
 		'</div>' +
 		'</foreignObject>' +
