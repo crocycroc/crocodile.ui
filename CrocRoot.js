@@ -15,19 +15,23 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	//Stupid failure to implement this
 	if(this.context.mozCurrentTransform === undefined && this.context.currenTransform === undefined) {
 		
-		this.hitContext = new CanvasWrapper(hitCanvas.getContext("2d"));
-		this.context = new CanvasWrapper(canvas.getContext("2d"));
+		this.hitContext = new CanvasWrapper(this.hitContext);
+		this.context = new CanvasWrapper(this.context);
 		
-		this.context.getCurrentTransform = function(){
+		this.context.getCurrentTransform = function() {
 			
 			var matrix = this.getMatrix();
 			
 			return [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]];
 		};
 		
-		this.hitContext.getCurrentTransform = function(){
+		this.hitContext.getCurrentTransform = function() {
 			
 			var matrix = this.getMatrix();
+			
+			if(matrix === undefined) {
+				console.trace();
+			}
 			
 			return [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]];
 		};

@@ -1,12 +1,12 @@
 // Canvas doesn't support getCoords() which I really need....
 // So I made a wrapper, code mostly taken from excanvas.js by Google - http://code.google.com/p/explorercanvas/
 // alias some functions to make (compiled) code shorter
-var m = Math;
-var mr = m.round;
-var ms = m.sin;
-var mc = m.cos;
-var abs = m.abs;
-var sqrt = m.sqrt;
+var mr = Math.round;
+var ms = Math.sin;
+var mc = Math.cos;
+var abs = Math.abs;
+var sqrt = Math.sqrt;
+
 function createMatrixIdentity() {
 	return [
 		[1, 0, 0],
