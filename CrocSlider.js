@@ -32,8 +32,12 @@ function CrocSlider(root) {
 	
 	this.addEventListener('mousemove', function(e){
 		
-		if(this.mode !== 'focus') {
+		if(!this.hasFocus()) {
 			this.setMode('hover');
+		}
+		
+		else {
+			this.globalPointToValue(e.x, e.y);
 		}
 		
 		return false;
@@ -41,7 +45,7 @@ function CrocSlider(root) {
 	
 	this.addEventListener('mouseleave', function(e) {
 		
-		if(this.mode !== 'focus') {
+		if(!this.hasFocus()) {
 			this.setMode('normal');
 		}
 		
@@ -50,11 +54,14 @@ function CrocSlider(root) {
 	
 	this.addEventListener('mousedown', function(e) {
 		this.focus();
+		
+		this.globalPointToValue(e.x, e.y);
+		
 		this.setMode('focus');
 	});
 	
 	this.addEventListener('mouseup', function(e) {
-		this.focus();
+		this.blur();
 		this.setMode('hover');
 	});
 	
@@ -62,6 +69,10 @@ function CrocSlider(root) {
 
 //We inherit everything from CrocBase
 CrocSlider.prototype = Object.create(CrocBase.prototype);
+
+CrocSlider.prototype.getValue() {
+	return this.value;
+};
 
 CrocSlider.prototype.setSize = function(size) {
 	this.htmlTextfield.setSize(size);
@@ -86,16 +97,36 @@ CrocSlider.prototype.setMode = function(mode) {
 CrocSlider.prototype.setValue = function(value) {
 	
 	if(value < this.minValue) {
-		return;
+		value = this.minValue;
 	}
 	
 	if(value > this.maxValue) {
-		return;
+		value = this.maxValue;
 	}
 	
-	this.value = value;
+	this.value = Math.round(value/this.stepping) * this.stepping;
 	this.getRoot().repaint();
 	
+};
+
+CrocSlider.prototype.setStepping = function(stepping) {
+	
+	this.stepping = stepping;
+	this.setValue(this.value);
+};
+
+CrocSlider.prototype.setMaxValue = function(maxValue) {
+	
+	this.maxValue = maxValue;
+	
+	this.setValue(this.value);
+	
+};
+
+CrocSlider.prototype.setMinValue = function(minValue) {
+	this.minValue = minValue;
+	
+	this.setValue(this.value);
 };
 
 CrocSlider.prototype.getWidth = function () {
@@ -115,6 +146,25 @@ CrocSlider.prototype.getHeight = function() {
 	
 	else {
 		return this.slider.getHeight();
+	}
+};
+
+CrocSlider.prototype.globalPointToValue = function(x, y) {
+	var t = this.inverseTransform(this.lastTransform);
+	
+	var c = this.transformPoint(t, x, y);
+	
+	if(this.orientation === 'verticle') {
+		var value = ((c.y - (this.slider.getHeight() / 2)) * (this.maxValue - this.minValue))/(this.getHeight() - this.slider.getHeight());
+		
+		this.setValue(value);
+		
+	}
+	
+	else {
+		var value = ((c.x - (this.slider.getWidth() / 2)) * (this.maxValue - this.minValue))/(this.getWidth() - this.slider.getWidth());
+		
+		this.setValue(value);
 	}
 };
 
@@ -158,7 +208,7 @@ CrocSlider.prototype.paint = function(context, width, height) {
 		
 		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 		
-		var y = (((this.getHeight() - currentSlider.getHeight()) * this.value) / this.maxValue);
+		var y = (((this.getHeight() - currentSlider.getHeight()) * (this.value - this.minValue)) / (this.maxValue - this.minValue));
 		
 		context.translate(0, y);
 		currentSlider.paint(context);
@@ -170,7 +220,7 @@ CrocSlider.prototype.paint = function(context, width, height) {
 		
 		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 		
-		var x = (((this.getWidth() - currentSlider.getWidth()) * this.value) / this.maxValue);
+		var x = (((this.getWidth() - currentSlider.getWidth()) * (this.value - this.minValue)) /  (this.maxValue - this.minValue));
 		
 		context.translate(x, 0);
 		currentSlider.paint(context);

@@ -268,6 +268,23 @@ CrocBase.prototype.focus = function() {
 	return;
 };
 
+CrocBase.prototype.blur = function() {
+	if(this.hasFocus()) {
+		this.getRoot().setFocusedObject(null);
+	};
+};
+
+CrocBase.prototype.hasFocus = function() {
+	
+	if(this.getRoot().focusedObject !== null) {
+		return this.getRoot().focusedObject.uuid === this.uuid;
+	}
+	
+	else {
+		return false;
+	}
+};
+
 //Without any sort of layout options or anything really the CrocBase does not paint it's children.
 CrocBase.prototype.paint = function(context, width, height) {
 	this.lastTransform = context.getCurrentTransform();

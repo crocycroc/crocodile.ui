@@ -174,6 +174,10 @@ CrocRoot.prototype.onMouseUp = function(e) {
 	
 	this.propagateEvent(hits, 'mouseup', coords);
 	
+	if(this.focusedObject !== null) {
+		this.focusedObject.event('mouseup', coords);
+	}
+	
 };
 
 CrocRoot.prototype.onClick = function(e) {

@@ -1,7 +1,7 @@
 
 function CrocHTMLTextfield(root, value) {
 	
-	var initialContent = '<input type="text" value="' + value.toString() + '" style="border:none; background:transparent"></input>'
+	var initialContent = '<input type="text" value="' + value.toString() + '" style="border:none; background:transparent; font:18px Arial"></input>'
 	
 	CrocDOM.call(this, root, initialContent);
 	
