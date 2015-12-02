@@ -70,7 +70,7 @@ function CrocSlider(root) {
 //We inherit everything from CrocBase
 CrocSlider.prototype = Object.create(CrocBase.prototype);
 
-CrocSlider.prototype.getValue() {
+CrocSlider.prototype.getValue = function() {
 	return this.value;
 };
 
