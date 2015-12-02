@@ -4,6 +4,7 @@ function CrocAnalogMeter(root, value) {
 	this.value = value || 0;
 	this.minValue = 0;
 	this.maxValue = 100;
+	this.font = "12px Arial";
 	
 	this.background = new CrocImageSimple(root, "theme/CrocAnalogMeter/background.png");
 	this.background.setScaling('none');
