@@ -39,15 +39,29 @@ function CrocProgressBar(root, value) {
 //We inherit everything from CrocBase
 CrocProgressBar.prototype = Object.create(CrocBase.prototype);
 
+CrocProgressBar.prototype.setMaxValue = function(maxValue) {
+	
+	this.maxValue = maxValue;
+	
+	this.setValue(this.value);
+	
+};
+
+CrocProgressBar.prototype.setMinValue = function(minValue) {
+	this.minValue = minValue;
+	
+	this.setValue(this.value);
+};
+
 CrocProgressBar.prototype.setValue = function(value) {
 	
-// 	if(value < this.minValue) {
-// 		value = this.minValue;
-// 	}
-// 	
-// 	if(value > this.maxValue) {
-// 		value = this.maxValue;
-// 	}
+	if(value < this.minValue) {
+		value = this.minValue;
+	}
+	
+	if(value > this.maxValue) {
+		value = this.maxValue;
+	}
 	
 	this.value = value;
 	this.getRoot().repaint();
