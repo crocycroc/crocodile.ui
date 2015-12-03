@@ -30,7 +30,7 @@ function CrocTextfield(root, value) {
 	};
 	
 	this.addEventListener("blur", function(e) {
-		this.htmlTextfield.domObject.childNodes[0].blur();
+// 		this.htmlTextfield.domObject.childNodes[0].blur();
 		return;
 	});
 	

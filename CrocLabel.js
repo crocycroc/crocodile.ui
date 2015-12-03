@@ -67,12 +67,6 @@ CrocLabel.prototype.setColor = function(color) {
 	this.getRoot().repaint();
 };
 
-CrocLabel.prototype.getWidth = function () {
-};
-
-CrocLabel.prototype.getHeight = function() {
-};
-
 //For a hit test you either return an object that is basec on CrocBase
 //null for no hit
 CrocLabel.prototype.hitTest = function(context, x, y, width, height) {

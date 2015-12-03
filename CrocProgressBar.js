@@ -4,6 +4,7 @@ function CrocProgressBar(root, value) {
 	this.value = value || 0;
 	this.minValue = 0;
 	this.maxValue = 100;
+	this.showLabel = true;
 	
 	this.border = new CrocPanelBorder(
 		root,
@@ -18,6 +19,8 @@ function CrocProgressBar(root, value) {
 		"theme/CrocProgressBar/groove-center.png"
 	);
 	
+	this.label = new CrocLabel(root, this.value.toString(), "22px Arial");
+	
 	this.center = new CrocImageSimple(root, "theme/CrocProgressBar/progress-center.png");
 	this.center.setScaling('target');
 	
@@ -27,12 +30,16 @@ function CrocProgressBar(root, value) {
 	this.right = new CrocImageSimple(root, "theme/CrocProgressBar/progress-right.png");
 	this.right.setScaling('none');
 	
+	
+	this.border.addChild(this.label);
+	
 	this.border.addChild(this.center);
 	this.border.addChild(this.left);
 	this.border.addChild(this.right);
 	
 	this.border.setTargetHeight("100%");
 	this.border.setTargetWidth("100%");
+	
 	
 };
 
@@ -64,8 +71,14 @@ CrocProgressBar.prototype.setValue = function(value) {
 	}
 	
 	this.value = value;
+	this.label.setText(this.value.toString());
 	this.getRoot().repaint();
 	
+};
+
+CrocProgressBar.prototype.setShowLabel = function(value) {
+	this.showLabel = value;
+	this.getRoot().repaint();
 };
 
 CrocProgressBar.prototype.paint = function(context, width, height) {
@@ -91,14 +104,18 @@ CrocProgressBar.prototype.paint = function(context, width, height) {
 		this.center.setTargetWidth(currentWidth);
 	}
 	
-	currentBorder.setChildOrientation(this.left, 0, 0);
-	currentBorder.setChildOrientation(this.center, this.left.getWidth(), 0);
-	currentBorder.setChildOrientation(this.right, currentWidth + this.left.getWidth(), 0);
 	
 	var tlh = currentBorder.topLeftImage.getHeight();
 	var brh = currentBorder.bottomLeftImage.getHeight();
 	
 	var currentHeight = tlh + brh + this.left.getHeight();
+	
+	currentBorder.setChildOrientation(this.left, 0, 0);
+	currentBorder.setChildOrientation(this.center, this.left.getWidth(), 0);
+	currentBorder.setChildOrientation(this.right, currentWidth + this.left.getWidth(), 0);
+
+	currentBorder.setChildOrientation(this.label, (interiorWidth / 2) - (this.label.getWidth() / 2), (currentHeight / 2) - this.label.getHeight());
+	this.label.setVisible(this.showLabel);
 	
 	currentBorder.paint(context, this.getWidth(), currentHeight);
 	
