@@ -83,10 +83,10 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	}
 	
 	//Thought shalt preserve and return the state of everything that you change before you are done paiting!
-	var origFont = context.font;
-	var origTextAlign = context.textAlign;
-	var origTextBaseline = context.textBaseline;
-	var origFillColor = context.fillStyle;
+	var origFont = context.getContext().font;
+	var origTextAlign = context.getContext().textAlign;
+	var origTextBaseline = context.getContext().textBaseline;
+	var origFillColor = context.getContext().fillStyle;
 	
 	var splittedText = [];
 	var deviderText = [];
@@ -111,12 +111,10 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			break;
 	}
 	
-	context.font = this.textFont;
-	context.textBaseline = this.textBaseline;
-	context.textAlign = this.alignmentHorizontal;
-	context.fillStyle = this.textColor;
-	
-	
+	context.getContext().font = this.textFont;
+	context.getContext().textBaseline = this.textBaseline;
+	context.getContext().textAlign = this.alignmentHorizontal;
+	context.getContext().fillStyle = this.textColor;
 	
 	var currentLine = '';
 	var currentLineNumber = 0;
@@ -186,10 +184,11 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	this.height = y + this.textHeight;
 	
 	context.fillText(currentLine, x, y + this.textHeight);
+
+	context.getContext().font = origFont;
+	context.getContext().textBaseline = origTextAlign;
+	context.getContext().textAlign = origTextBaseline;
+	context.getContext().fillStyle = origFillColor;
 	
-	context.font = origFont;
-	context.textAlign = origTextAlign;
-	context.textBaseline = origTextBaseline;
-	context.fillStyle = origFillColor;
 	return;
 };

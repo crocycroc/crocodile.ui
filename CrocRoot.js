@@ -25,6 +25,10 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 			return [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]];
 		};
 		
+		this.context.getContext = function() {
+			return this.canvas;
+		}
+		
 		this.hitContext.getCurrentTransform = function() {
 			
 			var matrix = this.getMatrix();
@@ -35,6 +39,10 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 			
 			return [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]];
 		};
+		
+		this.hitContext.getContext = function() {
+			return this.canvas;
+		}
 		
 	}
 	
@@ -51,6 +59,10 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 			
 		}
 		
+		this.context.getContext = function() {
+			return this;
+		}
+		
 		this.hitContext.getCurrentTransform = function() {
 			
 			if(this.mozCurrentTransform !== undefined) {
@@ -61,6 +73,10 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 				return this.currenTransform;
 			}
 			
+		}
+		
+		this.hitContext.getContext = function() {
+			return this;
 		}
 	}
 	
