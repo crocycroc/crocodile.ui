@@ -156,6 +156,19 @@ CrocSlider.prototype.getHeight = function() {
 	}
 };
 
+CrocSlider.prototype.setOrientation = function(orientation) {
+	
+	if(orientation.toLowerCase() === "verticle") {
+		this.orientation = orientation;
+	}
+	
+	else {
+		this.orientation = "horizontal";
+	}
+	
+	this.getRoot().repaint();
+};
+
 CrocSlider.prototype.globalPointToValue = function(x, y) {
 	var t = this.inverseTransform(this.lastTransform);
 	

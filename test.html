@@ -62,9 +62,22 @@
 			var testProgressBar = new CrocProgressBar(root);
 			var testButtonLabeled = new CrocButtonLabeled(root, "Test Me!");
 			testSlider.setTargetWidth("400px");
+			testSlider.setOrientation("verticle");
 			testProgressBar.setTargetWidth("400px");
 			testButtonLabeled.setTargetWidth("300px");
 			testButtonLabeled.setTargetHeight("40px");
+			
+			testProgressBar.addEventListener("mousedown", function(e) {
+				if(this.value === 100) {
+					alert("YOU WIN!");
+				}
+			});
+			
+			testProgressBar.addEventListener("mousedown", function(e) {
+				if(this.value === 40) {
+					alert("YOU SUCK!");
+				}
+			});
 			
 			zebraImage.setScaling("stretch");
 			testLabel.setWrapping("word");
@@ -142,8 +155,8 @@
 // 			testHoziPanelList.addChild(testLabel);
 			testBorderPanel.addChild(testDom, 200, 200);
 			testBorderPanel.addChild(testSlider, 10, 10, 0);
-			testBorderPanel.addChild(testAnalogMeter, 80, 50, 20);
-			testBorderPanel.addChild(testProgressBar, 200, 60);
+			testBorderPanel.addChild(testAnalogMeter, 180, 250);
+			testBorderPanel.addChild(testProgressBar, 200, 60, Math.PI/2);
 			testBorderPanel.addChild(testButtonLabeled, 400, 160);
 			
 			testPanelList.addChild(zebraBorderPanel);
