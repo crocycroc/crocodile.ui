@@ -464,7 +464,7 @@ CrocRoot.prototype.paint = function() {
 		//Reset context transformation
 		this.clear();
 		
-		this.setSmooth(true);
+		this.setSmooth(false);
 		
 		var i = this.children.length;
 		while(i--) {

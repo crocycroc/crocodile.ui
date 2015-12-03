@@ -180,6 +180,16 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			x = width;
 	}
 	
+	switch(this.alignmentVerticle) {
+		case 'center':
+			y = y + this.getHeight()/2 - currentFontHeightPadding;
+			break;
+			
+		case 'end':
+			y = y + this.getHeight() - currentFontHeightPadding;
+			break;
+	}
+	
 	this.width = maxWidth;
 	this.height = y + this.textHeight;
 	

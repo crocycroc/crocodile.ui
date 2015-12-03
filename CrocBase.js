@@ -76,11 +76,13 @@ CrocBase.prototype.addChild = function(uiObject) {
 	
 	if(typeof uiObject !== "object") {
 		console.log("CrocBase.prototype.addChild: Not a UIObject!");
+		console.trace();
 		return false;
 	}
 	
 	if(uiObject.setParent(this) === false) {
 		console.log("CrocBase.prototype.addChild: Unable to set UIObject's parent to this!");
+		console.trace();
 		return false;
 	}
 	

@@ -123,38 +123,6 @@ CrocButton.prototype.getHeight = function() {
 	}
 };
 
-//For a hit test you either return an object that is basec on CrocBase
-//null for no hit
-CrocButton.prototype.hitTest = function(context, x, y, width, height) {
-	
-	var hitObject = null;
-	
-	switch(this.currentState) {
-	
-		case 'normal':
-			hitObject = this.normal.hitTest(context, x, y, width, height);
-			break;
-			
-		case 'hover':
-			hitObject = this.hover.hitTest(context, x, y, width, height);
-			break;
-			
-		case 'pressed':
-			hitObject = this.pressed.hitTest(context, x, y, width, height);
-			break;
-			
-		default:
-			return null;
-			break;
-	}
-	
-	if(hitObject === null) {
-		return null;
-	}
-	
-	return [this, [hitObject]];
-};
-
 CrocButton.prototype.paint = function(context, width, height) {
 	
 	if(!this.visible) {
