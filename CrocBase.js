@@ -218,12 +218,13 @@ CrocBase.prototype.getDescendants = function() {
 //Hit test is handled almost exactly like a paint except you use the context to create a bounding box test and then draw.
 CrocBase.prototype.hitTest = function(context, x, y, width, height) {
 	
-	var currentTransform = context.getCurrentTransform();
+	var currentInvTransform = this.inverseTransform(context.getCurrentTransform());
 
-	var a = this.transformPoint(currentTransform, 0, 0);
-	var d = {x:a.x + this.getWidth(), y:a.y + this.getHeight()};
-
-	if(x > a.x && x < d.x && y > a.y && y < d.y) {
+	var p = this.transformPoint(currentInvTransform, x, y);
+	var a = {x:0, y:0};
+	var d = {x:this.getWidth(), y:this.getHeight()};
+	
+	if(p.x > a.x && p.x < d.x && p.y > a.y && p.y < d.y) {
 		return this;
 	}
 	
