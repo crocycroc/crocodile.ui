@@ -18,6 +18,7 @@
 		<script src="CrocTextfield.js"></script>
 		<script src="CrocSlider.js"></script>
 		<script src="CrocAnalogMeter.js"></script>
+		<script src="CrocProgressBar.js"></script>
 		<script src="CrocRoot.js"></script>
 	</head>
 
@@ -57,7 +58,9 @@
 			var testDom = new CrocTextfield(root, 'Testing');
 			var testSlider = new CrocSlider(root);
 			var testAnalogMeter = new CrocAnalogMeter(root);
+			var testProgressBar = new CrocProgressBar(root);
 			testSlider.setTargetWidth("400px");
+			testProgressBar.setTargetWidth("400px");
 			
 			zebraImage.setScaling("stretch");
 			testLabel.setWrapping("word");
@@ -117,6 +120,7 @@
 			
 			testSlider.addEventListener("valuechanged", function(value) {
 				testAnalogMeter.setValue(value);
+				testProgressBar.setValue(value);
 			});
 			
 			zebraImage.setTargetWidth("42%");
@@ -135,6 +139,7 @@
 			testBorderPanel.addChild(testDom, 200, 200);
 			testBorderPanel.addChild(testSlider, 10, 10, 0);
 			testBorderPanel.addChild(testAnalogMeter, 80, 50, 20);
+			testBorderPanel.addChild(testProgressBar, 200, 60);
 			
 			testPanelList.addChild(zebraBorderPanel);
 			zebraBorderPanel.addChild(zebraImage);

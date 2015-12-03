@@ -157,23 +157,12 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	
 	//Resetting for the next part for painting.
 	
+	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	
+	context.translate(this.topLeftImage.getWidth(), this.topLeftImage.getHeight());
 	
-	var i = this.children.length;
-	while(i--) {
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
-		context.translate(this.topLeftImage.getWidth(), this.topLeftImage.getHeight());
-	
-		var currentChild = this.children[i];
-		var currentOrientation = this.childrenOrientations[currentChild.uuid];
-		
-		context.translate(currentOrientation.x, currentOrientation.y);
-		context.rotate(currentOrientation.rotation);
-		context.scale(currentOrientation.width, currentOrientation.height);
-		
-		currentChild.paint(context, interiorWidth, interiorHeight);
-	}
-	
+	CrocPanel.prototype.paint.call(this, context, interiorWidth, interiorHeight);
+
 	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	
 	return;

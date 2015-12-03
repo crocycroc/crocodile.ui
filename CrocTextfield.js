@@ -8,6 +8,7 @@ function CrocTextfield(root, value) {
 	this.htmlTextfield.domObject.childNodes[0].onfocus = function(e) {
 		currentTextfield.getRoot().setFocusedObject(currentTextfield);
 		currentTextfield.setMode("focus");
+		this.focus();
 	};
 	
 	this.htmlTextfield.domObject.childNodes[0].onblur = function(e) {
@@ -27,6 +28,11 @@ function CrocTextfield(root, value) {
 			currentTextfield.setMode("normal");
 		}
 	};
+	
+	this.addEventListener("blur", function(e) {
+		this.htmlTextfield.domObject.childNodes[0].blur();
+		return;
+	});
 	
 	//normal, hover, and focus are the valid modes a textfield can be in.
 	this.mode = "normal";

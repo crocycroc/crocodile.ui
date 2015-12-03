@@ -7,16 +7,32 @@ function CrocProgressBar(root, value) {
 	
 	this.border = new CrocPanelBorder(
 		root,
-		"theme/CrocProgressBar/base-topright.png",
-		"theme/CrocProgressBar/base-top.png",
-		"theme/CrocProgressBar/base-topleft.png",
-		"theme/CrocProgressBar/base-left.png",
-		"theme/CrocProgressBar/base-right.png",
-		"theme/CrocProgressBar/base-bottomleft.png",
-		"theme/CrocProgressBar/base-bottom.png",
-		"theme/CrocProgressBar/base-bottomright.png",
-		"theme/CrocProgressBar/base-center.png"
+		"theme/CrocProgressBar/groove-topright.png",
+		"theme/CrocProgressBar/groove-top.png",
+		"theme/CrocProgressBar/groove-topleft.png",
+		"theme/CrocProgressBar/groove-left.png",
+		"theme/CrocProgressBar/groove-right.png",
+		"theme/CrocProgressBar/groove-bottomleft.png",
+		"theme/CrocProgressBar/groove-bottom.png",
+		"theme/CrocProgressBar/groove-bottomright.png",
+		"theme/CrocProgressBar/groove-center.png"
 	);
+	
+	this.center = new CrocImageSimple(root, "theme/CrocProgressBar/progress-center.png");
+	this.center.setScaling('target');
+	
+	this.left = new CrocImageSimple(root, "theme/CrocProgressBar/progress-left.png");
+	this.left.setScaling('none');
+	
+	this.right = new CrocImageSimple(root, "theme/CrocProgressBar/progress-right.png");
+	this.right.setScaling('none');
+	
+	this.border.addChild(this.center);
+	this.border.addChild(this.left);
+	this.border.addChild(this.right);
+	
+	this.border.setTargetHeight("100%");
+	this.border.setTargetWidth("100%");
 	
 };
 
@@ -24,8 +40,18 @@ function CrocProgressBar(root, value) {
 CrocProgressBar.prototype = Object.create(CrocBase.prototype);
 
 CrocProgressBar.prototype.setValue = function(value) {
-	this.htmlTextfield.setValue(value);
-	return;
+	
+// 	if(value < this.minValue) {
+// 		value = this.minValue;
+// 	}
+// 	
+// 	if(value > this.maxValue) {
+// 		value = this.maxValue;
+// 	}
+	
+	this.value = value;
+	this.getRoot().repaint();
+	
 };
 
 CrocProgressBar.prototype.paint = function(context, width, height) {
@@ -33,12 +59,34 @@ CrocProgressBar.prototype.paint = function(context, width, height) {
 	
 	var currentBorder = this.border;
 	
-	var tlw = currentBorder.topLeftImage.getWidth();
+	var lh = this.left.getHeight();
+	
+	this.center.setTargetHeight(this.left.getHeight());
+
+	interiorWidth = currentBorder.getWidth() - currentBorder.topLeftImage.getWidth() - currentBorder.bottomRightImage.getWidth();	
+	
+	var currentWidth = (interiorWidth * ((this.value - this.minValue)/(this.maxValue - this.minValue))) - (this.left.getWidth() / 2);
+	
+	if(currentWidth <= 0) {
+		this.center.setVisible(false);
+		currentWidth = 0;
+	}
+	
+	else {
+		this.center.setVisible(true);
+		this.center.setTargetWidth(currentWidth);
+	}
+	
+	currentBorder.setChildOrientation(this.left, 0, 0);
+	currentBorder.setChildOrientation(this.center, this.left.getWidth(), 0);
+	currentBorder.setChildOrientation(this.right, currentWidth + this.left.getWidth(), 0);
+	
 	var tlh = currentBorder.topLeftImage.getHeight();
-	var brw = currentBorder.bottomRightImage.getWidth();
 	var brh = currentBorder.bottomLeftImage.getHeight();
 	
-	currentBorder.paint(context, tlw + brw + this.htmlTextfield.getWidth(), tlh + brh + this.htmlTextfield.getHeight());
+	var currentHeight = tlh + brh + this.left.getHeight();
+	
+	currentBorder.paint(context, this.getWidth(), currentHeight);
 	
 	return;
 }

@@ -127,22 +127,17 @@ CrocPanel.prototype.paint = function(context, width, height) {
 	
 	var i = this.children.length;
 	while(i--) {
-		
 		var currentChild = this.children[i];
 		var currentOrientation = this.childrenOrientations[currentChild.uuid];
 		
 		context.translate(currentOrientation.x, currentOrientation.y);
 		context.rotate(currentOrientation.rotation);
 		context.scale(currentOrientation.width, currentOrientation.height);
-		var childClip = this.transformClipSpace(context.getCurrentTransform(), width, height);
+// 		var childClip = this.transformClipSpace(context.getCurrentTransform(), width, height);
 		
-		currentChild.paint(context, childClip.width, childClip.height);
-		
-		//We reset the transformation for the next pass back to the parents.
-		//Pop Matrix
+		currentChild.paint(context, width, height);
 		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
-	
 	return;
 	
 };
