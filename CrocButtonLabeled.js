@@ -56,22 +56,6 @@ function CrocButtonLabeled(root, text) {
 
 CrocButtonLabeled.prototype = Object.create(CrocButton.prototype);
 
-CrocTextfield.prototype.setColor = function(color) {
-	this.label.setColor(color);
-	return;
-};
-
-CrocTextfield.prototype.setFont = function(font) {
-	this.label.setFont(font);
-	return;
-};
-
-CrocTextfield.prototype.setText = function(text) {
-	this.label.setText(text);
-	return;
-};
-
-CrocTextfield.prototype.setMode = function(mode) {
-	this.mode = mode;
-	this.getRoot().repaint();
+CrocButtonLabeled.prototype.getLabel = function() {
+	return this.label;
 };
