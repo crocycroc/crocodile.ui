@@ -49,6 +49,7 @@ function CrocButtonLabeled(root, text) {
 	CrocButton.call(this, root, this.border, this.borderHover, this.borderPressed);
 	
 	this.label.setAlignment("center", "center");
+	this.label.setWrapping("word");
 	this.border.addChild(this.label);
 	this.borderPressed.addChild(this.label);
 	this.borderHover.addChild(this.label);
