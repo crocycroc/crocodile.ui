@@ -133,7 +133,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 		}
 		
 		var testLine = currentLine + splittedText[i] + currentDeviderText;
-		var testMetrics = context.measureText(testLine);
+		var testMetrics = context.getContext().measureText(testLine);
 		
 		if(testMetrics.width > maxWidth) {
 			maxWidth = testMetrics.width;
