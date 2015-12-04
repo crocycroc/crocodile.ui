@@ -51,7 +51,6 @@ CrocDOM.prototype.updateContents = function() {
 	this.drawImage = new Image();
 	
 	this.drawImage.onload = function () {
-		console.log(this);
 		currentCrocDOM.drawReady = true;
 		currentCrocDOM.getRoot().repaint();
 	}
