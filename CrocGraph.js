@@ -38,23 +38,23 @@ function CrocGraph(root) {
 	this.unitTypes = {
 		"default": {
 			"label":"",
-			"labelColor":"black",
-			"lineColor":"black",
+			"labelColor":"#444444",
+			"lineColor":"#888888",
 			"lineWidth":2,
 			"minValue":0,
 			"maxValue":100,
 			"majorStep":10,
 			"minorStep":2,
-			"majorLineColor":"black",
-			"minorLineColor":"red",
+			"majorLineColor":"#444444",
+			"minorLineColor":"#CC0000",
 			"majorLineStyle":"solid",
 			"minorLineStyle":"solid",
 			"majorLineWidth":2,
 			"minorLineWidth":1,
 			"majorLineLength":10,
 			"minorLineLength":4,
-			"majorLabelColor":"black",
-			"minorLabelColor":"black",
+			"majorLabelColor":"#444444",
+			"minorLabelColor":"#444444",
 			"majorLabelFont":"24px Arial",
 			"majorLabelFontHeight":determineFontHeight("24px Arial"),
 			"majorLabelFontPadding":4,
@@ -62,8 +62,8 @@ function CrocGraph(root) {
 			"minorLabelFontHeight":determineFontHeight("18px Arial"),
 			"minorLabelFontPadding":4,
 			"labelFormat":function(value){ if(value === undefined) { return "undefined"} return value.toString()},
-			"majorBackgroundLineColor":"blue",
-			"minorBackgroundLineColor":"red",
+			"majorBackgroundLineColor":"#0000CC",
+			"minorBackgroundLineColor":"#CC0000",
 			"majorBackgroundLineWidth":2,
 			"minorBackgroundLineWidth":1,
 			"majorBackgroundLineStyle":"solid",
@@ -72,23 +72,23 @@ function CrocGraph(root) {
 		
 		"test": {
 			"label":"",
-			"labelColor":"black",
-			"lineColor":"black",
+			"labelColor":"#444444",
+			"lineColor":"#888888",
 			"lineWidth":2,
 			"minValue":0,
 			"maxValue":100,
 			"majorStep":10,
 			"minorStep":2,
-			"majorLineColor":"black",
-			"minorLineColor":"blue",
+			"majorLineColor":"#444444",
+			"minorLineColor":"#0000CC",
 			"majorLineStyle":"solid",
 			"minorLineStyle":"solid",
 			"majorLineWidth":2,
 			"minorLineWidth":1,
 			"majorLineLength":20,
 			"minorLineLength":4,
-			"majorLabelColor":"black",
-			"minorLabelColor":"black",
+			"majorLabelColor":"#444444",
+			"minorLabelColor":"#444444",
 			"majorLabelFont":"24px Arial",
 			"majorLabelFontHeight":determineFontHeight("24px Arial"),
 			"majorLabelFontPadding":4,
@@ -96,8 +96,8 @@ function CrocGraph(root) {
 			"minorLabelFontHeight":determineFontHeight("18px Arial"),
 			"minorLabelFontPadding":4,
 			"labelFormat":function(value){ if(value === undefined) { return "undefined"} return value.toString()},
-			"majorBackgroundLineColor":"blue",
-			"minorBackgroundLineColor":"red",
+			"majorBackgroundLineColor":"#0000CC",
+			"minorBackgroundLineColor":"#CC0000",
 			"majorBackgroundLineWidth":2,
 			"minorBackgroundLineWidth":1,
 			"majorBackgroundLineStyle":"solid",
@@ -111,8 +111,8 @@ CrocGraph.prototype = Object.create(CrocBase.prototype);
 CrocGraph.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
-	var originTransform = context.getCurrentTransform();
-		
+	
+	//Calculating render space
 	var currentXAxisUnits = this.unitTypes[this.xAxisUnits];
 	
 	var currentXAxisDrawHeight =	this.convertToPixels(currentXAxisUnits.lineWidth, this.getHeight()) + 
@@ -158,7 +158,9 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	var currentInteriorWidth = this.getWidth() - currentRightYAxisWidth - currentLeftYAxisWidth;
 	var currentInteriorHeight = this.getHeight() - currentXAxisDrawHeight;
 	
+	///////////////////////////////////
 	//First we draw the x axis
+	///////////////////////////////////
 	context.beginPath();
 	context.getContext().lineWidth = this.convertToPixels(currentXAxisUnits.lineWidth, this.getHeight());
 	context.getContext().strokeStyle = currentXAxisUnits.lineColor;
@@ -174,7 +176,9 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	context.getContext().lineWidth = this.convertToPixels(currentXAxisUnits.minorLineWidth, this.getWidth());
 	context.getContext().strokeStyle = currentXAxisUnits.minorLineColor;
 		
+	///////////////////////////////////
 	//Now we draw the minor step lines
+	///////////////////////////////////
 	switch(currentXAxisUnits.minorLineStyle) {
 		case "solid":
 			for(var i = 0; i < numberOfMinorLines; i++) {
@@ -201,7 +205,9 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	context.getContext().lineWidth = this.convertToPixels(currentXAxisUnits.majorLineWidth, this.getWidth());
 	context.getContext().strokeStyle = currentXAxisUnits.majorLineColor;
 		
+	///////////////////////////////////
 	//Now we draw the major step lines
+	///////////////////////////////////
 	switch(currentXAxisUnits.majorLineStyle) {
 		case "solid":
 			for(var i = 0; i < numberOfMajorLines; i++) {
@@ -219,6 +225,10 @@ CrocGraph.prototype.paint = function(context, width, height) {
 			break;
 	}
 	
+	
+	///////////////////////////////////
+	//Now we draw all the Y Axes
+	///////////////////////////////////
 	var currentLeftYAxisXPos = currentLeftYAxisWidth;
 	var currentRightYAxisXPos = currentLeftYAxisWidth + currentInteriorWidth;
 	
@@ -293,18 +303,20 @@ CrocGraph.prototype.paint = function(context, width, height) {
 				case "solid":
 					for(var i = 0; i < numberOfMajorLines; i++) {
 						
-						context.beginPath();
-						context.moveTo(currentXPos + currentYAxisUnits.lineWidth / 2, currentMajorLineYPos);
-						
-						if(currentYAxisNumber % 2 === 0) {
-							context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 - majorLineLength, currentMajorLineYPos);
+						if(currentMajorLineYPos > 0) {
+							context.beginPath();
+							context.moveTo(currentXPos + currentYAxisUnits.lineWidth / 2, currentMajorLineYPos);
+							
+							if(currentYAxisNumber % 2 === 0) {
+								context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 - majorLineLength, currentMajorLineYPos);
+							}
+							
+							else {
+								context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 + majorLineLength, currentMajorLineYPos);
+							}
+							
+							context.stroke();
 						}
-						
-						else {
-							context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 + majorLineLength, currentMajorLineYPos);
-						}
-						
-						context.stroke();
 						
 						currentMajorLineYPos -= majorLineDistance;
 					}
@@ -318,4 +330,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 			currentYAxisNumber += 1;
 		}
 	}
+	
+	///////////////////////////////////
+	//Now we draw all the datasets.
+	///////////////////////////////////
 };
