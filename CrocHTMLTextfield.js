@@ -49,14 +49,7 @@ CrocHTMLTextfield.prototype.updateContents = function() {
 		'</div>' +
 		'</foreignObject>' +
 		'</svg>';
-// var data = "data:image/svg+xml," +
-//            "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'>" +
-//              "<foreignObject width='100%' height='100%'>" +
-//                "<div xmlns='http://www.w3.org/1999/xhtml' style='font-size:40px'>" +
-//                  "<input type=\"text\" value=\"Hello world\"> </input>" +
-//                "</div>" +
-//              "</foreignObject>" +
-//            "</svg>";
+
 	var DOMURL = window.URL || window.webkitURL || window;
 	this.drawReady = false;
 	
