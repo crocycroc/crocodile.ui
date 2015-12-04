@@ -50,7 +50,6 @@ CrocHTMLTextfield.prototype.updateContents = function() {
 		'</foreignObject>' +
 		'</svg>';
 
-	var DOMURL = window.URL || window.webkitURL || window;
 	this.drawReady = false;
 	
 	this.drawImage = new Image();
