@@ -60,12 +60,13 @@
 			var testSlider = new CrocSlider(root);
 			var testAnalogMeter = new CrocAnalogMeter(root);
 			var testProgressBar = new CrocProgressBar(root);
-			var testButtonLabeled = new CrocButtonLabeled(root, "Test Me!");
+			var testButtonLabeled = new CrocButtonLabeled(root, "Test Me! And this should wrap while centered in the middle of the button.");
 			testSlider.setTargetWidth("400px");
 // 			testSlider.setOrientation("verticle");
 			testProgressBar.setTargetWidth("400px");
 			testButtonLabeled.setTargetWidth("300px");
 			testButtonLabeled.setTargetHeight("40px");
+			testButtonLabeled.label.setWrapping("word");
 			
 			testProgressBar.addEventListener("mousedown", function(e) {
 				if(this.value === 100) {
