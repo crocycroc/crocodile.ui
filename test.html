@@ -20,6 +20,7 @@
 		<script src="CrocAnalogMeter.js"></script>
 		<script src="CrocProgressBar.js"></script>
 		<script src="CrocButtonLabeled.js"></script>
+		<script src="CrocGraph.js"></script>
 		<script src="CrocRoot.js"></script>
 	</head>
 
@@ -67,6 +68,9 @@
 			testButtonLabeled.setTargetWidth("300px");
 			testButtonLabeled.setTargetHeight("40px");
 			testButtonLabeled.label.setWrapping("word");
+			testGraph = new CrocGraph(root);
+			testGraph.setTargetWidth("400px");
+			testGraph.setTargetHeight("200px");
 			
 			testProgressBar.addEventListener("mousedown", function(e) {
 				if(this.value === 100) {
@@ -153,11 +157,12 @@
 			testHoziPanelList.addChild(testPanelList, 0, 0);
 			testPanelList.addChild(testBorderPanel);
 // 			testHoziPanelList.addChild(testLabel);
-			testBorderPanel.addChild(testDom, 200, 200);
-			testBorderPanel.addChild(testSlider, 10, 10, 0);
-			testBorderPanel.addChild(testAnalogMeter, 180, 250);
-			testBorderPanel.addChild(testProgressBar, 200, 60, Math.PI/3);
-			testBorderPanel.addChild(testButtonLabeled, 400, 160);
+			testBorderPanel.addChild(testDom, 400, 290);
+			testBorderPanel.addChild(testSlider, 0, 40, 0);
+			testBorderPanel.addChild(testAnalogMeter, 0, 290);
+			testBorderPanel.addChild(testProgressBar, 0, 120, 0);
+			testBorderPanel.addChild(testButtonLabeled, 0, 200);
+			testBorderPanel.addChild(testGraph, 500, 0);
 			
 			testPanelList.addChild(zebraBorderPanel);
 			zebraBorderPanel.addChild(zebraImage);
