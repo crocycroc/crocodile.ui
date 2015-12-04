@@ -35,41 +35,46 @@ CrocHTMLTextfield.prototype.updateContents = function() {
 	
 	this.drawnInnerHTML = this.domObject.innerHTML;
 
-	var data = '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="' + this.domObject.childNodes[0].offsetWidth.toString() + 'px" height="' + this.domObject.childNodes[0].offsetHeight.toString() + 'px">' +
-		'<foreignObject x="0" y="0" width="100%" height="100%" requiredExtensions="http://www.w3.org/1999/xhtml">' +
+	var data = 
+		'data:image/svg+xml,' +
+		'<svg xmlns="http://www.w3.org/2000/svg" width="' + this.domObject.childNodes[0].offsetWidth.toString() + 'px" height="' + this.domObject.childNodes[0].offsetHeight.toString() + 'px">' +
+		'<foreignObject x="0" y="0" width="100%" height="100%">' +
 		'<div xmlns="http://www.w3.org/1999/xhtml"> ' +
-		'<input type="text" size="' + this.domObject.childNodes[0].size.toString() + 
-			'" value="' + this.domObject.childNodes[0].value + 
-			'" style="border:none; background:transparent; color:' + 
-			this.domObject.childNodes[0].style.color + '; font:' +
-			this.domObject.childNodes[0].style.font + '">' +
-		'</input>' + 
+			'<input type="text" size="' + this.domObject.childNodes[0].size.toString() + 
+				'" value="' + this.domObject.childNodes[0].value + 
+				'" style="border:none; background:transparent; color:' + 
+				this.domObject.childNodes[0].style.color + '; font:' +
+				this.domObject.childNodes[0].style.font + '">' +
+			'</input>' + 
 		'</div>' +
 		'</foreignObject>' +
 		'</svg>';
-
+// var data = "data:image/svg+xml," +
+//            "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'>" +
+//              "<foreignObject width='100%' height='100%'>" +
+//                "<div xmlns='http://www.w3.org/1999/xhtml' style='font-size:40px'>" +
+//                  "<input type=\"text\" value=\"Hello world\"> </input>" +
+//                "</div>" +
+//              "</foreignObject>" +
+//            "</svg>";
 	var DOMURL = window.URL || window.webkitURL || window;
 	this.drawReady = false;
 	
 	this.drawImage = new Image();
-	var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
-	var url = DOMURL.createObjectURL(svg);
 	
 	this.drawImage.onload = function () {
-		DOMURL.revokeObjectURL(url);
+		console.log(this);
 		currentCrocDOM.drawReady = true;
 		currentCrocDOM.getRoot().repaint();
 	}
 	
 	this.drawImage.onerror = function() {
 		console.log("DOM Render failed!");
-		console.log(url);
 		
-		DOMURL.revokeObjectURL(url);
 		currentCrocDOM.drawReady = false;
 	}
 	
-	this.drawImage.src = url;
+	this.drawImage.src = data;
 };
 
 CrocHTMLTextfield.prototype.setValue = function(value) {

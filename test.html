@@ -62,7 +62,7 @@
 			var testProgressBar = new CrocProgressBar(root);
 			var testButtonLabeled = new CrocButtonLabeled(root, "Test Me!");
 			testSlider.setTargetWidth("400px");
-			testSlider.setOrientation("verticle");
+// 			testSlider.setOrientation("verticle");
 			testProgressBar.setTargetWidth("400px");
 			testButtonLabeled.setTargetWidth("300px");
 			testButtonLabeled.setTargetHeight("40px");
@@ -89,14 +89,13 @@
 			
 			button.addEventListener("click", function(e) {
 			
-				var myO = this.parent.getChildOrientation(this);
-				var o = zebraImage.parent.getChildOrientation(zebraImage);
+				if(testSlider.orientation === "horizontal") {
+					testSlider.setOrientation("verticle");
+				}
 				
-				myO.rotation = myO.rotation - Math.PI/3;
-				o.y = o.y - 10;
-				
-				zebraImage.parent.setChildOrientation(zebraImage, o.x);
-				this.parent.setChildOrientation(this, myO.x, myO.y, myO.rotation); 
+				else {
+					testSlider.setOrientation("horizontal");
+				}
 				
 				return false;
 			});
@@ -156,7 +155,7 @@
 			testBorderPanel.addChild(testDom, 200, 200);
 			testBorderPanel.addChild(testSlider, 10, 10, 0);
 			testBorderPanel.addChild(testAnalogMeter, 180, 250);
-			testBorderPanel.addChild(testProgressBar, 200, 60, Math.PI/2);
+			testBorderPanel.addChild(testProgressBar, 200, 60, Math.PI/3);
 			testBorderPanel.addChild(testButtonLabeled, 400, 160);
 			
 			testPanelList.addChild(zebraBorderPanel);
