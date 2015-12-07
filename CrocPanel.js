@@ -125,7 +125,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 	//Push Matrix
 	var parentTransform = context.getCurrentTransform();
 	
-	this.applyClip(context, this.getWidth(), this.getHeight());
+// 	this.applyClip(context, this.getWidth(), this.getHeight());
 	
 // 	console.log(parentTransform, context.getCurrentTransform());
 	
@@ -143,7 +143,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
 	
-	this.removeClip(context);
+// 	this.removeClip(context);
 	
 	return;
 	

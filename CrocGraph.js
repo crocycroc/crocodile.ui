@@ -48,7 +48,7 @@ function CrocGraph(root) {
 		},
 		
 		"again": {
-			"points":{1:12, 3:10, 4:2, 12:4, 2:20, 7:20},
+			"points":{1:12, 3:10, 4:2, 12:4, 2:18, 7:18},
 			"label":"Test Data",
 			"labelColor":"green",
 			"labelFont":"24px Arial",
@@ -74,7 +74,7 @@ function CrocGraph(root) {
 			"lineColor":"#888888",
 			"lineWidth":2,
 			"minValue":0,
-			"maxValue":20,
+			"maxValue":30,
 			"majorStep":10,
 			"minorStep":2,
 			"majorLineColor":"#444444",
@@ -85,6 +85,8 @@ function CrocGraph(root) {
 			"minorLineWidth":1,
 			"majorLineLength":10,
 			"minorLineLength":4,
+			"majorLabelShow":true,
+			"minorLabelShow":true,
 			"majorLabelColor":"#444444",
 			"minorLabelColor":"#444444",
 			"majorLabelFont":"24px Arial",
@@ -107,24 +109,26 @@ function CrocGraph(root) {
 			"labelColor":"#444444",
 			"lineColor":"#888888",
 			"lineWidth":2,
-			"minValue":0,
+			"minValue":-20,
 			"maxValue":20,
 			"majorStep":10,
-			"minorStep":2,
+			"minorStep":5,
 			"majorLineColor":"#444444",
 			"minorLineColor":"#0000CC",
 			"majorLineStyle":"solid",
 			"minorLineStyle":"solid",
 			"majorLineWidth":2,
 			"minorLineWidth":1,
-			"majorLineLength":20,
+			"majorLineLength":10,
 			"minorLineLength":4,
+			"majorLabelShow":true,
+			"minorLabelShow":false,
 			"majorLabelColor":"#444444",
 			"minorLabelColor":"#444444",
-			"majorLabelFont":"24px Arial",
+			"majorLabelFont":"18px Arial",
 			"majorLabelFontHeight":determineFontHeight("24px Arial"),
 			"majorLabelFontPadding":4,
-			"minorLabelFont":"18px Arial",
+			"minorLabelFont":"10px Arial",
 			"minorLabelFontHeight":determineFontHeight("18px Arial"),
 			"minorLabelFontPadding":4,
 			"labelFormat":function(value){ if(value === undefined) { return "undefined"} return value.toString()},
@@ -134,7 +138,43 @@ function CrocGraph(root) {
 			"minorBackgroundLineWidth":1,
 			"majorBackgroundLineStyle":"solid",
 			"minorBackgroundLineStyle":"none"
-		}
+		},
+		
+// 		"other": {
+// 			"label":"",
+// 			"labelColor":"#444444",
+// 			"lineColor":"#888888",
+// 			"lineWidth":2,
+// 			"minValue":0,
+// 			"maxValue":100,
+// 			"majorStep":10,
+// 			"minorStep":5,
+// 			"majorLineColor":"#444444",
+// 			"minorLineColor":"#0000CC",
+// 			"majorLineStyle":"solid",
+// 			"minorLineStyle":"solid",
+// 			"majorLineWidth":2,
+// 			"minorLineWidth":1,
+// 			"majorLineLength":10,
+// 			"minorLineLength":4,
+// 			"majorLabelShow":true,
+// 			"minorLabelShow":true,
+// 			"majorLabelColor":"#444444",
+// 			"minorLabelColor":"#444444",
+// 			"majorLabelFont":"18px Arial",
+// 			"majorLabelFontHeight":determineFontHeight("24px Arial"),
+// 			"majorLabelFontPadding":4,
+// 			"minorLabelFont":"10px Arial",
+// 			"minorLabelFontHeight":determineFontHeight("18px Arial"),
+// 			"minorLabelFontPadding":4,
+// 			"labelFormat":function(value){ if(value === undefined) { return "undefined"} return value.toString()},
+// 			"majorBackgroundLineColor":"#0000CC",
+// 			"minorBackgroundLineColor":"#CC0000",
+// 			"majorBackgroundLineWidth":2,
+// 			"minorBackgroundLineWidth":1,
+// 			"majorBackgroundLineStyle":"solid",
+// 			"minorBackgroundLineStyle":"none"
+// 		}
 	};
 };
 
@@ -143,6 +183,7 @@ CrocGraph.prototype = Object.create(CrocBase.prototype);
 CrocGraph.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	var labelPainter = new CrocLabel(root);
 	
 	//Calculating render space
 	var currentXAxisUnits = this.unitTypes[this.xAxisUnits];
@@ -215,10 +256,22 @@ CrocGraph.prototype.paint = function(context, width, height) {
 		case "solid":
 			for(var i = 0; i < numberOfMinorLines; i++) {
 				
-				context.beginPath();
-				context.moveTo(currentMinorLineXPos, currentInteriorHeight);
-				context.lineTo(currentMinorLineXPos, currentInteriorHeight + minorLineLength);
-				context.stroke();
+				if(((i * currentXAxisUnits.minorStep) - currentXAxisUnits.minValue) % currentXAxisUnits.majorStep !== 0) {
+					context.beginPath();
+					context.moveTo(currentMinorLineXPos, currentInteriorHeight);
+					context.lineTo(currentMinorLineXPos, currentInteriorHeight + minorLineLength);
+					context.stroke();
+					
+					if(currentXAxisUnits.minorLabelShow) {
+						labelPainter.setColor(currentXAxisUnits.minorLabelColor);
+						labelPainter.setFont(currentXAxisUnits.minorLabelFont);
+						labelPainter.setText(currentXAxisUnits.labelFormat((i * currentXAxisUnits.minorStep) + currentXAxisUnits.minValue));
+						context.save();
+						context.translate(currentMinorLineXPos, currentInteriorHeight + minorLineLength + currentXAxisUnits.minorLabelFontPadding);
+						labelPainter.paint(context, this.getWidth(), this.getHeight);
+						context.restore();
+					}
+				}
 				
 				currentMinorLineXPos += minorLineDistance;
 			}
@@ -243,10 +296,21 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	switch(currentXAxisUnits.majorLineStyle) {
 		case "solid":
 			for(var i = 0; i < numberOfMajorLines; i++) {
+				
 				context.beginPath();
 				context.moveTo(currentMajorLineXPos, currentInteriorHeight);
 				context.lineTo(currentMajorLineXPos, currentInteriorHeight + majorLineLength);
 				context.stroke();
+				
+				if(currentXAxisUnits.majorLabelShow) {
+					labelPainter.setColor(currentXAxisUnits.majorLabelColor);
+					labelPainter.setFont(currentXAxisUnits.majorLabelFont);
+					labelPainter.setText(currentXAxisUnits.labelFormat((i * currentXAxisUnits.majorStep) + currentXAxisUnits.minValue));
+					context.save();
+					context.translate(currentMajorLineXPos, currentInteriorHeight + majorLineLength + currentXAxisUnits.majorLabelFontPadding);
+					labelPainter.paint(context, this.getWidth(), this.getHeight);
+					context.restore();
+				}
 				
 				currentMajorLineXPos += majorLineDistance;
 			}
@@ -300,18 +364,40 @@ CrocGraph.prototype.paint = function(context, width, height) {
 				case "solid":
 					for(var i = 0; i < numberOfMinorLines; i++) {
 						
-						context.beginPath();
-						context.moveTo(currentXPos + currentYAxisUnits.lineWidth / 2, currentMinorLineYPos);
-						
-						if(currentYAxisNumber % 2 === 0) {
-							context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 - minorLineLength, currentMinorLineYPos);
+						if(((i * currentYAxisUnits.minorStep) - currentYAxisUnits.minValue) % currentYAxisUnits.majorStep !== 0) {
+							context.beginPath();
+							context.moveTo(currentXPos + currentYAxisUnits.lineWidth / 2, currentMinorLineYPos);
+							
+							if(currentYAxisNumber % 2 === 0) {
+								context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 - minorLineLength, currentMinorLineYPos);
+							}
+							
+							else {
+								context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 + minorLineLength, currentMinorLineYPos);
+							}
+							
+							context.stroke();
+							
+							if(currentYAxisUnits.minorLabelShow) {
+								labelPainter.setColor(currentYAxisUnits.minorLabelColor);
+								labelPainter.setFont(currentYAxisUnits.minorLabelFont);
+								labelPainter.setText(currentYAxisUnits.labelFormat((i * currentYAxisUnits.minorStep) + currentYAxisUnits.minValue));
+								
+								context.save();
+								if(currentYAxisNumber % 2 === 0) {
+									labelPainter.setAlignment("right", "top");
+									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 - minorLineLength, currentMinorLineYPos);
+								}
+								
+								else {
+									labelPainter.setAlignment("left", "top");
+									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 + minorLineLength, currentMinorLineYPos);
+								}
+								
+								labelPainter.paint(context, this.getWidth(), this.getHeight);
+								context.restore();
+							}
 						}
-						
-						else {
-							context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2 + minorLineLength, currentMinorLineYPos);
-						}
-						
-						context.stroke();
 						
 						currentMinorLineYPos -= minorLineDistance;
 					}
@@ -348,6 +434,26 @@ CrocGraph.prototype.paint = function(context, width, height) {
 							}
 							
 							context.stroke();
+							
+							if(currentYAxisUnits.majorLabelShow) {
+								labelPainter.setColor(currentYAxisUnits.majorLabelColor);
+								labelPainter.setFont(currentYAxisUnits.majorLabelFont);
+								labelPainter.setText(currentYAxisUnits.labelFormat((i * currentYAxisUnits.majorStep) + currentYAxisUnits.minValue));
+								
+								context.save();
+								if(currentYAxisNumber % 2 === 0) {
+									labelPainter.setAlignment("right", "top");
+									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 - majorLineLength, currentMajorLineYPos);
+								}
+								
+								else {
+									labelPainter.setAlignment("left", "top");
+									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 + majorLineLength, currentMajorLineYPos);
+								}
+								
+								labelPainter.paint(context, this.getWidth(), this.getHeight);
+								context.restore();
+							}
 						}
 						
 						currentMajorLineYPos -= majorLineDistance;
@@ -380,9 +486,13 @@ CrocGraph.prototype.paint = function(context, width, height) {
 		context.beginPath();
 		context.lineWidth = this.convertToPixels(currentDataSet.lineWidth, this.getHeight());
 		context.strokeStyle = currentDataSet.lineColor;
-		context.moveTo(currentLeftYAxisWidth, currentInteriorHeight);
 		
-		for(var i = 0; i < xValues.length; i++) {
+		var i = 0;
+		var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
+		var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));	
+		context.moveTo(xPos, yPos);
+		
+		for(var i = 1; i < xValues.length; i++) {
 			var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
 			var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));
 			context.lineTo(xPos, yPos);
