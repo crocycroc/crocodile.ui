@@ -26,9 +26,9 @@ function CrocGraph(root) {
 			"lineColor":"pink",
 			"lineStyle":"solid",
 			"lineWidth":2,
-			"pointColor":"blue",
-			"pointStyle":"circle",
-			"pointWidth":6,
+			"pointColor":"green",
+			"pointStyle":"square",
+			"pointWidth":10,
 		},
 		
 		"other": {
@@ -42,9 +42,9 @@ function CrocGraph(root) {
 			"lineColor":"blue",
 			"lineStyle":"solid",
 			"lineWidth":2,
-			"pointColor":"blue",
-			"pointStyle":"circle",
-			"pointWidth":6,
+			"pointColor":"orange",
+			"pointStyle":"triangle",
+			"pointWidth":10,
 		},
 		
 		"again": {
@@ -486,18 +486,58 @@ CrocGraph.prototype.paint = function(context, width, height) {
 		context.beginPath();
 		context.lineWidth = this.convertToPixels(currentDataSet.lineWidth, this.getHeight());
 		context.strokeStyle = currentDataSet.lineColor;
-		
-		var i = 0;
-		var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
-		var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));	
-		context.moveTo(xPos, yPos);
-		
-		for(var i = 1; i < xValues.length; i++) {
+
+		for(var i = 0; i < xValues.length; i++) {
 			var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
 			var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));
-			context.lineTo(xPos, yPos);
+			
+			if(i > 0) {
+				context.lineTo(xPos, yPos);
+			}
+			
+			else {
+				context.moveTo(xPos, yPos);
+			}
+		
 		}
 		
 		context.stroke();
+		
+		for(var i = 0; i < xValues.length; i++) {
+			var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
+			var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));
+			
+			switch(currentDataSet.pointStyle) {
+				case "circle":
+					context.beginPath();
+					context.arc(xPos, yPos, currentDataSet.pointWidth/2, 0, 2 * Math.PI, false);
+					context.fillStyle = currentDataSet.pointColor;
+					context.fill();
+					break;
+					
+				case "square":
+					context.beginPath();
+					context.rect(
+						xPos - currentDataSet.pointWidth/2, 
+		  				yPos - currentDataSet.pointWidth/2, 
+		  				currentDataSet.pointWidth, 
+		  				currentDataSet.pointWidth);
+					context.fillStyle = currentDataSet.pointColor;
+					context.fill();
+					break;
+					
+				case "triangle":
+					context.beginPath();
+					context.moveTo(xPos - currentDataSet.pointWidth/2, yPos + currentDataSet.pointWidth/2);
+					context.lineTo(xPos + currentDataSet.pointWidth/2, yPos + currentDataSet.pointWidth/2);
+					context.lineTo(xPos, yPos - currentDataSet.pointWidth/2);
+					context.fillStyle = currentDataSet.pointColor;
+					context.fill();
+					break;
+					
+				default:
+					break;
+			}
+		}
 	}
 };
