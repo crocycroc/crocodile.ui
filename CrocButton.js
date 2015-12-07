@@ -124,6 +124,7 @@ CrocButton.prototype.getHeight = function() {
 };
 
 CrocButton.prototype.paint = function(context, width, height) {
+	CrocBase.prototype.paint.call(this, context, width, height);
 	
 	if(!this.visible) {
 		return;

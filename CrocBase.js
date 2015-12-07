@@ -294,8 +294,18 @@ CrocBase.prototype.paint = function(context, width, height) {
 	if(this.getVisible()) {
 		this.getRoot().testPaintWarnings(this, this.lastTransform);
 	}
-	
+
 	return;
+};
+
+CrocBase.prototype.applyClip = function(context, width, height) {
+	context.save();
+	context.rect(0, 0, width, height);
+	context.clip();
+};
+
+CrocBase.prototype.removeClip = function(context) {
+	context.restore();
 };
 
 CrocBase.prototype.inverseTransform = function(t) {

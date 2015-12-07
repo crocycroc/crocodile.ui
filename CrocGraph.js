@@ -25,7 +25,39 @@ function CrocGraph(root) {
 			"units":"test",
 			"lineColor":"pink",
 			"lineStyle":"solid",
-			"lineWidth":4,
+			"lineWidth":2,
+			"pointColor":"blue",
+			"pointStyle":"circle",
+			"pointWidth":6,
+		},
+		
+		"other": {
+			"points":{1:6, 3:8, 4:12, 12:14, 2:6},
+			"label":"Test Data",
+			"labelColor":"green",
+			"labelFont":"24px Arial",
+			"labelFontHeight":determineFontHeight("24px Arial"),
+			"labelFontPadding":4,
+			"units":"test",
+			"lineColor":"blue",
+			"lineStyle":"solid",
+			"lineWidth":2,
+			"pointColor":"blue",
+			"pointStyle":"circle",
+			"pointWidth":6,
+		},
+		
+		"again": {
+			"points":{1:12, 3:10, 4:2, 12:4, 2:20, 7:20},
+			"label":"Test Data",
+			"labelColor":"green",
+			"labelFont":"24px Arial",
+			"labelFontHeight":determineFontHeight("24px Arial"),
+			"labelFontPadding":4,
+			"units":"test",
+			"lineColor":"red",
+			"lineStyle":"solid",
+			"lineWidth":2,
 			"pointColor":"blue",
 			"pointStyle":"circle",
 			"pointWidth":6,
@@ -42,7 +74,7 @@ function CrocGraph(root) {
 			"lineColor":"#888888",
 			"lineWidth":2,
 			"minValue":0,
-			"maxValue":100,
+			"maxValue":20,
 			"majorStep":10,
 			"minorStep":2,
 			"majorLineColor":"#444444",
@@ -76,7 +108,7 @@ function CrocGraph(root) {
 			"lineColor":"#888888",
 			"lineWidth":2,
 			"minValue":0,
-			"maxValue":100,
+			"maxValue":20,
 			"majorStep":10,
 			"minorStep":2,
 			"majorLineColor":"#444444",
@@ -162,8 +194,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	//First we draw the x axis
 	///////////////////////////////////
 	context.beginPath();
-	context.getContext().lineWidth = this.convertToPixels(currentXAxisUnits.lineWidth, this.getHeight());
-	context.getContext().strokeStyle = currentXAxisUnits.lineColor;
+	context.lineWidth = this.convertToPixels(currentXAxisUnits.lineWidth, this.getHeight());
+	context.strokeStyle = currentXAxisUnits.lineColor;
 	context.moveTo(currentLeftYAxisWidth, currentInteriorHeight - currentXAxisUnits.lineWidth / 2);
 	context.lineTo(currentLeftYAxisWidth + currentInteriorWidth, currentInteriorHeight - currentXAxisUnits.lineWidth / 2);
 	context.stroke();
@@ -173,8 +205,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	var currentMinorLineXPos = currentLeftYAxisWidth + currentXAxisUnits.minorLineWidth / 2;
 	var minorLineLength = this.convertToPixels(currentXAxisUnits.minorLineLength, this.getHeight());
 	
-	context.getContext().lineWidth = this.convertToPixels(currentXAxisUnits.minorLineWidth, this.getWidth());
-	context.getContext().strokeStyle = currentXAxisUnits.minorLineColor;
+	context.lineWidth = this.convertToPixels(currentXAxisUnits.minorLineWidth, this.getWidth());
+	context.strokeStyle = currentXAxisUnits.minorLineColor;
 		
 	///////////////////////////////////
 	//Now we draw the minor step lines
@@ -202,8 +234,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	var currentMajorLineXPos = currentLeftYAxisWidth + currentXAxisUnits.majorLineWidth / 2;
 	var majorLineLength = this.convertToPixels(currentXAxisUnits.majorLineLength, this.getHeight());
 	
-	context.getContext().lineWidth = this.convertToPixels(currentXAxisUnits.majorLineWidth, this.getWidth());
-	context.getContext().strokeStyle = currentXAxisUnits.majorLineColor;
+	context.lineWidth = this.convertToPixels(currentXAxisUnits.majorLineWidth, this.getWidth());
+	context.strokeStyle = currentXAxisUnits.majorLineColor;
 		
 	///////////////////////////////////
 	//Now we draw the major step lines
@@ -249,8 +281,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 			
 			//First we draw the y axis
 			context.beginPath();
-			context.getContext().lineWidth = this.convertToPixels(currentYAxisUnits.lineWidth, this.getHeight());
-			context.getContext().strokeStyle = currentYAxisUnits.lineColor;
+			context.lineWidth = this.convertToPixels(currentYAxisUnits.lineWidth, this.getHeight());
+			context.strokeStyle = currentYAxisUnits.lineColor;
 			context.moveTo(currentXPos + currentYAxisUnits.lineWidth / 2, 0);
 			context.lineTo(currentXPos + currentYAxisUnits.lineWidth / 2, currentInteriorHeight);
 			context.stroke();
@@ -260,8 +292,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 			var currentMinorLineYPos = currentInteriorHeight - currentYAxisUnits.minorLineWidth / 2;
 			var minorLineLength = this.convertToPixels(currentYAxisUnits.minorLineLength, this.getWidth());
 			
-			context.getContext().lineWidth = this.convertToPixels(currentYAxisUnits.minorLineWidth, this.getWidth());
-			context.getContext().strokeStyle = currentYAxisUnits.minorLineColor;
+			context.lineWidth = this.convertToPixels(currentYAxisUnits.minorLineWidth, this.getWidth());
+			context.strokeStyle = currentYAxisUnits.minorLineColor;
 			
 			//Now we draw the minor step lines
 			switch(currentYAxisUnits.minorLineStyle) {
@@ -295,8 +327,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 			var currentMajorLineYPos = currentInteriorHeight - currentYAxisUnits.majorLineWidth / 2;
 			var majorLineLength = this.convertToPixels(currentYAxisUnits.majorLineLength, this.getWidth());
 			
-			context.getContext().lineWidth = this.convertToPixels(currentYAxisUnits.majorLineWidth, this.getWidth());
-			context.getContext().strokeStyle = currentYAxisUnits.majorLineColor;
+			context.lineWidth = this.convertToPixels(currentYAxisUnits.majorLineWidth, this.getWidth());
+			context.strokeStyle = currentYAxisUnits.majorLineColor;
 			
 			//Now we draw the major step lines
 			switch(currentYAxisUnits.majorLineStyle) {
@@ -334,4 +366,28 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	///////////////////////////////////
 	//Now we draw all the datasets.
 	///////////////////////////////////
+
+	for(var k in this.dataSets) {
+		var currentDataSet = this.dataSets[k];
+		var xValues = Object.keys(currentDataSet.points);
+		var currentXAxisUnits = this.unitTypes[this.xAxisUnits];
+		var currentYAxisUnits = this.unitTypes[currentDataSet.units];
+
+		xValues.map(function(item) {
+			return parseInt(item, 10);
+		}).sort();
+		
+		context.beginPath();
+		context.lineWidth = this.convertToPixels(currentDataSet.lineWidth, this.getHeight());
+		context.strokeStyle = currentDataSet.lineColor;
+		context.moveTo(currentLeftYAxisWidth, currentInteriorHeight);
+		
+		for(var i = 0; i < xValues.length; i++) {
+			var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
+			var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));
+			context.lineTo(xPos, yPos);
+		}
+		
+		context.stroke();
+	}
 };
