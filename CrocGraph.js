@@ -48,7 +48,7 @@ function CrocGraph(root) {
 		},
 		
 		"again": {
-			"points":{1:12, 3:10, 4:2, 12:4, 2:18, 7:18},
+			"points":{1:12, 3:10, 4:2, 12:4, 2:18, 7:18, 9:18, 10:18, 11:18, 13:18, 14:17, 15:18, 16:18, 17:18, 18:18, 19:18},
 			"label":"Test Data",
 			"labelColor":"green",
 			"labelFont":"24px Arial",
@@ -60,7 +60,7 @@ function CrocGraph(root) {
 			"lineWidth":2,
 			"pointColor":"blue",
 			"pointStyle":"circle",
-			"pointWidth":6,
+			"pointWidth":10,
 		}
 	};
 	
@@ -478,7 +478,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 		var xValues = Object.keys(currentDataSet.points);
 		var currentXAxisUnits = this.unitTypes[this.xAxisUnits];
 		var currentYAxisUnits = this.unitTypes[currentDataSet.units];
-
+		var runnedOver = false;
+		
 		xValues.map(function(item) {
 			return parseInt(item, 10);
 		}).sort();
@@ -488,6 +489,11 @@ CrocGraph.prototype.paint = function(context, width, height) {
 		context.strokeStyle = currentDataSet.lineColor;
 
 		for(var i = 0; i < xValues.length; i++) {
+			
+			if(xValues[i] > currentXAxisUnits.maxValue) {
+				continue;
+			}
+			
 			var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
 			var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));
 			
@@ -504,6 +510,11 @@ CrocGraph.prototype.paint = function(context, width, height) {
 		context.stroke();
 		
 		for(var i = 0; i < xValues.length; i++) {
+			
+			if(xValues[i] > currentXAxisUnits.maxValue) {
+				continue;
+			}
+			
 			var xPos = currentLeftYAxisWidth + (currentInteriorWidth * ((xValues[i] - currentXAxisUnits.minValue)/(currentXAxisUnits.maxValue - currentXAxisUnits.minValue)));
 			var yPos = currentInteriorHeight - (currentInteriorHeight * ((currentDataSet.points[xValues[i]] - currentYAxisUnits.minValue)/(currentYAxisUnits.maxValue - currentYAxisUnits.minValue)));
 			
