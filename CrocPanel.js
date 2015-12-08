@@ -118,16 +118,11 @@ CrocPanel.prototype.paint = function(context, width, height) {
 		return;
 	}
 	
-	//When we initialize the context there needs to be a currenTransform value.
-	//This is now standard but some browsers, like firefox call it mozCurrentTransform.
-	//So we map with context.getCurrentTransform() function;
+	context.save();
 	
-	//Push Matrix
 	var parentTransform = context.getCurrentTransform();
 	
-// 	this.applyClip(context, this.getWidth(), this.getHeight());
-	
-// 	console.log(parentTransform, context.getCurrentTransform());
+	context.clearRect(0, 0, this.getWidth(), this.getHeight());
 	
 	var i = this.children.length;
 	while(i--) {
@@ -143,7 +138,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
 	
-// 	this.removeClip(context);
+	context.restore();
 	
 	return;
 	

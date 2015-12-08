@@ -135,6 +135,8 @@ CrocButton.prototype.paint = function(context, width, height) {
 		return;
 	}
 	
+	context.save();
+	
 	switch(this.currentState) {
 	
 		case 'normal':
@@ -154,4 +156,5 @@ CrocButton.prototype.paint = function(context, width, height) {
 			break;
 	}
 	
+	context.restore();
 };
