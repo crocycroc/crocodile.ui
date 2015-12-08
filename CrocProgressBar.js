@@ -4,7 +4,7 @@ function CrocProgressBar(root, value) {
 	this.value = value || 0;
 	this.minValue = 0;
 	this.maxValue = 100;
-	this.showLabel = true;
+	this.showLabel = false;
 	
 	this.border = new CrocPanelBorder(
 		root,

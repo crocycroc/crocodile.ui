@@ -35,11 +35,13 @@ function CrocButton(root, normal, hover, pressed) {
 
 	this.addEventListener('mousemove', function(e){
 		this.setState('hover');
+		this.getRoot().setCursor("pointer");
 		return false;
 	});
 	
 	this.addEventListener('mouseleave', function(e) {
 		this.setState('normal');
+		this.getRoot().setCursor();
 		return false;
 	});
 	

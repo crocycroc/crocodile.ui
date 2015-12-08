@@ -37,11 +37,12 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 		
 		if(!this.hasFocus()) {
 			this.setMode('hover');
+			this.getRoot().setCursor("pointer");
 		}
 		
 		else {
 			this.globalPointToValue(e.x, e.y);
-			
+			this.getRoot().setCursor("pointer");
 			this.event('valuechanged', this.getValue());
 		}
 		
@@ -53,6 +54,8 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 		if(!this.hasFocus()) {
 			this.setMode('normal');
 		}
+		
+		this.getRoot().setCursor("");
 		
 		return false;
 	});

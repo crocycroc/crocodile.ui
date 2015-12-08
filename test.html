@@ -92,6 +92,21 @@
 			panel.addChild(croc, 100, 100);
 			croc.setVisible(false);
 			
+			croc.addEventListener("mousedown", function(e) {
+				
+				return false;
+			});
+			
+			croc.addEventListener("mouseup", function(e) {
+				
+				return false;
+			});
+			
+			croc.addEventListener("click", function(e) {
+				
+				return false;
+			});
+			
 			button.addEventListener("click", function(e) {
 			
 				if(testSlider.orientation === "horizontal") {
@@ -172,6 +187,7 @@
 			otherBorderPanel.addChild(buttonsPanelList);
 			buttonsPanelList.addChild(testAnalogMeter);
 			buttonsPanelList.addChild(testSlider);
+			buttonsPanelList.addChild(testProgressBar);
 			buttonsPanelList.addChild(testDom);
 			buttonsPanelList.addChild(button);
 			buttonsPanelList.addChild(buttonB);

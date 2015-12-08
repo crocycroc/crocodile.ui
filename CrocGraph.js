@@ -274,6 +274,9 @@ CrocGraph.prototype.paint = function(context, width, height) {
 						this.labelPainter.paint(context, this.getWidth(), this.getHeight);
 						context.restore();
 					}
+					
+					if(currentXAxisUnits.minorBackgroundLineStyle === "solid") {
+					}
 				}
 				
 				currentMinorLineXPos += minorLineDistance;

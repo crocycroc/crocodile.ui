@@ -11,7 +11,6 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
-	
 	//Stupid failure to implement this
 	if(this.context.mozCurrentTransform === undefined && this.context.currenTransform === undefined) {
 		
@@ -123,6 +122,7 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 		this.hitCanvas.width = window.innerWidth;
 		this.hitCanvas.height = window.innerHeight;
 	}
+	
 	
 	this.repaint();
 };
@@ -382,6 +382,11 @@ CrocRoot.prototype.loadImage = function(src, callback) {
 	image.src = src;
 };
 
+CrocRoot.prototype.setCursor = function(type) {
+	window.document.body.style.cursor = type || "";
+	return;
+};
+
 CrocRoot.prototype.onImageLoad = function(src) {
 	
 	if(!(src in this.imageStore)) {
@@ -447,6 +452,20 @@ CrocRoot.prototype.setSmooth = function(smooth) {
 	this.context['msImageSmoothingEnabled'] = smooth;     /* IE */
 };
 
+CrocRoot.prototype.setDPI = function(dpi) {
+	// Set up CSS size if it's not set up already
+	if (!this.canvas.style.width)
+		this.canvas.style.width = this.canvas.width + 'px';
+	
+	if (!this.canvas.style.height)
+		this.canvas.style.height = this.canvas.height + 'px';
+
+	var scaleFactor = dpi / 96;
+	this.canvas.width = Math.ceil(this.canvas.width * scaleFactor);
+	this.canvas.height = Math.ceil(this.canvas.height * scaleFactor);
+	this.context.scale(scaleFactor, scaleFactor);
+}
+
 CrocRoot.prototype.paint = function() {
 
 	//When we initialize the context there needs to be a currenTransform value.
@@ -460,6 +479,7 @@ CrocRoot.prototype.paint = function() {
 	
 	if(this.dirty && this.visible) {
 		this.dirty = false;
+		this.context.save();
 		
 		//Reset context transformation
 		this.clear();
@@ -472,6 +492,7 @@ CrocRoot.prototype.paint = function() {
 		}
 		
 		this.clearPaintWarnings();
+		this.context.restore();
 	}
 	
 	return;
