@@ -57,8 +57,11 @@ function CrocButton(root, normal, hover, pressed) {
 CrocButton.prototype = Object.create(CrocBase.prototype);
 
 CrocButton.prototype.setState = function(state) {
-	this.currentState = state;
-	this.getRoot().repaint();
+	
+	if(this.currentState !== state) {
+		this.currentState = state;
+		this.getRoot().repaint();
+	}
 };
 
 CrocButton.prototype.setScaling = function(scaling) {

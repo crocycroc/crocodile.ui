@@ -176,6 +176,8 @@ function CrocGraph(root) {
 // 			"minorBackgroundLineStyle":"none"
 // 		}
 	};
+	
+	this.labelPainter = new CrocLabel(root);
 };
 
 CrocGraph.prototype = Object.create(CrocBase.prototype);
@@ -183,7 +185,7 @@ CrocGraph.prototype = Object.create(CrocBase.prototype);
 CrocGraph.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
-	var labelPainter = new CrocLabel(root);
+	
 	
 	//Calculating render space
 	var currentXAxisUnits = this.unitTypes[this.xAxisUnits];
@@ -248,7 +250,8 @@ CrocGraph.prototype.paint = function(context, width, height) {
 	
 	context.lineWidth = this.convertToPixels(currentXAxisUnits.minorLineWidth, this.getWidth());
 	context.strokeStyle = currentXAxisUnits.minorLineColor;
-		
+	this.labelPainter.alignmentHorizontal = "left";
+	
 	///////////////////////////////////
 	//Now we draw the minor step lines
 	///////////////////////////////////
@@ -263,12 +266,12 @@ CrocGraph.prototype.paint = function(context, width, height) {
 					context.stroke();
 					
 					if(currentXAxisUnits.minorLabelShow) {
-						labelPainter.setColor(currentXAxisUnits.minorLabelColor);
-						labelPainter.setFont(currentXAxisUnits.minorLabelFont);
-						labelPainter.setText(currentXAxisUnits.labelFormat((i * currentXAxisUnits.minorStep) + currentXAxisUnits.minValue));
+						this.labelPainter.color = currentXAxisUnits.minorLabelColor;
+						this.labelPainter.textFont  = currentXAxisUnits.minorLabelFont;
+						this.labelPainter.text = currentXAxisUnits.labelFormat((i * currentXAxisUnits.minorStep) + currentXAxisUnits.minValue);
 						context.save();
 						context.translate(currentMinorLineXPos, currentInteriorHeight + minorLineLength + currentXAxisUnits.minorLabelFontPadding);
-						labelPainter.paint(context, this.getWidth(), this.getHeight);
+						this.labelPainter.paint(context, this.getWidth(), this.getHeight);
 						context.restore();
 					}
 				}
@@ -303,12 +306,12 @@ CrocGraph.prototype.paint = function(context, width, height) {
 				context.stroke();
 				
 				if(currentXAxisUnits.majorLabelShow) {
-					labelPainter.setColor(currentXAxisUnits.majorLabelColor);
-					labelPainter.setFont(currentXAxisUnits.majorLabelFont);
-					labelPainter.setText(currentXAxisUnits.labelFormat((i * currentXAxisUnits.majorStep) + currentXAxisUnits.minValue));
+					this.labelPainter.color = currentXAxisUnits.majorLabelColor;
+					this.labelPainter.textFont = currentXAxisUnits.majorLabelFont;
+					this.labelPainter.text = currentXAxisUnits.labelFormat((i * currentXAxisUnits.majorStep) + currentXAxisUnits.minValue);
 					context.save();
 					context.translate(currentMajorLineXPos, currentInteriorHeight + majorLineLength + currentXAxisUnits.majorLabelFontPadding);
-					labelPainter.paint(context, this.getWidth(), this.getHeight);
+					this.labelPainter.paint(context, this.getWidth(), this.getHeight);
 					context.restore();
 				}
 				
@@ -379,22 +382,22 @@ CrocGraph.prototype.paint = function(context, width, height) {
 							context.stroke();
 							
 							if(currentYAxisUnits.minorLabelShow) {
-								labelPainter.setColor(currentYAxisUnits.minorLabelColor);
-								labelPainter.setFont(currentYAxisUnits.minorLabelFont);
-								labelPainter.setText(currentYAxisUnits.labelFormat((i * currentYAxisUnits.minorStep) + currentYAxisUnits.minValue));
+								this.labelPainter.color = currentYAxisUnits.minorLabelColor;
+								this.labelPainter.textFont = currentYAxisUnits.minorLabelFont;
+								this.labelPainter.text = currentYAxisUnits.labelFormat((i * currentYAxisUnits.minorStep) + currentYAxisUnits.minValue);
 								
 								context.save();
 								if(currentYAxisNumber % 2 === 0) {
-									labelPainter.setAlignment("right", "top");
+									this.labelPainter.alignmentHorizontal = "right";
 									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 - minorLineLength, currentMinorLineYPos);
 								}
 								
 								else {
-									labelPainter.setAlignment("left", "top");
+									this.labelPainter.alignmentHorizontal = "left";
 									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 + minorLineLength, currentMinorLineYPos);
 								}
 								
-								labelPainter.paint(context, this.getWidth(), this.getHeight);
+								this.labelPainter.paint(context, this.getWidth(), this.getHeight);
 								context.restore();
 							}
 						}
@@ -436,22 +439,22 @@ CrocGraph.prototype.paint = function(context, width, height) {
 							context.stroke();
 							
 							if(currentYAxisUnits.majorLabelShow) {
-								labelPainter.setColor(currentYAxisUnits.majorLabelColor);
-								labelPainter.setFont(currentYAxisUnits.majorLabelFont);
-								labelPainter.setText(currentYAxisUnits.labelFormat((i * currentYAxisUnits.majorStep) + currentYAxisUnits.minValue));
+								this.labelPainter.color = currentYAxisUnits.majorLabelColor;
+								this.labelPainter.textFont = currentYAxisUnits.majorLabelFont;
+								this.labelPainter.text  = currentYAxisUnits.labelFormat((i * currentYAxisUnits.majorStep) + currentYAxisUnits.minValue);
 								
 								context.save();
 								if(currentYAxisNumber % 2 === 0) {
-									labelPainter.setAlignment("right", "top");
+									this.labelPainter.alignmentHorizontal = "right";
 									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 - majorLineLength, currentMajorLineYPos);
 								}
 								
 								else {
-									labelPainter.setAlignment("left", "top");
+									this.labelPainter.alignmentHorizontal = "left";
 									context.translate(currentXPos + currentYAxisUnits.lineWidth / 2 + majorLineLength, currentMajorLineYPos);
 								}
 								
-								labelPainter.paint(context, this.getWidth(), this.getHeight);
+								this.labelPainter.paint(context, this.getWidth(), this.getHeight);
 								context.restore();
 							}
 						}

@@ -242,15 +242,19 @@ CrocBase.prototype.getHeight = function() {
 };
 
 CrocBase.prototype.setTargetWidth = function(width) {
-	this.targetWidth = width;
 	
-	this.getRoot().repaint();
+	if(this.targetWidth !== width) {
+		this.targetWidth = width;
+		this.getRoot().repaint();
+	}
 };
 
 CrocBase.prototype.setTargetHeight = function(height) {
-	this.targetHeight = height;
 	
-	this.getRoot().repaint();
+	if(this.targetHeight !== height) {
+		this.targetHeight = height;
+		this.getRoot().repaint();
+	}
 };
 
 CrocBase.prototype.getTargetWidth = function() {
