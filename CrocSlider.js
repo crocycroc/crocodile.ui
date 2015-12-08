@@ -191,6 +191,8 @@ CrocSlider.prototype.globalPointToValue = function(x, y) {
 CrocSlider.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	context.save();
+	
 	var parentTransform = context.getCurrentTransform();
 	
 	var currentGroove = this.groove;
@@ -245,6 +247,8 @@ CrocSlider.prototype.paint = function(context, width, height) {
 		context.translate(x, 0);
 		currentSlider.paint(context);
 	}
+	
+	context.restore();
 	
 	return;
 }

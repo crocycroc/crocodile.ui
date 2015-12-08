@@ -108,6 +108,8 @@ CrocPanelList.prototype.hitTest = function(context, x, y, width, height) {
 CrocPanelList.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	context.save();
+	
 	var parentTransform = context.getCurrentTransform();
 	
 	if(!this.visible) {
@@ -146,4 +148,6 @@ CrocPanelList.prototype.paint = function(context, width, height) {
 		
 		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
+	
+	context.restore();
 };

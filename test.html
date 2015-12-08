@@ -57,7 +57,7 @@
 			
 // 			var testDom = new CrocDOM(root, '<input type="text"></input>');
 			
-// 			var testDom = new CrocTextfield(root, 'Testing');
+			var testDom = new CrocTextfield(root, 'Testing');
 			var testSlider = new CrocSlider(root);
 			var testAnalogMeter = new CrocAnalogMeter(root);
 			var testProgressBar = new CrocProgressBar(root);
@@ -159,7 +159,6 @@
 // 			testHoziPanelList.addChild(testLabel);
 // 			testBorderPanel.addChild(testDom, 400, 290);
 // 			testBorderPanel.addChild(testSlider, 0, 40, 0);
-// 			testBorderPanel.addChild(testAnalogMeter, 0, 290);
 // 			testBorderPanel.addChild(testProgressBar, 0, 120, 0);
 // 			testBorderPanel.addChild(testButtonLabeled, 0, 200);
 			testBorderPanel.addChild(testGraph, 0, 0);
@@ -171,10 +170,15 @@
 			
 			testHoziPanelList.addChild(otherBorderPanel, 0, 0);
 			otherBorderPanel.addChild(buttonsPanelList);
+			buttonsPanelList.addChild(testAnalogMeter);
+			buttonsPanelList.addChild(testSlider);
+			buttonsPanelList.addChild(testDom);
 			buttonsPanelList.addChild(button);
 			buttonsPanelList.addChild(buttonB);
 			buttonsPanelList.addChild(buttonC);
 			buttonsPanelList.addChild(buttonD);
+			
+			
 // 			buttonsPanelList.addChild(buttonD);
 // 			buttonsPanelList.addChild(buttonD);
 // 			buttonsPanelList.addChild(buttonD);

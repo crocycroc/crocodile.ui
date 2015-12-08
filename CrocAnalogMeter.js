@@ -49,6 +49,8 @@ CrocAnalogMeter.prototype.setMinValue = function(minValue) {
 CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	context.save();
+	
 	this.background.paint(context, width, height);
 	
 	var needleCenter = this.background.getHeight() / 1.6125;
@@ -66,6 +68,8 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	this.getRoot().setSmooth(true);
 	this.needle.paint(context, width, height);
 	this.getRoot().setSmooth(false);
+	
+	context.restore();
 	
 	return;
 }
