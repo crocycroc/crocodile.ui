@@ -134,7 +134,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 		var currentChild = this.children[i];
 		var currentOrientation = this.childrenOrientations[currentChild.uuid];
 		
-		context.translate(currentOrientation.x, currentOrientation.y);
+		context.translate(this.convertToPixels(currentOrientation.x, this.getWidth()), this.convertToPixels(currentOrientation.y, this.getHeight()));
 		context.rotate(currentOrientation.rotation);
 		context.scale(currentOrientation.width, currentOrientation.height);
 // 		var childClip = this.transformClipSpace(context.getCurrentTransform(), width, height);
