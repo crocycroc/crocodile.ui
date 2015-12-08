@@ -57,9 +57,18 @@ CrocPanel.prototype.setChildOrientation = function(uiObject, x, y, rotation, wid
 	height === undefined ? height = this.childrenOrientations[uiObject.uuid].height : height;
 	rotation === undefined ? rotation = this.childrenOrientations[uiObject.uuid].rotation : rotation;
 	
-	this.childrenOrientations[uiObject.uuid] = {x:x, y:y, width:width, height:height, rotation:rotation};
+	if(
+		this.childrenOrientations[uiObject.uuid] === undefined || 
+		this.childrenOrientations[uiObject.uuid].x !== x || 
+		this.childrenOrientations[uiObject.uuid].y !== y ||
+		this.childrenOrientations[uiObject.uuid].width !== width ||
+		this.childrenOrientations[uiObject.uuid].height !== height ||
+		this.childrenOrientations[uiObject.uuid].rotation !== rotation) {
+		
+		this.childrenOrientations[uiObject.uuid] = {x:x, y:y, width:width, height:height, rotation:rotation};
 	
-	this.getRoot().repaint();
+		this.getRoot().repaint();
+	}
 };
 
 CrocPanel.prototype.getChildOrientation = function(uiObject) {

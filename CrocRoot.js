@@ -329,6 +329,8 @@ CrocRoot.prototype.repaint = function() {
 	
 	this.dirty = true;
 	
+// 	console.trace();
+	
 	var currentCrocRoot = this;
 	window.requestAnimationFrame(function() {
 		currentCrocRoot.paint();

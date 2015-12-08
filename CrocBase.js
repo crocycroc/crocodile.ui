@@ -157,8 +157,10 @@ CrocBase.prototype.setChildren = function(uiObjectList) {
 };
 
 CrocBase.prototype.setVisible = function(visible) {
-	this.visible = visible;
-	this.getRoot().repaint();
+	if(this.visible !== visible) {
+		this.visible = visible;
+		this.getRoot().repaint();
+	}
 };
 
 CrocBase.prototype.getVisible = function() {
