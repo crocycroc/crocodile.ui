@@ -81,15 +81,13 @@
 			
 			var testCheckbox = new CrocCheckbox(root);
 			
-			testProgressBar.addEventListener("mousedown", function(e) {
+			testSlider.addEventListener("valuechanged", function(e) {
 				if(this.value === 100) {
-					alert("YOU WIN!");
+					croc.setVisible(true);
 				}
-			});
-			
-			testProgressBar.addEventListener("mousedown", function(e) {
-				if(this.value === 40) {
-					alert("YOU SUCK!");
+				
+				if(this.value === 0) {
+					croc.setVisible(false);
 				}
 			});
 			
