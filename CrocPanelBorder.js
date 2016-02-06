@@ -161,8 +161,13 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	
 	context.translate(this.topLeftImage.getWidth(), this.topLeftImage.getHeight());
 	
+	//CrocPanel is going to change our currnet height and width, to the size of the interior.
 	CrocPanel.prototype.paint.call(this, context, interiorWidth, interiorHeight);
-
+	
+	//We don't want that so we convert back here.
+	this.width = this.convertToPixels(this.targetWidth, width);
+	this.height = this.convertToPixels(this.targetHeight, height);
+	
 	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	
 	return;

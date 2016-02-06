@@ -130,9 +130,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 	context.save();
 	
 	var parentTransform = context.getCurrentTransform();
-	
-	context.clearRect(0, 0, this.getWidth(), this.getHeight());
-	
+
 	var i = this.children.length;
 	while(i--) {
 		var currentChild = this.children[i];
@@ -141,8 +139,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 		context.translate(this.convertToPixels(currentOrientation.x, this.getWidth()), this.convertToPixels(currentOrientation.y, this.getHeight()));
 		context.rotate(currentOrientation.rotation);
 		context.scale(currentOrientation.width, currentOrientation.height);
-// 		var childClip = this.transformClipSpace(context.getCurrentTransform(), width, height);
-		
+
 		currentChild.paint(context, width, height);
 		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}

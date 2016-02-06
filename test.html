@@ -27,6 +27,7 @@
 		<script src="CrocProgressBar.js"></script>
 		<script src="CrocButtonLabeled.js"></script>
 		<script src="CrocGraph.js"></script>
+		<script src="CrocCheckbox.js"></script>
 		<script src="CrocRoot.js"></script>
 	</head>
 
@@ -74,9 +75,11 @@
 			testButtonLabeled.setTargetWidth("300px");
 			testButtonLabeled.setTargetHeight("40px");
 			testButtonLabeled.label.setWrapping("word");
-			testGraph = new CrocGraph(root);
+			var testGraph = new CrocGraph(root);
 			testGraph.setTargetWidth("100%");
 			testGraph.setTargetHeight("100%");
+			
+			var testCheckbox = new CrocCheckbox(root);
 			
 			testProgressBar.addEventListener("mousedown", function(e) {
 				if(this.value === 100) {
@@ -198,7 +201,7 @@
 			buttonsPanelList.addChild(button);
 			buttonsPanelList.addChild(buttonB);
 			buttonsPanelList.addChild(buttonC);
-			buttonsPanelList.addChild(buttonD);
+			buttonsPanelList.addChild(testCheckbox);
 			
 			
 // 			buttonsPanelList.addChild(buttonD);

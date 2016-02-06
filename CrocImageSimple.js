@@ -55,11 +55,11 @@ CrocImageSimple.prototype.getHeight = function() {
 CrocImageSimple.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
-	var parentTransform = context.getCurrentTransform();
-	
 	if(!this.visible) {
 		return;
 	}
+	
+	context.save();
 	
 	var currentImage = null;
 	
@@ -97,10 +97,6 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 		if(w > 0 && h > 0) {
 			context.scale(w, h);
 		}
-		
-		else {
-			return;
-		}
 	}
 	
 	else {
@@ -110,7 +106,7 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 	
 	context.drawImage(currentImage, 0, 0);
 	
-	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+	context.restore();
 	return;
 	
 };
