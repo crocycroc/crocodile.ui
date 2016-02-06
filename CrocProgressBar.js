@@ -90,9 +90,9 @@ CrocProgressBar.prototype.paint = function(context, width, height) {
 	
 	this.center.setTargetHeight(this.left.getHeight());
 
-	interiorWidth = currentBorder.getWidth() - currentBorder.topLeftImage.getWidth() - currentBorder.bottomRightImage.getWidth();	
+	interiorWidth = currentBorder.topImage.getWidth();	
 	
-	var currentWidth = (interiorWidth * ((this.value - this.minValue)/(this.maxValue - this.minValue))) - (this.left.getWidth() / 2);
+	var currentWidth = (interiorWidth * ((this.value - this.minValue)/(this.maxValue - this.minValue))) - (this.left.getWidth() + this.right.getWidth());
 	
 	if(currentWidth <= 0) {
 		this.center.setVisible(false);
