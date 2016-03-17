@@ -181,6 +181,7 @@ function CrocGraph(root) {
 };
 
 CrocGraph.prototype = Object.create(CrocBase.prototype);
+CrocGraph.prototype.constructor = CrocGraph;
 
 CrocGraph.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);

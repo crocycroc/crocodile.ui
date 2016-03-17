@@ -56,6 +56,7 @@ function CrocButtonLabeled(root, text) {
 };
 
 CrocButtonLabeled.prototype = Object.create(CrocButton.prototype);
+CrocButtonLabeled.prototype.constructor = CrocButtonLabeled;
 
 CrocButtonLabeled.prototype.getLabel = function() {
 	return this.label;

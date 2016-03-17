@@ -5,3 +5,4 @@ function CrocHTMLLabel(root, contents) {
 
 //We inherit everything from CrocBase
 CrocHTMLLabel.prototype = Object.create(CrocDOM.prototype);
+CrocHTMLLabel.prototype.constructor = CrocHTMLLabel;

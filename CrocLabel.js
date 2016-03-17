@@ -29,6 +29,7 @@ function CrocLabel(root, text, font, color) {
 
 //We inherit everything from CrocBase
 CrocLabel.prototype = Object.create(CrocBase.prototype);
+CrocLabel.prototype.constructor = CrocLabel;
 
 CrocLabel.prototype.setText = function(text) {
 	this.text = text || '';

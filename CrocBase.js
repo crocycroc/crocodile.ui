@@ -227,8 +227,9 @@ CrocBase.prototype.hitTest = function(context, x, y, width, height) {
 	}
 	
 	var currentInvTransform = this.inverseTransform(context.getCurrentTransform());
-
+	
 	var p = this.transformPoint(currentInvTransform, x, y);
+// 	console.log(p);
 	var a = {x:0, y:0};
 	var d = {x:this.getWidth(), y:this.getHeight()};
 	
@@ -392,12 +393,12 @@ CrocBase.prototype.convertToPixels = function(value, reference) {
 	if(typeof value === 'string') {
 		//It's a pixel
 		if(value.indexOf('px', value.length - 2) !== -1) {
-			return retValue = parseInt(value.substring(0, value.length - 2))
+			return retValue = parseInt(value.substring(0, value.length - 2));
 			
 		}
 		
 		else if(value.indexOf('%', value.length - 1) !== -1) {
-			var percent = parseFloat(value.substring(0, value.length - 1))
+			var percent = parseFloat(value.substring(0, value.length - 1));
 			return Math.round(reference * (percent/100.0));
 		}
 	}

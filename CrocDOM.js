@@ -26,6 +26,7 @@ function CrocDOM(root, contents) {
 
 //We inherit everything from CrocBase
 CrocDOM.prototype = Object.create(CrocBase.prototype);
+CrocDOM.prototype.constructor = CrocDOM;
 
 CrocDOM.prototype.updateContents = function() {
 	var currentCrocDOM = this;
@@ -41,9 +42,13 @@ CrocDOM.prototype.updateContents = function() {
 	var data = 
 		'data:image/svg+xml,' +
 		'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="' + this.getWidth().toString() + 'px" height="' + this.getHeight().toString() + 'px">' +
-		'<foreignObject x="0" y="0" width="100%" height="100%" requiredExtensions="http://www.w3.org/1999/xhtml">' +
+		'<g>' + 
+		'<foreignObject x="0" y="0" width="100%" height="100%">' +
+		'<body xmlns="http://www.w3.org/1999/xhtml" style="margin: 0px; height: 100%;">' +
 		tempDomClone.outerHTML +
+		'</body>' +
 		'</foreignObject>' +
+		'</g>' + 
 		'</svg>';
 
 	this.drawReady = false;

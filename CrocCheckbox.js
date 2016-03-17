@@ -54,6 +54,7 @@ function CrocCheckbox(root, tr, t, tl, l, r, bl, b, br, bkg, unchecked) {
 
 //We inherit everything from CrocBase
 CrocCheckbox.prototype = Object.create(CrocBase.prototype);
+CrocCheckbox.prototype.constructor = CrocCheckbox;
 
 CrocCheckbox.prototype.getValue = function() {
 	return this.value;

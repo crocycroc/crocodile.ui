@@ -14,6 +14,7 @@ function CrocHTMLTextfield(root, value) {
 
 //We inherit everything from CrocBase
 CrocHTMLTextfield.prototype = Object.create(CrocDOM.prototype);
+CrocHTMLTextfield.prototype.constructor = CrocHTMLTextfield;
 
 CrocHTMLTextfield.prototype.setSize = function(size) {
 	this.domObject.childNodes[0].size = size;

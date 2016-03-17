@@ -18,6 +18,7 @@ function CrocImageSimple(root, imgSrc) {
 };
 
 CrocImageSimple.prototype = Object.create(CrocBase.prototype);
+CrocImageSimple.prototype.constructor = CrocImageSimple;
 
 CrocImageSimple.prototype.setScaling = function(scaling) {
 	

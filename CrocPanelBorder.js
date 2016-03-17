@@ -47,6 +47,7 @@ function CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg) {
 };
 
 CrocPanelBorder.prototype = Object.create(CrocPanel.prototype);
+CrocPanelBorder.prototype.constructor = CrocPanelBorder;
 
 CrocPanelBorder.prototype.hitTest = function(context, x, y, width, height) {
 	

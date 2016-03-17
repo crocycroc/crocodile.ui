@@ -8,6 +8,7 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	
 	this.canvas = canvas;
 	this.hitCanvas = hitCanvas;
+	this.scaleFactor = 1.0;
 	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
@@ -123,11 +124,13 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 		this.hitCanvas.height = window.innerHeight;
 	}
 	
+// 	this.setDPI(144);
 	
 	this.repaint();
 };
 
 CrocRoot.prototype = Object.create(CrocBase.prototype);
+CrocRoot.prototype.constructor = CrocRoot;
 
 CrocRoot.prototype.getCrocRoot = function() {
 	return this;
@@ -434,7 +437,9 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	
 	//Reset context transformation
 	this.clearHitContext();
-	
+	this.hitContext.save();
+	this.hitContext.scale(this.scaleFactor, this.scaleFactor);
+		
 	for(var key in this.children) {
 		hitObject = this.children[key].hitTest(this.hitContext, x, y, this.getWidth(), this.getHeight());
 		
@@ -442,6 +447,8 @@ CrocRoot.prototype.hitTest = function(x, y) {
 			hitReturn.push(hitObject);
 		}
 	}
+	
+	this.hitContext.restore();
 	
 	return hitReturn;
 };
@@ -455,17 +462,23 @@ CrocRoot.prototype.setSmooth = function(smooth) {
 };
 
 CrocRoot.prototype.setDPI = function(dpi) {
-	// Set up CSS size if it's not set up already
-	if (!this.canvas.style.width)
-		this.canvas.style.width = this.canvas.width + 'px';
 	
-	if (!this.canvas.style.height)
+	// Set up CSS size if it's not set up already
+	if (!this.canvas.style.width) {
+		this.canvas.style.width = this.canvas.width + 'px';
+		this.hitCanvas.style.width = this.hitCanvas.width + 'px';
+	}
+	
+	if (!this.canvas.style.height) {
 		this.canvas.style.height = this.canvas.height + 'px';
+		this.hitCanvas.style.height = this.hitCanvas.height + 'px';
+	}
 
-	var scaleFactor = dpi / 96;
-	this.canvas.width = Math.ceil(this.canvas.width * scaleFactor);
-	this.canvas.height = Math.ceil(this.canvas.height * scaleFactor);
-	this.context.scale(scaleFactor, scaleFactor);
+	this.scaleFactor = dpi / 96;
+	this.canvas.width = Math.ceil(this.canvas.width * this.scaleFactor);
+	this.canvas.height = Math.ceil(this.canvas.height * this.scaleFactor);
+	this.hitCanvas.width = Math.ceil(this.hitCanvas.width * this.scaleFactor);
+	this.hitCanvas.height = Math.ceil(this.hitCanvas.height * this.scaleFactor);
 }
 
 CrocRoot.prototype.paint = function() {
@@ -482,7 +495,7 @@ CrocRoot.prototype.paint = function() {
 	if(this.dirty && this.visible) {
 		this.dirty = false;
 		this.context.save();
-		
+		this.context.scale(this.scaleFactor, this.scaleFactor);
 		//Reset context transformation
 		this.clear();
 		

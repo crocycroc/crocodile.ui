@@ -16,6 +16,7 @@ function CrocAnalogMeter(root, value) {
 
 //We inherit everything from CrocBase
 CrocAnalogMeter.prototype = Object.create(CrocBase.prototype);
+CrocAnalogMeter.prototype.constructor = CrocAnalogMeter;
 
 CrocAnalogMeter.prototype.setValue = function(value) {
 	

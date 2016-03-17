@@ -6,6 +6,7 @@ function CrocPanel(root) {
 };
 
 CrocPanel.prototype = Object.create(CrocBase.prototype);
+CrocPanel.prototype.constructor = CrocPanel;
 
 CrocPanel.prototype.addChild = function(uiObject, x, y, rotation, width, height) {
 	if(CrocBase.prototype.addChild.call(this, uiObject) === false) {

@@ -82,6 +82,7 @@ function CrocTextfield(root, value) {
 
 //We inherit everything from CrocBase
 CrocTextfield.prototype = Object.create(CrocBase.prototype);
+CrocTextfield.prototype.constructor = CrocTextfield;
 
 CrocTextfield.prototype.setSize = function(size) {
 	this.htmlTextfield.setSize(size);

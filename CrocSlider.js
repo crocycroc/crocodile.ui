@@ -79,6 +79,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 
 //We inherit everything from CrocBase
 CrocSlider.prototype = Object.create(CrocBase.prototype);
+CrocSlider.prototype.constructor = CrocSlider;
 
 CrocSlider.prototype.getValue = function() {
 	return this.value;

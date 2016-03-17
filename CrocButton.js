@@ -57,6 +57,7 @@ function CrocButton(root, normal, hover, pressed) {
 };
 
 CrocButton.prototype = Object.create(CrocBase.prototype);
+CrocButton.prototype.constructor = CrocButton;
 
 CrocButton.prototype.setState = function(state) {
 	

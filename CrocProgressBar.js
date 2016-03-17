@@ -45,6 +45,7 @@ function CrocProgressBar(root, value) {
 
 //We inherit everything from CrocBase
 CrocProgressBar.prototype = Object.create(CrocBase.prototype);
+CrocProgressBar.prototype.constructor = CrocProgressBar;
 
 CrocProgressBar.prototype.setMaxValue = function(maxValue) {
 	

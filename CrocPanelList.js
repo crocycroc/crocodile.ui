@@ -6,6 +6,7 @@ function CrocPanelList(root) {
 };
 
 CrocPanelList.prototype = Object.create(CrocBase.prototype);
+CrocPanelList.prototype.constructor = CrocPanelList;
 
 CrocPanelList.prototype.setSpacing = function(spacing) {
 	if(spacing === undefined) {
