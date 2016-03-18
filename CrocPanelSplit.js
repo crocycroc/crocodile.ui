@@ -8,35 +8,35 @@ function CrocPanelSplit(root,
 	
 	CrocBase.call(this, root);
 	
-	tr = tr || "theme/CrocSlider/groove-topright.png";
-	t = t || "theme/CrocSlider/groove-top.png";
-	tl = tl || "theme/CrocSlider/groove-topleft.png";
-	l = l || "theme/CrocSlider/groove-left.png";
-	r = r || "theme/CrocSlider/groove-right.png";
-	bl = bl || "theme/CrocSlider/groove-bottomleft.png";
-	b = b || "theme/CrocSlider/groove-bottom.png";
-	br = br || "theme/CrocSlider/groove-bottomright.png";
-	bkg = bkg || "theme/CrocSlider/groove-center.png";
+	tr = tr || "theme/CrocPanelSplit/groove-topright.png";
+	t = t || "theme/CrocPanelSplit/groove-top.png";
+	tl = tl || "theme/CrocPanelSplit/groove-topleft.png";
+	l = l || "theme/CrocPanelSplit/groove-left.png";
+	r = r || "theme/CrocPanelSplit/groove-right.png";
+	bl = bl || "theme/CrocPanelSplit/groove-bottomleft.png";
+	b = b || "theme/CrocPanelSplit/groove-bottom.png";
+	br = br || "theme/CrocPanelSplit/groove-bottomright.png";
+	bkg = bkg || "theme/CrocPanelSplit/groove-center.png";
 	
-	trH = trH || "theme/CrocSlider/groove-topright.png";
-	tH = tH || "theme/CrocSlider/groove-top.png";
-	tlH = tlH || "theme/CrocSlider/groove-topleft.png";
-	lH = lH || "theme/CrocSlider/groove-left.png";
-	rH = rH || "theme/CrocSlider/groove-right.png";
-	blH = blH || "theme/CrocSlider/groove-bottomleft.png";
-	bH = bH || "theme/CrocSlider/groove-bottom.png";
-	brH = brH || "theme/CrocSlider/groove-bottomright.png";
-	bkgH = bkgH || "theme/CrocSlider/groove-center.png";
+	trH = trH || "theme/CrocPanelSplit/groove-highlight-topright.png";
+	tH = tH || "theme/CrocPanelSplit/groove-highlight-top.png";
+	tlH = tlH || "theme/CrocPanelSplit/groove-highlight-topleft.png";
+	lH = lH || "theme/CrocPanelSplit/groove-highlight-left.png";
+	rH = rH || "theme/CrocPanelSplit/groove-highlight-right.png";
+	blH = blH || "theme/CrocPanelSplit/groove-highlight-bottomleft.png";
+	bH = bH || "theme/CrocPanelSplit/groove-highlight-bottom.png";
+	brH = brH || "theme/CrocPanelSplit/groove-highlight-bottomright.png";
+	bkgH = bkgH || "theme/CrocPanelSplit/groove-highlight-center.png";
 	
-	trF = trF || "theme/CrocSlider/groove-topright.png";
-	tF = tF || "theme/CrocSlider/groove-top.png";
-	tlF = tlF || "theme/CrocSlider/groove-topleft.png";
-	lF = lF || "theme/CrocSlider/groove-left.png";
-	rF = rF || "theme/CrocSlider/groove-right.png";
-	blF = blF || "theme/CrocSlider/groove-bottomleft.png";
-	bF = bF || "theme/CrocSlider/groove-bottom.png";
-	brF = brF || "theme/CrocSlider/groove-bottomright.png";
-	bkgF = bkgF || "theme/CrocSlider/groove-center.png";
+	trF = trF || "theme/CrocPanelSplit/groove-highlight-topright.png";
+	tF = tF || "theme/CrocPanelSplit/groove-highlight-top.png";
+	tlF = tlF || "theme/CrocPanelSplit/groove-highlight-topleft.png";
+	lF = lF || "theme/CrocPanelSplit/groove-highlight-left.png";
+	rF = rF || "theme/CrocPanelSplit/groove-highlight-right.png";
+	blF = blF || "theme/CrocPanelSplit/groove-highlight-bottomleft.png";
+	bF = bF || "theme/CrocPanelSplit/groove-highlight-bottom.png";
+	brF = brF || "theme/CrocPanelSplit/groove-highlight-bottomright.png";
+	bkgF = bkgF || "theme/CrocPanelSplit/groove-highlight-center.png";
 	
 	this.gripper = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
 	this.gripperHover = new CrocPanelBorder(root, trH, tH, tlH, lH, rH, blH, bH, brH, bkgH);
@@ -91,11 +91,11 @@ CrocPanelSplit.prototype.constructor = CrocPanelSplit;
 CrocPanelSplit.prototype._gripperMouseMove = function(e) {
 	if(!this.hasFocus()) {
 		this.setMode('hover');
-		this.getRoot().setCursor("pointer");
+		this.getRoot().setCursor("move");
 	}
 	
 	else {
-		this.getRoot().setCursor("pointer");
+		this.getRoot().setCursor("move");
 	}
 	
 	return false;
