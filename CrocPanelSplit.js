@@ -63,6 +63,12 @@ function CrocPanelSplit(root,
 		return true;
 	});
 	
+	this.addEventListener('mouseup', function(e) {
+		this.blur();
+		
+		return true;
+	});
+	
 	this.gripper.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'normal') currentPanelSplit._gripperMouseMove(e);});
 	this.gripper.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'normal') currentPanelSplit._gripperMouseLeave(e);});
 	this.gripper.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'normal') currentPanelSplit._gripperMouseDown(e);});
