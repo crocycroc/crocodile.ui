@@ -52,7 +52,7 @@ function CrocButton(root, normal, hover, pressed) {
 	
 	this.addEventListener('mouseup', function(e) {
 		this.focus();
-		this.setState('normal');
+		this.setState('hover');
 	});
 };
 

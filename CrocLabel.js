@@ -129,7 +129,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	for(var i = 0; i < splittedText.length; i++) {
 		var currentDeviderText = '';
 		
-		if(deviderText[i] !== undefined) {
+		if(deviderText !== null && deviderText[i] !== undefined) {
 			currentDeviderText = deviderText[i];
 		}
 		

@@ -45,6 +45,7 @@
 			var buttonB = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
 			var buttonC = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
 			var buttonD = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var buttonLabeled = new CrocButtonLabeled(root, "Testing");
 			var zebraImage = new CrocImageSimple(root, "imgs/zebra.jpg");
 			var testLabel = new CrocLabel(root, "Hello World! Long time no see, good to know that all is well and I can trust that the future is bright! With word wrapping we can easily create rich text experiances.", "18px Arial", "Red");
 			testLabel.setAlignment("center", "start");
@@ -201,7 +202,7 @@
 			buttonsPanelList.addChild(testCheckbox);
 			
 			
-// 			buttonsPanelList.addChild(buttonD);
+			buttonsPanelList.addChild(buttonLabeled);
 // 			buttonsPanelList.addChild(buttonD);
 // 			buttonsPanelList.addChild(buttonD);
 // 			buttonsPanelList.addChild(buttonD);
