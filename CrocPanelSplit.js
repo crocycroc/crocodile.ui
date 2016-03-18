@@ -58,6 +58,7 @@ function CrocPanelSplit(root,
 	this.addEventListener('mousemove', function(e){
 		if(this.hasFocus()) {
 			this.globalPointToSplitSize(e.x, e.y);
+			return false;
 		}
 		
 		return true;
