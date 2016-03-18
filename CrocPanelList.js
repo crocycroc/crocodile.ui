@@ -58,6 +58,8 @@ CrocPanelList.prototype.hitTest = function(context, x, y, width, height) {
 	
 	var hitObject = CrocBase.prototype.hitTest.call(this, context, x, y, width, height);
 	
+	context.save();
+	
 	if(hitObject !== null) {
 		hitReturn.push(hitObject);
 	}
@@ -80,7 +82,6 @@ CrocPanelList.prototype.hitTest = function(context, x, y, width, height) {
 			
 		}
 		
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
 	
 	else {
@@ -100,8 +101,9 @@ CrocPanelList.prototype.hitTest = function(context, x, y, width, height) {
 			context.translate(childrenWidth + realSpacing, 0);
 		}
 		
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
+	
+	context.restore();
 	
 	return hitReturn;
 };
@@ -130,8 +132,6 @@ CrocPanelList.prototype.paint = function(context, width, height) {
 			context.translate(0, childrenHeight + realSpacing);
 			
 		}
-		
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
 	
 	else {
@@ -146,8 +146,6 @@ CrocPanelList.prototype.paint = function(context, width, height) {
 		
 			context.translate(childrenWidth + realSpacing, 0);
 		}
-		
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
 	}
 	
 	context.restore();

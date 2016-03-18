@@ -393,7 +393,7 @@ CrocBase.prototype.convertToPixels = function(value, reference) {
 	if(typeof value === 'string') {
 		//It's a pixel
 		if(value.indexOf('px', value.length - 2) !== -1) {
-			return retValue = parseInt(value.substring(0, value.length - 2));
+			return parseInt(value.substring(0, value.length - 2));
 			
 		}
 		
@@ -412,5 +412,30 @@ CrocBase.prototype.convertToPixels = function(value, reference) {
 	}
 	
 	return reference;
+};
+
+CrocBase.prototype.convertToPercentile = function(value, reference) {
+
+	if(typeof value === 'string') {
+		//It's a pixel
+		if(value.indexOf('px', value.length - 2) !== -1) {
+			return ((parseInt(value.substring(0, value.length - 2))/reference) * 100).toFixed(2) + '%';
+			
+		}
+		
+		else if(value.indexOf('%', value.length - 1) !== -1) {
+			return value;
+		}
+	}
+	
+	else if(typeof value === 'number') {
+		return ((value/reference) * 100).toFixed(2) + '%';
+	}
+	
+	else if(value === null || value === undefined) {
+		return '0%';
+	}
+	
+	return '0%';
 };
 
