@@ -296,7 +296,7 @@ CrocPanelSplit.prototype.hitTest = function(context, x, y, width, height) {
 			hitReturn.push(hitObject);
 		}
 		
-		context.translate(0, (realSpacing/2) + tlh);
+		context.translate(0, (realSpacing/2) + (tlh * 2));
 		
 		if(this.children.length > 1) {
 			var bottomChild = this.children[1];
@@ -396,7 +396,7 @@ CrocPanelSplit.prototype.paint = function(context, width, height) {
 		
 		currentGripper.paint(context, this.width, tlh * 2);
 		
-		context.translate(0, (realSpacing/2) + tlh);
+		context.translate(0, (realSpacing/2) + (tlh * 2));
 		
 		if(this.children.length > 1) {
 			var bottomChild = this.children[1];
