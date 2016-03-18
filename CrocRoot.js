@@ -96,6 +96,7 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	this.imageStoreListeners = {};
 	this.dirty = false;
 	this.paintWarnings = [];
+	this.globalPaintWarning = false;
 	
 	this.canvas.addEventListener('mousemove', function(e) {
 		currentCrocRoot.onMouseMove(e);
@@ -112,7 +113,6 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	this.canvas.addEventListener('click', function(e) {
 		currentCrocRoot.onClick(e);
 	});
-	
 	
 	window.addEventListener('resize', function() { currentCrocRoot.onCanvasResize() }, false);
 	
@@ -296,6 +296,11 @@ CrocRoot.prototype.clearPaintWarnings = function() {
 	return;
 };
 
+CrocRoot.prototype.setGlobalPaintWarning = function(warning) {
+	this.globalPaintWarning = warning;
+	this.repaint();
+};
+
 CrocRoot.prototype.testPaintWarnings = function(object, transform) {
 	
 	var tl = this.transformPoint(transform, 0, 0);
@@ -311,7 +316,11 @@ CrocRoot.prototype.testPaintWarnings = function(object, transform) {
 	for(var i = 0; i < this.paintWarnings.length; i++) {
 		var currentPaintWarning = this.paintWarnings[i];
 		
-		if (
+		if(this.globalPaintWarning) {
+			currentPaintWarning.object.event("paintWarning", object);
+		}
+		
+		else if (
 			sX < currentPaintWarning.max.x &&
 			mX > currentPaintWarning.min.x &&
 			sY < currentPaintWarning.max.y &&

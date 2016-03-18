@@ -110,6 +110,8 @@ CrocPanelSplit.prototype._gripperMouseLeave = function(e) {
 	
 	this.getRoot().setCursor("");
 	
+	console.log("mouse left...");
+	
 	return false;
 };
 
@@ -120,11 +122,14 @@ CrocPanelSplit.prototype._gripperMouseDown = function(e) {
 	
 	this.event('grippermoved', null);
 	
+	this.getRoot().setGlobalPaintWarning(true);
 	this.setMode('focus');
 };
 
 CrocPanelSplit.prototype._gripperMouseUp = function(e) {
 	this.blur();
+	
+	this.getRoot().setGlobalPaintWarning(false);
 	this.setMode('hover');
 };
 
