@@ -54,6 +54,7 @@ function CrocPanelSplit(root,
 	this.splitSize = '50%';
 	this.splitMinimumSize = '10%';
 	this.splitMaximumSize = '90%';
+	this.showGripper = true;
 	
 	this.addEventListener('mousemove', function(e){
 		if(this.hasFocus()) {
@@ -70,20 +71,20 @@ function CrocPanelSplit(root,
 		return true;
 	});
 	
-	this.gripper.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'normal') currentPanelSplit._gripperMouseMove(e);});
-	this.gripper.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'normal') currentPanelSplit._gripperMouseLeave(e);});
-	this.gripper.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'normal') currentPanelSplit._gripperMouseDown(e);});
-	this.gripper.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'normal') currentPanelSplit._gripperMouseUp(e);});
+	this.gripper.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
+	this.gripper.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
+	this.gripper.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
+	this.gripper.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
 	
-	this.gripperHover.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'hover') currentPanelSplit._gripperMouseMove(e);});
-	this.gripperHover.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'hover') currentPanelSplit._gripperMouseLeave(e);});
-	this.gripperHover.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'hover') currentPanelSplit._gripperMouseDown(e);});
-	this.gripperHover.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'hover') currentPanelSplit._gripperMouseUp(e);});
+	this.gripperHover.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
+	this.gripperHover.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
+	this.gripperHover.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
+	this.gripperHover.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
 	
-	this.gripperFocused.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'focus') currentPanelSplit._gripperMouseMove(e);});
-	this.gripperFocused.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'focus') currentPanelSplit._gripperMouseLeave(e);});
-	this.gripperFocused.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'focus') currentPanelSplit._gripperMouseDown(e);});
-	this.gripperFocused.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'focus') currentPanelSplit._gripperMouseUp(e);});
+	this.gripperFocused.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
+	this.gripperFocused.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
+	this.gripperFocused.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
+	this.gripperFocused.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
 };
 
 CrocPanelSplit.prototype = Object.create(CrocBase.prototype);
@@ -133,6 +134,13 @@ CrocPanelSplit.prototype.setSpacing = function(spacing) {
 	}
 	
 	this.spacing = spacing;
+	
+	this.getRoot().repaint();
+};
+
+CrocPanelSplit.prototype.setShowGripper = function(show) {
+	
+	this.showGripper = (show === true);
 	
 	this.getRoot().repaint();
 };
@@ -287,16 +295,22 @@ CrocPanelSplit.prototype.hitTest = function(context, x, y, width, height) {
 			}
 		}
 
-		//Paint the currentGripper in the middle of the spacing area
-		context.translate(0, topHeight + (realSpacing/2) - (tlh * 2));
+		if(this.showGripper) {
+			//Paint the currentGripper in the middle of the spacing area
+			context.translate(0, topHeight + (realSpacing/2) - (tlh * 2));
 		
-		hitObject = currentGripper.hitTest(context, x, y, this.width, tlh * 2);
+			hitObject = currentGripper.hitTest(context, x, y, this.width, tlh * 2);
 		
-		if(hitObject !== null) {
-			hitReturn.push(hitObject);
+			if(hitObject !== null) {
+				hitReturn.push(hitObject);
+			}
+		
+			context.translate(0, (realSpacing/2) + (tlh * 2));
 		}
 		
-		context.translate(0, (realSpacing/2) + (tlh * 2));
+		else {
+			context.translate(0, topHeight + realSpacing);
+		}
 		
 		if(this.children.length > 1) {
 			var bottomChild = this.children[1];
@@ -324,16 +338,22 @@ CrocPanelSplit.prototype.hitTest = function(context, x, y, width, height) {
 			}
 		}
 
-		//Paint the currentGripper in the middle of the spacing area
-		context.translate(leftWidth + (realSpacing/2) - (tlw * 2), 0);
-		
-		hitObject = currentGripper.hitTest(context, x, y, tlw * 2, this.height);
-		
-		if(hitObject !== null) {
-			hitReturn.push(hitObject);
+		if(this.showGripper) {
+			//Paint the currentGripper in the middle of the spacing area
+			context.translate(leftWidth + (realSpacing/2) - (tlw * 2), 0);
+			
+			hitObject = currentGripper.hitTest(context, x, y, tlw * 2, this.height);
+			
+			if(hitObject !== null) {
+				hitReturn.push(hitObject);
+			}
+			
+			context.translate((realSpacing/2) + (tlw * 2), 0);
 		}
 		
-		context.translate((realSpacing/2) + (tlw * 2), 0);
+		else {
+			context.translate(leftWidth + realSpacing, 0);
+		}
 		
 		if(this.children.length > 1) {
 			var rightChild = this.children[1];
@@ -391,12 +411,18 @@ CrocPanelSplit.prototype.paint = function(context, width, height) {
 			topChild.paint(context, this.width, topHeight - realSpacing);
 		}
 
-		//Paint the currentGripper in the middle of the spacing area
-		context.translate(0, topHeight + (realSpacing/2) - (tlh * 2));
+		if(this.showGripper) {
+			//Paint the currentGripper in the middle of the spacing area
+			context.translate(0, topHeight + (realSpacing/2) - (tlh * 2));
+			
+			currentGripper.paint(context, this.width, tlh * 2);
+			
+			context.translate(0, (realSpacing/2) + (tlh * 2));
+		}
 		
-		currentGripper.paint(context, this.width, tlh * 2);
-		
-		context.translate(0, (realSpacing/2) + (tlh * 2));
+		else {
+			context.translate(0, topHeight + realSpacing);
+		}
 		
 		if(this.children.length > 1) {
 			var bottomChild = this.children[1];
@@ -416,12 +442,18 @@ CrocPanelSplit.prototype.paint = function(context, width, height) {
 			leftChild.paint(context, leftWidth - realSpacing, this.height);
 		}
 
-		//Paint the currentGripper in the middle of the spacing area
-		context.translate(leftWidth + (realSpacing/2) - (tlw * 2), 0);
+		if(this.showGripper) {
+			//Paint the currentGripper in the middle of the spacing area
+			context.translate(leftWidth + (realSpacing/2) - (tlw * 2), 0);
+			
+			currentGripper.paint(context, tlw * 2, this.height);
+			
+			context.translate((realSpacing/2) + (tlw * 2), 0);
+		}
 		
-		currentGripper.paint(context, tlw * 2, this.height);
-		
-		context.translate((realSpacing/2) + (tlw * 2), 0);
+		else {
+			context.translate(leftWidth + realSpacing, 0);
+		}
 		
 		if(this.children.length > 1) {
 			var rightChild = this.children[1];
