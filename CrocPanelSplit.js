@@ -288,9 +288,9 @@ CrocPanelSplit.prototype.hitTest = function(context, x, y, width, height) {
 		}
 
 		//Paint the currentGripper in the middle of the spacing area
-		context.translate(0, topHeight + (realSpacing/2) - tlh);
+		context.translate(0, topHeight + (realSpacing/2) - (tlh * 2));
 		
-		hitObject = currentGripper.hitTest(context, x, y, this.width, (realSpacing/2) + tlh);
+		hitObject = currentGripper.hitTest(context, x, y, this.width, tlh * 2);
 		
 		if(hitObject !== null) {
 			hitReturn.push(hitObject);
@@ -392,9 +392,9 @@ CrocPanelSplit.prototype.paint = function(context, width, height) {
 		}
 
 		//Paint the currentGripper in the middle of the spacing area
-		context.translate(0, topHeight + (realSpacing/2) - tlh);
+		context.translate(0, topHeight + (realSpacing/2) - (tlh * 2));
 		
-		currentGripper.paint(context, this.width, (realSpacing/2) + tlh);
+		currentGripper.paint(context, this.width, tlh * 2);
 		
 		context.translate(0, (realSpacing/2) + tlh);
 		

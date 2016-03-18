@@ -55,7 +55,7 @@
 			var testHoziPanelList = new CrocPanelSplit(root);
 			var buttonsPanelList = new CrocPanelList(root);
 			testHoziPanelList.setOrientation("horizontal");
-			var testPanelList = new CrocPanelList(root);
+			var testPanelList = new CrocPanelSplit(root);
 			var otherPanelList = new CrocPanelList(root);
 			var testDom = new CrocDOM(root, 
 				'<em>I</em> like ' + 
@@ -69,7 +69,7 @@
 			var testAnalogMeter = new CrocAnalogMeter(root);
 			var testProgressBar = new CrocProgressBar(root);
 			var testButtonLabeled = new CrocButtonLabeled(root, "Test Me! And this should wrap while centered in the middle of the button.");
-			testSlider.setTargetWidth("400px");
+			testSlider.setTargetWidth("50%");
 // 			testSlider.setOrientation("verticle");
 			testProgressBar.setTargetWidth("400px");
 			testButtonLabeled.setTargetWidth("300px");
