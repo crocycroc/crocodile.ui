@@ -100,6 +100,8 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 		return;
 	}
 	
+	context.save();
+	
 	var parentTransform = context.getCurrentTransform();
 	
 	var interiorWidth = 0;
@@ -168,8 +170,8 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	//We don't want that so we convert back here.
 	this.width = this.convertToPixels(this.targetWidth, width);
 	this.height = this.convertToPixels(this.targetHeight, height);
-	
-	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+
+	context.restore();
 	
 	return;
 	

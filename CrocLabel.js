@@ -83,11 +83,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 		return;
 	}
 	
-	//Thought shalt preserve and return the state of everything that you change before you are done paiting!
-	var origFont = context.getContext().font;
-	var origTextAlign = context.getContext().textAlign;
-	var origTextBaseline = context.getContext().textBaseline;
-	var origFillColor = context.getContext().fillStyle;
+	context.save();
 	
 	var splittedText = [];
 	var deviderText = [];
@@ -196,10 +192,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	
 	context.fillText(currentLine, x, y + this.textHeight);
 
-	context.getContext().font = origFont;
-	context.getContext().textBaseline = origTextAlign;
-	context.getContext().textAlign = origTextBaseline;
-	context.getContext().fillStyle = origFillColor;
+	context.restore();
 	
 	return;
 };

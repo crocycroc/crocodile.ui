@@ -102,7 +102,7 @@ CrocButton.prototype.getWidth = function () {
 			break;
 			
 		default:
-			return 0;
+			return this.normal.getWidth();
 			break;
 	}
 };
@@ -124,7 +124,7 @@ CrocButton.prototype.getHeight = function() {
 			break;
 			
 		default:
-			return 0;
+			return this.normal.getHeight();
 			break;
 	}
 };
@@ -153,7 +153,7 @@ CrocButton.prototype.paint = function(context, width, height) {
 			break;
 			
 		default:
-			return;
+			this.normal.paint(context, width, height);
 			break;
 	}
 	
