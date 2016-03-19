@@ -48,9 +48,9 @@ function CrocTabView(root,
 // 	trH, tH, tlH, lH, rH, blH, bH, brH, bkgH,
 // 	trF, tF, tlF, lF, rF, blF, bF, brF, bkgF);
 
-	this.tabSize = "24px";
-	this.tabLength = "40px";
-	this.tabSpacing = "10px";
+	this.tabSize = "42px";
+	this.tabLength = "80px";
+	this.tabSpacing = "2px";
 	this.currentTab = null;
 	
 	//Tabs can be on the top, bottom, left, or right.
@@ -82,7 +82,13 @@ CrocTabView.prototype._tabMouseLeave = function(tab) {
 };
 
 CrocTabView.prototype._tabMouseDown = function(tab) {
-	this.setCurrentTabByUuid(tab.uuid);
+	
+	for(var k in this.tabs) {
+		if(this.tabs[k] === tab) {
+			this.setCurrentTabByUuid(k);
+			return;
+		}
+	}
 };
 
 CrocTabView.prototype._tabMouseUp = function(tab) {
@@ -201,6 +207,94 @@ CrocTabView.prototype.hitTest = function(context, x, y, width, height) {
 		hitReturn.push(hitObject);
 	}
 	
+	var tabsWidth = 0;
+	var tabSpacing = 0;
+	var childWidth = 0;
+	var childHeight = 0;
+	var realTabSize = 0;
+	
+	switch(this.tabPosition) {
+		case "top":
+			realTabSize = this.convertToPixels(this.tabSize, this.getHeight());
+			childWidth = this.getWidth();
+			childHeight = this.getHeight() - realTabSize;
+			tabsWidth = this.convertToPixels(this.tabLength, this.getWidth());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getWidth());
+			break;
+			
+		case "bottom":
+			realTabSize = this.convertToPixels(this.tabSize, this.getHeight());
+			childWidth = this.getWidth();
+			childHeight = this.getHeight() - realTabSize;
+			tabsWidth = this.convertToPixels(this.tabLength, this.getWidth());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getWidth());
+			context.translate(0, childHeight);
+			break;
+			
+		case "left":
+			realTabSize = this.convertToPixels(this.tabSize, this.getWidth());
+			childWidth = this.getWidth() - realTabSize;
+			childHeight = this.getHeight();
+			tabsWidth = this.convertToPixels(this.tabLength, this.getHeight());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getHeight());
+			context.rotate(-Math.PI/2);
+			context.translate(-this.getHeight(), 0);
+			break;
+			
+		case "right":
+			realTabSize = this.convertToPixels(this.tabSize, this.getWidth());
+			childWidth = this.getWidth() - realTabSize;
+			childHeight = this.getHeight();
+			tabsWidth = this.convertToPixels(this.tabLength, this.getHeight());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getHeight());
+			context.rotate(Math.PI/2);
+			context.translate(0, -childWidth - realTabSize);
+			break;
+	}
+	
+	//Paint the tabs with the labels from "tabs"
+	
+	for(var k in this.tabs) {
+		hitObject = this.tabs[k].hitTest(context, x, y, tabsWidth, realTabSize);
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.translate(tabsWidth + tabSpacing, 0);
+	}
+	
+	context.restore();
+	context.save();
+	
+	//Now translate based on where we have painted and draw the current tab child.
+	switch(this.tabPosition) {
+		case "top":
+			context.translate(0, realTabSize);
+			break;
+			
+		case "bottom":
+			break;
+			
+		case "left":
+			context.translate(realTabSize, 0);
+			break;
+			
+		case "right":
+			break;
+	}
+	
+	for(var i = 0; i < this.children.length; i++) {
+		if(this.children[i].uuid === this.currentTab) {
+			hitObject = this.children[i].hitTest(context, x, y, childWidth, childHeight);
+			
+			if(hitObject !== null) {
+				hitReturn.push(hitObject);
+			}
+		
+			break;
+		}
+	}
 	
 	context.restore();
 	
@@ -213,6 +307,8 @@ CrocTabView.prototype.paint = function(context, width, height) {
 	if(!this.visible) {
 		return;
 	}
+
+	context.save();
 	
 	var tabsWidth = 0;
 	var tabSpacing = 0;
@@ -220,46 +316,42 @@ CrocTabView.prototype.paint = function(context, width, height) {
 	var childHeight = 0;
 	var realTabSize = 0;
 	
-	//First we are going to paint the tabs.
-	//Based on their position we may be painting them in certain locations.
-	//Once the tabs are painted, we will paint the current tabs child.
-	
-	//First transform the context into the proper position based on tab location
-	
-	context.save();
-	
 	switch(this.tabPosition) {
 		case "top":
-			realTabSize = this.convertToPixels(this.tabSize, this.height);
-			childWidth = this.width;
-			childHeight = this.height - realTabSize;
-			tabsWidth = this.convertToPixels(this.tabLength, this.width);
-			tabSpacing = this.convertToPixels(this.tabSpacing, this.width);
+			realTabSize = this.convertToPixels(this.tabSize, this.getHeight());
+			childWidth = this.getWidth();
+			childHeight = this.getHeight() - realTabSize;
+			tabsWidth = this.convertToPixels(this.tabLength, this.getWidth());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getWidth());
 			break;
 			
 		case "bottom":
-			realTabSize = this.convertToPixels(this.tabSize, this.height);
-			childWidth = this.width;
-			childHeight = this.height - realTabSize;
+			realTabSize = this.convertToPixels(this.tabSize, this.getHeight());
+			childWidth = this.getWidth();
+			childHeight = this.getHeight() - realTabSize;
+			tabsWidth = this.convertToPixels(this.tabLength, this.getWidth());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getWidth());
 			context.translate(0, childHeight);
-			tabsWidth = this.convertToPixels(this.tabLength, this.width);
-			tabSpacing = this.convertToPixels(this.tabSpacing, this.width);
 			break;
 			
 		case "left":
-			realTabSize = this.convertToPixels(this.tabSize, this.width);
-			childWidth = this.width - realTabSize;
-			childHeight = this.height;
-			tabsWidth = this.convertToPixels(this.tabLength, this.height);
-			tabSpacing = this.convertToPixels(this.tabSpacing, this.height);
+			realTabSize = this.convertToPixels(this.tabSize, this.getWidth());
+			childWidth = this.getWidth() - realTabSize;
+			childHeight = this.getHeight();
+			tabsWidth = this.convertToPixels(this.tabLength, this.getHeight());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getHeight());
+			context.rotate(-Math.PI/2);
+			context.translate(-this.getHeight(), 0);
 			break;
 			
 		case "right":
-			realTabSize = this.convertToPixels(this.tabSize, this.width);
-			childWidth = this.width - realTabSize;
-			childHeight = this.height;
-			tabsWidth = this.convertToPixels(this.tabLength, this.height);
-			tabSpacing = this.convertToPixels(this.tabSpacing, this.height);
+			realTabSize = this.convertToPixels(this.tabSize, this.getWidth());
+			childWidth = this.getWidth() - realTabSize;
+			childHeight = this.getHeight();
+			tabsWidth = this.convertToPixels(this.tabLength, this.getHeight());
+			tabSpacing = this.convertToPixels(this.tabSpacing, this.getHeight());
+			context.rotate(Math.PI/2);
+			context.translate(0, -childWidth - realTabSize);
 			break;
 	}
 	

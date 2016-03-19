@@ -73,17 +73,17 @@ CrocBase.prototype.removeEventListener = function(event, callback) {
 };
 
 CrocBase.prototype.removeAllEventListeners = function(event) {
+	if(event === undefined) {
+		this.listeners = {};
+		return true;
+	}
+	
 	if(!(event in this.listeners)) {
 		return false;
 	}
 	
-	if(event !== undefined) {
-		this.listeners[event] = [];
-	}
-	
-	else {
-		this.listeners = {};
-	}
+	this.listeners[event] = [];
+	return true;
 };
 
 CrocBase.prototype.addChild = function(uiObject) {
