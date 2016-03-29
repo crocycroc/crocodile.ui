@@ -4,8 +4,7 @@ function CrocPanelSplit(root,
 	trF, tF, tlF, lF, rF, blF, bF, brF, bkgF) {
 	
 	var currentPanelSplit = this;
-			
-	
+
 	CrocBase.call(this, root);
 	
 	tr = tr || "theme/CrocPanelSplit/groove-topright.png";
@@ -109,8 +108,6 @@ CrocPanelSplit.prototype._gripperMouseLeave = function(e) {
 	}
 	
 	this.getRoot().setCursor("");
-	
-	console.log("mouse left...");
 	
 	return false;
 };
