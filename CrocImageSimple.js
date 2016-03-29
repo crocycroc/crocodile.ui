@@ -105,7 +105,7 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 		this.currentHeight = this.currentImage.height;
 	}
 	
-	context.drawImage(currentImage, 0, 0);
+	context.drawImage(this.currentImage, 0, 0);
 	
 	context.restore();
 	return;
