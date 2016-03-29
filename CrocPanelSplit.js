@@ -378,11 +378,18 @@ CrocPanelSplit.prototype.hitTest = function(context, x, y, width, height) {
 CrocPanelSplit.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
-	context.save();
-	
 	if(!this.visible) {
 		return;
 	}
+	
+	context.save();
+	
+	context.beginPath();
+	context.lineTo(width, 0);
+	context.lineTo(width, height);
+	context.lineTo(0, height);
+	context.lineTo(0, 0);
+	context.clip();
 	
 	var currentGripper = this.gripper;
 	

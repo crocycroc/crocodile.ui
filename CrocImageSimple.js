@@ -60,8 +60,6 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 		return;
 	}
 	
-	context.save();
-	
 	if(this.currentImage === null) {
 		this.currentImage = this.getRoot().getImage(this.imgSrc);
 	
@@ -69,6 +67,8 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 			return;
 		}
 	}
+	
+	context.save();
 	
 	if(this.scaling === 'stretch') {
 		var w = width/this.currentImage.width;

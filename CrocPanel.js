@@ -130,6 +130,13 @@ CrocPanel.prototype.paint = function(context, width, height) {
 	
 	context.save();
 	
+	context.beginPath();
+	context.lineTo(width, 0);
+	context.lineTo(width, height);
+	context.lineTo(0, height);
+	context.lineTo(0, 0);
+	context.clip();
+	
 	var parentTransform = context.getCurrentTransform();
 
 	var i = this.children.length;
