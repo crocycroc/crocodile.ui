@@ -62,12 +62,12 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 	
 	context.save();
 	
-	var currentImage = null;
+	if(this.currentImage === null) {
+		this.currentImage = this.getRoot().getImage(this.imgSrc);
 	
-	currentImage = this.getRoot().getImage(this.imgSrc);
-	
-	if(currentImage === null) {
-		return;
+		if(this.currentImage === null) {
+			return;
+		}
 	}
 	
 	if(this.scaling === 'stretch') {

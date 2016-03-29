@@ -52,8 +52,8 @@ function CrocPanelSplit(root,
 	//area, in absolute it's a fixed number of pixels.
 	this.splitSizeScaling = 'percentile'
 	this.splitSize = '50%';
-	this.splitMinimumSize = '10%';
-	this.splitMaximumSize = '90%';
+	this.splitMinimumSize = '0%';
+	this.splitMaximumSize = '100%';
 	this.showGripper = true;
 	
 	this.addEventListener('mousemove', function(e){
