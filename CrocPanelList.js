@@ -113,8 +113,6 @@ CrocPanelList.prototype.paint = function(context, width, height) {
 	
 	context.save();
 	
-	var parentTransform = context.getCurrentTransform();
-	
 	if(!this.visible) {
 		return;
 	}
