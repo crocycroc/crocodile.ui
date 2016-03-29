@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		
+		<script src="canvasWrapper.js"></script>
+		<script src="util.js"></script>
+		<script src="CrocBase.js"></script>
+		<script src="CrocButton.js"></script>
+		<script src="CrocImageSimple.js"></script>
+		<script src="CrocPanel.js"></script>
+		<script src="CrocPanelBorder.js"></script>
+		<script src="CrocPanelGrid.js"></script>
+		<script src="CrocPanelScrollable.js"></script>
+		<script src="CrocPanelSplit.js"></script>
+		<script src="CrocPanelList.js"></script>
+		<script src="CrocLabel.js"></script>
+		<script src="CrocDOM.js"></script>
+		<script src="CrocHTMLTextfield.js"></script>
+		<script src="CrocTextfield.js"></script>
+		<script src="CrocSlider.js"></script>
+		<script src="CrocAnalogMeter.js"></script>
+		<script src="CrocProgressBar.js"></script>
+		<script src="CrocCheckbox.js"></script>
+		<script src="CrocRoot.js"></script>
+	</head>
+
+	<body>
+		<canvas id="myCanvas" width="1024" height="768" style="position:fixed; right:0; top:0;" width="800" height="600">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+		<canvas id="hitCanvas" width="1024" height="768" style="position:fixed; right:0; top:0; z-index:-99">
+			Your browser does not support the HTML5 canvas tag.
+		</canvas>
+
+		<script>			
+			var root = new CrocRoot(document.getElementById("myCanvas"), document.getElementById("hitCanvas"), true);
+			var panel = new CrocPanelScrollable(root);
+// 			var testDom = new CrocTextfield(root, 'Testing');
+// 			var button = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var checkbox = new CrocCheckbox(root);
+			root.addChild(panel);
+
+// 			panel.addChild(button, 140, 100);
+// 			panel.addChild(testDom, 100, 100);
+			panel.addChild(checkbox, 1000, 100);
+			
+		</script>
+
+	</body>
+</html>

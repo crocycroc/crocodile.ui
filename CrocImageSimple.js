@@ -53,6 +53,22 @@ CrocImageSimple.prototype.getHeight = function() {
 	return this.currentImage.height;
 };
 
+CrocImageSimple.prototype.getImageWidth = function() {
+	if(this.currentImage === null) {
+		return 0;
+	}
+	
+	return this.currentImage.width;
+};
+
+CrocImageSimple.prototype.getImageHeight = function() {
+	if(this.currentImage === null) {
+		return 0;
+	}
+	
+	return this.currentImage.height;
+};
+
 CrocImageSimple.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	

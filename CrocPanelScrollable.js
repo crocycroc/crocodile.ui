@@ -1,5 +1,15 @@
 
-function CrocPanelScrollable(root, scrollArrow, scrollEndcap, scrollCenter, tr, t, tl, l, r, bl, b, br, bkg) {
+function CrocPanelScrollable(root, 
+			     scrollArrow, 
+			     scrollEndcap, 
+			     scrollCenter, 
+			     scrollArrowHover, 
+			     scrollEndcapHover, 
+			     scrollCenterHover, 
+			     scrollArrowPressed, 
+			     scrollEndcapPressed, 
+			     scrollCenterPressed,  
+			     tr, t, tl, l, r, bl, b, br, bkg) {
 	CrocPanel.call(this, root);
 	
 	scrollArrow = scrollArrow || "theme/CrocPanelScrollable/scroll-arrow.png";
@@ -27,13 +37,14 @@ function CrocPanelScrollable(root, scrollArrow, scrollEndcap, scrollCenter, tr, 
 	this.scrollArrow = new CrocImageSimple(root, scrollArrow);
 	this.scrollEndcap = new CrocImageSimple(root, scrollEndcap);
 	this.scrollCenter = new CrocImageSimple(root, scrollCenter);
+	this.scrollCenter.setScaling("stretch");
 	this.scrollBorder = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
 	
 	//Either can be 'auto', where the scrollable area size will expand automatically
 	//Can be 'fixed' where the scrollable area will be exactly the target area height, and width values.
 	//or 'none' which turns off all scrolling in that direction.
-	this.scrollableAreaHeightMode = 'auto';
-	this.scrollableAreaWidthMode = 'auto';
+	this.scrollableAreaHeightMode = 'fixed';
+	this.scrollableAreaWidthMode = 'fixed';
 	
 	this.scrollableAreaTargetHeight = '1200px';
 	this.scrollableAreaTargetWidth = '4000px';
@@ -42,8 +53,11 @@ function CrocPanelScrollable(root, scrollArrow, scrollEndcap, scrollCenter, tr, 
 	this.currentWidthPosition = '0px';
 	this.currentHeightPosition = '0px';
 	
-	this.autoHideWidthScroller = true;
-	this.autoHideHeightScroller = true;
+	this.autoHideWidthScroller = false;
+	this.autoHideHeightScroller = false;
+	
+	//hover, pressed, and normal are the three states
+	this.currentState = 'normal';
 };
 
 CrocPanelScrollable.prototype = Object.create(CrocPanel.prototype);
@@ -118,8 +132,17 @@ CrocPanelScrollable.prototype.paint = function(context, width, height) {
 	var drawWidthScroller = !this.autoHideWidthScroller;
 	var drawHeightScroller = !this.autoHideHeightScroller;
 	
-	interiorClippingWidth = this.getWidth() - this.scrollBorder.getWidth();
-	interiorClippingHeight = this.getHeight() - this.scrollBorder.getHeight();
+	var tlw = this.scrollBorder.topLeftImage.getWidth();
+	var tlh = this.scrollBorder.topLeftImage.getHeight();
+	var brw = this.scrollBorder.bottomRightImage.getWidth();
+	var brh = this.scrollBorder.bottomLeftImage.getHeight();
+	
+	var scrollWidth = Math.max(this.scrollArrow.getImageWidth(), this.scrollCenter.getImageWidth(), this.scrollEndcap.getImageWidth());
+	var scrollCapHeight = this.scrollEndcap.getHeight();
+	var scrollArrowHeight = this.scrollArrow.getHeight();
+	
+	interiorClippingWidth = this.getWidth() - (tlw + brw + scrollWidth);
+	interiorClippingHeight = this.getHeight() - (tlw + brw + scrollWidth);
 	
 	if(this.scrollableAreaWidthMode === 'auto' || this.scrollableAreaHeightMode === 'auto') {
 		//TODO: We need to get a good calculation on how much space the interior scoll area panel would take,
@@ -190,46 +213,116 @@ CrocPanelScrollable.prototype.paint = function(context, width, height) {
 	
 	context.save();
 	
-	var currentTransform = context.getCurrentTransform();
+	
 	
 	//Draw scollers
-	var tlw = this.scrollBorder.topLeftImage.getWidth();
-	var tlh = this.scrollBorder.topLeftImage.getHeight();
-	var brw = this.scrollBorder.bottomRightImage.getWidth();
-	var brh = this.scrollBorder.bottomLeftImage.getHeight();
+	var currentScrollArrow = this.scrollArrow;
+	var currentScrollEndcap = this.scrollEndcap;
+	var currentScrollCenter = this.scrollCenter;
 	
-	var scrollWidth = Math.max(this.scrollArrow.getWidth(), this.scrollCenter.getWidth(), this.scrollEndcap.getWidth());
-	var scrollCapHeight = this.scrollEndcap.getHeight();
-	
-	if(drawWidthScroller) {
-		context.translate(this.getWidth() - tlw + brw, 0);
-		this.scrollBorder.paint(context, tlw + brw, interiorClippingHeight);
-		context.setTransform.apply(context, currentTransform);
+	switch(this.currentState) {
+		case 'normal':
+			break;
+			
+		case 'hover':
+			break;
+			
+		case 'pressed':
+			break;
+			
+		default:
+			break;
 	}
-	
-	if(drawHeightScroller) {
-		context.translate(0, this.getHeight() - tlh + brh);
-		this.scrollBorder.paint(context, interiorClippingWidth, tlh + brh);
-		context.setTransform.apply(context, currentTransform);
-	}
-	
-	//Transform to interior area space and clip it
-	
-	context.setTransform.apply(context, currentTransform);
-	
-	//Set our clipping space for the interior of the scrollable area
-	context.beginPath();
-	context.lineTo(interiorClippingWidth, 0);
-	context.lineTo(interiorClippingWidth, interiorClippingHeight);
-	context.lineTo(0, interiorClippingHeight);
-	context.lineTo(0, 0);
-	context.clip();
 	
 	//Now we transform ourselves into the scroll area's space offset by the scrollers position.
 	var realCurrentWidthPosition = -1.0 * this.convertToPixels(this.currentWidthPosition, scrollableAreaWidth);
 	var realCurrentHeightPosition = -1.0 * this.convertToPixels(this.currentHeightPosition, scrollableAreaHeight);
 	
+	
+	if(drawHeightScroller) {
+
+		var scrollSpanStart = (-realCurrentHeightPosition/scrollableAreaHeight) * (interiorClippingHeight - (scrollArrowHeight * 2) - tlh - brh);
+		var scrollSpanEnd = Math.min(scrollSpanStart + (interiorClippingHeight/scrollableAreaHeight) * (interiorClippingHeight - (scrollArrowHeight * 2) - tlh - brh), (interiorClippingHeight - (scrollArrowHeight * 2) - tlh - brh)); 
+		
+		context.save();
+		
+		context.translate(interiorClippingWidth, 0);
+		this.scrollBorder.paint(context, tlw + brw + scrollWidth, interiorClippingHeight);
+		
+		var currentTransform = context.getCurrentTransform();
+		
+		context.translate(tlw, tlh + scrollArrowHeight);
+		context.scale(1.0, -1.0);
+		currentScrollArrow.paint(context, scrollWidth, interiorClippingHeight - tlh - brh);
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, scrollSpanStart);
+		context.scale(1.0, -1.0);
+		context.translate(0, -currentScrollEndcap.getImageHeight());
+		currentScrollEndcap.paint(context, scrollWidth, currentScrollEndcap.getImageHeight());
+		context.translate(0, currentScrollEndcap.getImageHeight());
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, currentScrollEndcap.getImageHeight());
+		currentScrollCenter.paint(context, scrollWidth, scrollSpanEnd - scrollSpanStart - (currentScrollEndcap.getImageHeight() * 2));
+		
+		context.translate(0, scrollSpanEnd - scrollSpanStart - currentScrollEndcap.getImageHeight() * 2);
+		currentScrollEndcap.paint(context, scrollWidth, currentScrollEndcap.getImageHeight());
+
+		context.setTransform.apply(context, currentTransform);
+		context.translate(tlw, interiorClippingHeight - scrollArrowHeight - brh);
+		currentScrollArrow.paint(context, scrollWidth, scrollArrowHeight);
+		
+		context.restore();
+	}
+	
+	if(drawWidthScroller) {
+		
+		var scrollSpanStart = (-realCurrentWidthPosition/scrollableAreaWidth) * (interiorClippingWidth - (scrollArrowHeight * 2) - tlh - brh);
+		var scrollSpanEnd = Math.min(scrollSpanStart + (interiorClippingWidth/scrollableAreaWidth) * (interiorClippingWidth - (scrollArrowHeight * 2) - tlh - brh), (interiorClippingWidth - (scrollArrowHeight * 2) - tlh - brh)); 
+		
+		context.save();
+		
+		context.translate(0, interiorClippingHeight + tlh + brh + scrollWidth);
+		context.rotate((3 * Math.PI)/2);
+		var currentTransform = context.getCurrentTransform();
+
+		this.scrollBorder.paint(context, tlw + brw + scrollWidth, interiorClippingWidth);
+		
+		context.translate(tlw, tlh + scrollArrowHeight);
+		context.scale(1.0, -1.0);
+		currentScrollArrow.paint(context, scrollWidth, interiorClippingWidth - tlh - brh);
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, scrollSpanStart);
+		context.scale(1.0, -1.0);
+		context.translate(0, -currentScrollEndcap.getImageHeight());
+		currentScrollEndcap.paint(context, scrollWidth, currentScrollEndcap.getImageHeight());
+		context.translate(0, currentScrollEndcap.getImageHeight());
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, currentScrollEndcap.getImageHeight());
+		currentScrollCenter.paint(context, scrollWidth, scrollSpanEnd - scrollSpanStart - (currentScrollEndcap.getImageHeight() * 2));
+		
+		context.translate(0, scrollSpanEnd - scrollSpanStart - currentScrollEndcap.getImageHeight() * 2);
+		currentScrollEndcap.paint(context, scrollWidth, currentScrollEndcap.getImageHeight());
+		
+		context.setTransform.apply(context, currentTransform);
+		context.translate(tlw, interiorClippingWidth - scrollArrowHeight - brh);
+		currentScrollArrow.paint(context, scrollWidth, scrollArrowHeight);
+		
+		context.restore();
+	}
+	
+	
 	context.translate(realCurrentWidthPosition, realCurrentHeightPosition);
+	
+	context.beginPath();
+	context.lineTo(interiorClippingWidth, 0);
+	context.lineTo(interiorClippingWidth, interiorClippingHeight);
+	context.lineTo(0, height);
+	context.lineTo(0, 0);
+	context.clip();
 	
 	//CrocPanel is going to change our currnet height and width, to the size of the interior.
 	CrocPanel.prototype.paint.call(this, context, scrollableAreaWidth, scrollableAreaHeight);
