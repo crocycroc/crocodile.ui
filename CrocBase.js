@@ -289,6 +289,7 @@ CrocBase.prototype.getTargetHeight = function() {
 //This claims the focus from root
 CrocBase.prototype.focus = function() {
 	this.getRoot().setFocusedObject(this);
+	this.event('focus');
 	return;
 };
 

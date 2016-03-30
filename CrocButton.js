@@ -39,7 +39,7 @@ function CrocButton(root, normal, hover, pressed) {
 		return false;
 	});
 	
-	this.addEventListener('mousemove', function(e){
+	this.addEventListener('pointermove', function(e){
 		
 		if(!this.hasFocus()) {
 			this.setMode('hover');
@@ -49,7 +49,7 @@ function CrocButton(root, normal, hover, pressed) {
 		return false;
 	});
 	
-	this.addEventListener('mouseleave', function(e) {
+	this.addEventListener('pointerleave', function(e) {
 		
 		if(!this.hasFocus()) {
 			this.setMode('normal');
@@ -59,12 +59,12 @@ function CrocButton(root, normal, hover, pressed) {
 		return false;
 	});
 	
-	this.addEventListener('mousedown', function(e) {
+	this.addEventListener('pointerdown', function(e) {
 		this.focus();
 		this.setMode('pressed');
 	});
 	
-	this.addEventListener('mouseup', function(e) {
+	this.addEventListener('pointerup', function(e) {
 		this.blur();
 		this.setMode('hover');
 	});

@@ -33,7 +33,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 	this.sliderFocus = new CrocImageSimple(root, focus);
 	this.sliderFocus.setScaling('none');
 	
-	this.addEventListener('mousemove', function(e){
+	this.addEventListener('pointermove', function(e){
 		
 		if(!this.hasFocus()) {
 			this.setMode('hover');
@@ -49,7 +49,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 		return false;
 	});
 	
-	this.addEventListener('mouseleave', function(e) {
+	this.addEventListener('pointerleave', function(e) {
 		
 		if(!this.hasFocus()) {
 			this.setMode('normal');
@@ -60,7 +60,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 		return false;
 	});
 	
-	this.addEventListener('mousedown', function(e) {
+	this.addEventListener('pointerdown', function(e) {
 		this.focus();
 		
 		this.globalPointToValue(e.x, e.y);
@@ -70,7 +70,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 		this.setMode('focus');
 	});
 	
-	this.addEventListener('mouseup', function(e) {
+	this.addEventListener('pointerup', function(e) {
 		this.blur();
 		this.setMode('hover');
 	});

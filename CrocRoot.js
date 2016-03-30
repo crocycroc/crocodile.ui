@@ -160,15 +160,15 @@ CrocRoot.prototype.onMouseMove = function(e) {
 	
 	var lastTriggeredObject = this.triggeredObject;
 	
-	var value = this.propagateEvent(hits, 'mousemove', coords);
+	var value = this.propagateEvent(hits, 'pointermove', coords);
 	
 	//If the newly focused object is not the one when we started it means mouseleave has occured.
 	if(lastTriggeredObject !== this.triggeredObject && lastTriggeredObject !== null) {
-		lastTriggeredObject.event('mouseleave', coords);
+		lastTriggeredObject.event('pointerleave', coords);
 	}
 	
 	else if(value && lastTriggeredObject !== null) {
-		lastTriggeredObject.event('mouseleave', coords);
+		lastTriggeredObject.event('pointerleave', coords);
 	}
 	
 };
@@ -182,7 +182,7 @@ CrocRoot.prototype.onMouseDown = function(e) {
 	
 	var hits = this.hitTest(coords.x, coords.y);
 	
-	this.propagateEvent(hits, 'mousedown', coords);
+	this.propagateEvent(hits, 'pointerdown', coords);
 	
 };
 
@@ -195,10 +195,10 @@ CrocRoot.prototype.onMouseUp = function(e) {
 	
 	var hits = this.hitTest(coords.x, coords.y);
 	
-	this.propagateEvent(hits, 'mouseup', coords);
+	this.propagateEvent(hits, 'pointerup', coords);
 	
 	if(this.focusedObject !== null) {
-		this.focusedObject.event('mouseup', coords);
+		this.focusedObject.event('pointerup', coords);
 	}
 	
 };

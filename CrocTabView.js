@@ -149,22 +149,22 @@ CrocTabView.prototype.addChild = function(uiObject, label) {
 	
 	this.tabs[uiObject.uuid].removeAllEventListeners();
 	
-	this.tabs[uiObject.uuid].addEventListener('mousemove', function(e){
+	this.tabs[uiObject.uuid].addEventListener('pointermove', function(e){
 		currentTabView._tabMouseMove(this);
 		return false;
 	});
 	
-	this.tabs[uiObject.uuid].addEventListener('mouseleave', function(e) {
+	this.tabs[uiObject.uuid].addEventListener('pointerleave', function(e) {
 		currentTabView._tabMouseLeave(this);
 		return false;
 	});
 	
-	this.tabs[uiObject.uuid].addEventListener('mousedown', function(e) {
+	this.tabs[uiObject.uuid].addEventListener('pointerdown', function(e) {
 		currentTabView._tabMouseDown(this);
 		return false;
 	});
 	
-	this.tabs[uiObject.uuid].addEventListener('mouseup', function(e) {
+	this.tabs[uiObject.uuid].addEventListener('pointerup', function(e) {
 		currentTabView._tabMouseUp(this);
 		return false;
 	});

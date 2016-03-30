@@ -55,7 +55,7 @@ function CrocPanelSplit(root,
 	this.splitMaximumSize = '100%';
 	this.showGripper = true;
 	
-	this.addEventListener('mousemove', function(e){
+	this.addEventListener('pointermove', function(e){
 		if(this.hasFocus()) {
 			this.globalPointToSplitSize(e.x, e.y);
 			return false;
@@ -64,26 +64,26 @@ function CrocPanelSplit(root,
 		return true;
 	});
 	
-	this.addEventListener('mouseup', function(e) {
+	this.addEventListener('pointerup', function(e) {
 		this.blur();
 		
 		return true;
 	});
 	
-	this.gripper.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
-	this.gripper.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
-	this.gripper.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
-	this.gripper.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
+	this.gripper.addEventListener('pointermove', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
+	this.gripper.addEventListener('pointerleave', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
+	this.gripper.addEventListener('pointerdown', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
+	this.gripper.addEventListener('pointerup', function(e){if(currentPanelSplit.mode === 'normal' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
 	
-	this.gripperHover.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
-	this.gripperHover.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
-	this.gripperHover.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
-	this.gripperHover.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
+	this.gripperHover.addEventListener('pointermove', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
+	this.gripperHover.addEventListener('pointerleave', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
+	this.gripperHover.addEventListener('pointerdown', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
+	this.gripperHover.addEventListener('pointerup', function(e){if(currentPanelSplit.mode === 'hover' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
 	
-	this.gripperFocused.addEventListener('mousemove', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
-	this.gripperFocused.addEventListener('mouseleave', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
-	this.gripperFocused.addEventListener('mousedown', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
-	this.gripperFocused.addEventListener('mouseup', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
+	this.gripperFocused.addEventListener('pointermove', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseMove(e);});
+	this.gripperFocused.addEventListener('pointerleave', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseLeave(e);});
+	this.gripperFocused.addEventListener('pointerdown', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseDown(e);});
+	this.gripperFocused.addEventListener('pointerup', function(e){if(currentPanelSplit.mode === 'focus' && currentPanelSplit.showGripper) currentPanelSplit._gripperMouseUp(e);});
 };
 
 CrocPanelSplit.prototype = Object.create(CrocBase.prototype);
