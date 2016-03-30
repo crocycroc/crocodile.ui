@@ -57,7 +57,7 @@ function CrocPanelScrollable(root,
 	this.autoHideHeightScroller = false;
 	
 	//hover, pressed, and normal are the three states
-	this.currentState = 'normal';
+	this.mode = 'normal';
 };
 
 CrocPanelScrollable.prototype = Object.create(CrocPanel.prototype);
@@ -220,7 +220,7 @@ CrocPanelScrollable.prototype.paint = function(context, width, height) {
 	var currentScrollEndcap = this.scrollEndcap;
 	var currentScrollCenter = this.scrollCenter;
 	
-	switch(this.currentState) {
+	switch(this.mode) {
 		case 'normal':
 			break;
 			

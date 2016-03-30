@@ -295,6 +295,7 @@ CrocBase.prototype.focus = function() {
 CrocBase.prototype.blur = function() {
 	if(this.hasFocus()) {
 		this.getRoot().setFocusedObject(null);
+		this.event('blur');
 	};
 };
 

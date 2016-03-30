@@ -31,38 +31,52 @@ function CrocButton(root, normal, hover, pressed) {
 	this.addChild(this.pressed);
 	
 	this.scaling = 'none';
-	this.currentState = 'normal';
+	this.mode = 'normal';
 
+	this.addEventListener('blur', function(e) {
+		this.setMode('normal');
+		this.getRoot().setCursor();
+		return false;
+	});
+	
 	this.addEventListener('mousemove', function(e){
-		this.setState('hover');
-		this.getRoot().setCursor("pointer");
+		
+		if(!this.hasFocus()) {
+			this.setMode('hover');
+			this.getRoot().setCursor('pointer');
+		}
+		
 		return false;
 	});
 	
 	this.addEventListener('mouseleave', function(e) {
-		this.setState('normal');
-		this.getRoot().setCursor();
+		
+		if(!this.hasFocus()) {
+			this.setMode('normal');
+			this.getRoot().setCursor();
+		}
+		
 		return false;
 	});
 	
 	this.addEventListener('mousedown', function(e) {
 		this.focus();
-		this.setState('pressed');
+		this.setMode('pressed');
 	});
 	
 	this.addEventListener('mouseup', function(e) {
-		this.focus();
-		this.setState('hover');
+		this.blur();
+		this.setMode('hover');
 	});
 };
 
 CrocButton.prototype = Object.create(CrocBase.prototype);
 CrocButton.prototype.constructor = CrocButton;
 
-CrocButton.prototype.setState = function(state) {
+CrocButton.prototype.setMode = function(state) {
 	
-	if(this.currentState !== state) {
-		this.currentState = state;
+	if(this.mode !== state) {
+		this.mode = state;
 		this.getRoot().repaint();
 	}
 };
@@ -87,7 +101,7 @@ CrocButton.prototype.setTargetHeight = function(height) {
 
 CrocButton.prototype.getWidth = function () {
 	
-	switch(this.currentState) {
+	switch(this.mode) {
 	
 		case 'normal':
 			return this.normal.getWidth();
@@ -109,7 +123,7 @@ CrocButton.prototype.getWidth = function () {
 
 CrocButton.prototype.getHeight = function() {
 	
-	switch(this.currentState) {
+	switch(this.mode) {
 	
 		case 'normal':
 			return this.normal.getHeight();
@@ -138,7 +152,7 @@ CrocButton.prototype.paint = function(context, width, height) {
 	
 	context.save();
 	
-	switch(this.currentState) {
+	switch(this.mode) {
 	
 		case 'normal':
 			this.normal.paint(context, width, height);
