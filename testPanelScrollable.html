@@ -35,13 +35,13 @@
 		<script>			
 			var root = new CrocRoot(document.getElementById("myCanvas"), document.getElementById("hitCanvas"), true);
 			var panel = new CrocPanelScrollable(root);
-// 			var testDom = new CrocTextfield(root, 'Testing');
-// 			var button = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var testDom = new CrocTextfield(root, 'Testing');
+			var button = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
 			var checkbox = new CrocCheckbox(root);
 			root.addChild(panel);
 
-// 			panel.addChild(button, 140, 100);
-// 			panel.addChild(testDom, 100, 100);
+			panel.addChild(button, 140, 100);
+			panel.addChild(testDom, 100, 200);
 			panel.addChild(checkbox, 1000, 100);
 			
 		</script>

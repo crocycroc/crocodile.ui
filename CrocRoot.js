@@ -12,6 +12,7 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
+	this.lastMouseEvent = {}; //Because firefox is goofy about wheel mouse events.
 	//Stupid failure to implement this
 	if(this.context.mozCurrentTransform === undefined && this.context.currenTransform === undefined) {
 		
@@ -110,6 +111,14 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 		currentCrocRoot.onMouseUp(e);
 	});
 	
+	this.canvas.addEventListener('mousewheel', function(e) {
+		currentCrocRoot.onMouseWheel(e);
+	}, false);
+	
+	this.canvas.addEventListener('DOMMouseScroll', function(e) {
+		currentCrocRoot.onMouseWheel(e);
+	}, false);
+	
 	this.canvas.addEventListener('click', function(e) {
 		currentCrocRoot.onClick(e);
 	});
@@ -156,6 +165,8 @@ CrocRoot.prototype.onMouseMove = function(e) {
           y: e.clientY - rect.top
         };
 	
+	this.lastMouseEvent = e;
+	
 	var hits = this.hitTest(coords.x, coords.y);
 	
 	var lastTriggeredObject = this.triggeredObject;
@@ -184,6 +195,37 @@ CrocRoot.prototype.onMouseDown = function(e) {
 	
 	this.propagateEvent(hits, 'pointerdown', coords);
 	
+};
+
+CrocRoot.prototype.onMouseWheel = function(e) {
+	// cross-browser wheel delta
+	var e = window.event || e; // old IE support
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+
+	delta = delta * 4.0; //Delta multiplier for speed ups, or slow downs.
+	
+	var eventData = {
+		delta:delta,
+		data:e
+	};
+	
+	e = this.lastMouseEvent;
+	
+	var rect = this.canvas.getBoundingClientRect();
+	var coords = {
+		x: e.clientX - rect.left,
+		y: e.clientY - rect.top,
+		delta:delta,
+		data:e
+	};
+	
+	var hits = this.hitTest(coords.x, coords.y);
+	
+	this.propagateEvent(hits, 'scrollhorizontal', coords);
+	
+	if(this.focusedObject !== null) {
+		this.focusedObject.event('scrollhorizontal', coords);
+	}
 };
 
 CrocRoot.prototype.onMouseUp = function(e) {
