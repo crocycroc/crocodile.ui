@@ -33,8 +33,9 @@ function CrocBase(root){
 	this.listeners = {};
 }
 
-CrocBase.prototype.event = function(eventType, eventData) {
-	
+CrocBase.prototype.event = function(eventType, eventData, cascadeEvent) {
+
+	cascadeEvent = cascadeEvent || false;
 	var retValue = true;
 	
 	if(eventType in this.listeners) {
@@ -42,6 +43,12 @@ CrocBase.prototype.event = function(eventType, eventData) {
 			if(!this.listeners[eventType][i].call(this, eventData)) {
 				retValue = false;
 			}
+		}
+	}
+	
+	if(cascadeEvent && retValue) {
+		for(var i = 0; i < this.children; i++) {
+			this.children[i].cascadeEvent(eventType, eventData);
 		}
 	}
 	

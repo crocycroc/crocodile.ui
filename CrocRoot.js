@@ -1,8 +1,10 @@
 //All CrocRoot will do is reset the context and draw the children. Not even sure if it should reset the context.
 //It also has image control so we don't load a million such images.
 
-function CrocRoot(canvas, hitCanvasm, fullscreen) {
+function CrocRoot(canvas, hitCanvasm, fullscreen, eventHandlerConstructor) {
 	CrocBase.call(this, this);
+	
+	eventHandlerConstructor = eventHandlerConstructor || CrocEventHandler;
 	
 	this.fullscreen = fullscreen || false;
 	
@@ -12,7 +14,7 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
-	this.lastMouseEvent = {}; //Because firefox is goofy about wheel mouse events.
+
 	//Stupid failure to implement this
 	if(this.context.mozCurrentTransform === undefined && this.context.currenTransform === undefined) {
 		
@@ -89,7 +91,6 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	}
 	
 	this.focusedObject = null;
-	this.triggeredObject = null;
 	
 	var currentCrocRoot = this;
 	
@@ -99,31 +100,7 @@ function CrocRoot(canvas, hitCanvasm, fullscreen) {
 	this.paintWarnings = [];
 	this.globalPaintWarning = false;
 	
-	this.canvas.addEventListener('mousemove', function(e) {
-		currentCrocRoot.onMouseMove(e);
-	});
-	
-	this.canvas.addEventListener('mousedown', function(e) {
-		currentCrocRoot.onMouseDown(e);
-	});
-	
-	this.canvas.addEventListener('mouseup', function(e) {
-		currentCrocRoot.onMouseUp(e);
-	});
-	
-	this.canvas.addEventListener('mousewheel', function(e) {
-		currentCrocRoot.onMouseWheel(e);
-	}, false);
-	
-	this.canvas.addEventListener('DOMMouseScroll', function(e) {
-		currentCrocRoot.onMouseWheel(e);
-	}, false);
-	
-	this.canvas.addEventListener('click', function(e) {
-		currentCrocRoot.onClick(e);
-	});
-	
-	window.addEventListener('resize', function() { currentCrocRoot.onCanvasResize() }, false);
+	this.eventHandler = new eventHandlerConstructor(this);
 	
 	if(this.fullscreen) {
 		this.canvas.width = window.innerWidth;
@@ -156,127 +133,6 @@ CrocRoot.prototype.onCanvasResize = function() {
 	}
 	
 	this.repaint();
-};
-
-CrocRoot.prototype.onMouseMove = function(e) {
-	var rect = this.canvas.getBoundingClientRect();
-        var coords = {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        };
-	
-	this.lastMouseEvent = e;
-	
-	var hits = this.hitTest(coords.x, coords.y);
-	
-	var lastTriggeredObject = this.triggeredObject;
-	
-	var value = this.propagateEvent(hits, 'pointermove', coords);
-	
-	//If the newly focused object is not the one when we started it means mouseleave has occured.
-	if(lastTriggeredObject !== this.triggeredObject && lastTriggeredObject !== null) {
-		lastTriggeredObject.event('pointerleave', coords);
-	}
-	
-	else if(value && lastTriggeredObject !== null) {
-		lastTriggeredObject.event('pointerleave', coords);
-	}
-	
-};
-
-CrocRoot.prototype.onMouseDown = function(e) {
-	var rect = this.canvas.getBoundingClientRect();
-        var coords = {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        };
-	
-	var hits = this.hitTest(coords.x, coords.y);
-	
-	this.propagateEvent(hits, 'pointerdown', coords);
-	
-};
-
-CrocRoot.prototype.onMouseWheel = function(e) {
-	// cross-browser wheel delta
-	var e = window.event || e; // old IE support
-	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-
-	delta = delta * 4.0; //Delta multiplier for speed ups, or slow downs.
-	
-	var eventData = {
-		delta:delta,
-		data:e
-	};
-	
-	e = this.lastMouseEvent;
-	
-	var rect = this.canvas.getBoundingClientRect();
-	var coords = {
-		x: e.clientX - rect.left,
-		y: e.clientY - rect.top,
-		delta:delta,
-		data:e
-	};
-	
-	var hits = this.hitTest(coords.x, coords.y);
-	
-	this.propagateEvent(hits, 'scrollhorizontal', coords);
-	
-	if(this.focusedObject !== null) {
-		this.focusedObject.event('scrollhorizontal', coords);
-	}
-};
-
-CrocRoot.prototype.onMouseUp = function(e) {
-	var rect = this.canvas.getBoundingClientRect();
-	var coords = {
-		x: e.clientX - rect.left,
-		y: e.clientY - rect.top
-	};
-	
-	var hits = this.hitTest(coords.x, coords.y);
-	
-	this.propagateEvent(hits, 'pointerup', coords);
-	
-	if(this.focusedObject !== null) {
-		this.focusedObject.event('pointerup', coords);
-	}
-	
-};
-
-CrocRoot.prototype.onClick = function(e) {
-	var rect = this.canvas.getBoundingClientRect();
-	var coords = {
-		x: e.clientX - rect.left,
-		y: e.clientY - rect.top
-	};
-	
-	var hits = this.hitTest(coords.x, coords.y);
-	
-	this.propagateEvent(hits, 'click', coords);
-	
-};
-
-//Given a order tree check to see if anyone wants the event.
-CrocRoot.prototype.propagateEvent = function(objects, event, data) {
-	
-	if(objects.length !== undefined) {
-		for(var i = 0; i < objects.length; i++) {
-			if(this.propagateEvent(objects[i], event, data) === false) {
-				return false;
-			}
-		}
-	}
-	
-	else if(typeof objects === 'object' && objects.event !== undefined && typeof objects.event === 'function') {
-		if(objects.event(event, data) === false) {
-			this.triggeredObject = objects;
-			return false; 
-		}
-	}
-	
-	return true;
 };
 
 CrocRoot.prototype.getWidth = function () {
