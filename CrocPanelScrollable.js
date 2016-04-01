@@ -144,6 +144,298 @@ CrocPanelScrollable.prototype.hitTest = function(context, x, y, width, height) {
 		hitReturn.push(hitObject);
 	}
 	
+	var interiorClippingWidth = 0;
+	var interiorClippingHeight = 0;
+	var scrollableAreaWidth = 0;
+	var scrollableAreaHeight = 0;
+	var maxWidth = 0; //Used to calculate the auto scrolling size
+	var maxHeight = 0;
+	var drawWidthScroller = !this.autoHideWidthScroller;
+	var drawHeightScroller = !this.autoHideHeightScroller;
+	
+	var tlw = this.scrollBorderUpDown.topLeftImage.getWidth();
+	var tlh = this.scrollBorderUpDown.topLeftImage.getHeight();
+	var brw = this.scrollBorderUpDown.bottomRightImage.getWidth();
+	var brh = this.scrollBorderUpDown.bottomLeftImage.getHeight();
+	
+	var scrollWidth = Math.max(this.scrollArrowUp.normal.getImageWidth(), this.scrollCenterUpDown.normal.getImageWidth(), this.scrollEndcapUp.normal.getImageWidth());
+	var scrollCapHeight = this.scrollEndcapUp.getHeight();
+	var scrollArrowUpHeight = this.scrollArrowUp.getHeight();
+	
+	interiorClippingWidth = this.getWidth() - (tlw + brw + scrollWidth);
+	interiorClippingHeight = this.getHeight() - (tlw + brw + scrollWidth);
+	
+	if(this.scrollableAreaWidthMode === 'auto' || this.scrollableAreaHeightMode === 'auto') {
+		//TODO: We need to get a good calculation on how much space the interior scoll area panel would take,
+		// if you can imagine that we gave it an infinite plane to draw on.
+	}
+	
+	switch(this.scrollableAreaWidthMode) {
+		case 'auto':
+			scrollableAreaWidth = maxWidth;
+			
+			if(this.autoHideWidthScroller && scrollableAreaWidth <= this.getWidth()) {
+				interiorClippingWidth = this.getWidth();
+				drawWidthScroller = false;
+			}
+			
+			break;
+			
+		case 'fixed':
+			scrollableAreaWidth = this.convertToPixels(this.scrollableAreaTargetWidth, this.getWidth());
+			
+			if(this.autoHideWidthScroller && scrollableAreaWidth <= this.getWidth()) {
+				interiorClippingWidth = this.getWidth();
+				drawWidthScroller = false;
+			}
+				
+			break;
+			
+		default:
+			if(this.autoHideWidthScroller) {
+				interiorClippingWidth = this.getWidth();
+				drawWidthScroller = false;
+			}
+			
+			scrollableAreaWidth = interiorClippingWidth;
+			break;
+	}
+	
+	switch(this.scrollableAreaHeightMode) {
+		case 'auto':
+			scrollableAreaHeight = maxHeight;
+			
+			if(this.autoHideHeightScroller && scrollableAreaHeight <= this.getHeight()) {
+				interiorClippingHeight = this.getHeight();
+				drawHeightScroller = false;
+			}
+			
+			break;
+			
+		case 'fixed':
+			scrollableAreaHeight = this.convertToPixels(this.scrollableAreaTargetHeight, this.getHeight());
+			
+			if(this.autoHideHeightScroller && scrollableAreaHeight <= this.getHeight()) {
+				interiorClippingHeight = this.getHeight();
+				drawHeightScroller = false;
+			}
+				
+			break;
+			
+		default:
+			if(this.autoHideHeightScroller) {
+				interiorClippingHeight = this.getHeight();
+				drawHeightScroller = false;
+			}
+			
+			scrollableAreaHeight = interiorClippingHeight;
+			break;
+	}
+
+	context.save();
+	
+	//Draw scollers
+	var currentScrollArrowUp = this.scrollArrowUp;
+	var currentScrollArrowDown = this.scrollArrowDown;
+	var currentScrollEndcapUp = this.scrollEndcapUp;
+	var currentScrollEndcapDown = this.scrollEndcapDown;
+	var currentScrollCenterUpDown = this.scrollCenterUpDown;
+	
+	var currentScrollArrowLeft = this.scrollArrowLeft;
+	var currentScrollArrowRight = this.scrollArrowRight;
+	var currentScrollEndcapLeft = this.scrollEndcapLeft;
+	var currentScrollEndcapRight = this.scrollEndcapRight;
+	var currentScrollCenterLeftRight = this.scrollCenterLeftRight;
+	
+	switch(this.mode) {
+		case 'normal':
+			break;
+			
+		case 'hover':
+			break;
+			
+		case 'pressed':
+			break;
+			
+		default:
+			break;
+	}
+	
+	//Now we transform ourselves into the scroll area's space offset by the scrollers position.
+	var realCurrentWidthPosition = this.convertToPixels(this.currentWidthPosition, scrollableAreaWidth);
+	var realCurrentHeightPosition = this.convertToPixels(this.currentHeightPosition, scrollableAreaHeight);
+	
+	if(realCurrentWidthPosition < 0) {
+		this.currentWidthPosition = 0;
+		realCurrentWidthPosition = 0;
+	}
+	
+	else if(realCurrentWidthPosition > scrollableAreaWidth - interiorClippingWidth) {
+		this.currentWidthPosition = scrollableAreaWidth - interiorClippingWidth;
+		realCurrentWidthPosition = scrollableAreaWidth - interiorClippingWidth;
+	}
+	
+	if(realCurrentHeightPosition < 0) {
+		this.currentHeightPosition = 0;
+		realCurrentHeightPosition = 0;
+	}
+	
+	else if(realCurrentHeightPosition > scrollableAreaHeight - interiorClippingHeight) {
+		this.currentHeightPosition = scrollableAreaHeight - interiorClippingHeight;
+		realCurrentHeightPosition = scrollableAreaHeight - interiorClippingHeight;
+	}
+	
+	var scrollSpanStartLeftRight = (realCurrentWidthPosition/scrollableAreaWidth) * (interiorClippingWidth - (scrollArrowUpHeight * 2) - tlh - brh);
+	var scrollSpanEndLeftRight = Math.min(scrollSpanStartLeftRight + (interiorClippingWidth/scrollableAreaWidth) * (interiorClippingWidth - (scrollArrowUpHeight * 2) - tlh - brh), (interiorClippingWidth - (scrollArrowUpHeight * 2) - tlh - brh)); 
+		
+	var scrollSpanStartUpDown = (realCurrentHeightPosition/scrollableAreaHeight) * (interiorClippingHeight - (scrollArrowUpHeight * 2) - tlh - brh);
+	var scrollSpanEndUpDown = Math.min(scrollSpanStartUpDown + (interiorClippingHeight/scrollableAreaHeight) * (interiorClippingHeight - (scrollArrowUpHeight * 2) - tlh - brh), (interiorClippingHeight - (scrollArrowUpHeight * 2) - tlh - brh)); 
+	
+	
+	
+	
+	if(drawHeightScroller) {
+		context.save();
+		
+		context.translate(interiorClippingWidth, 0);
+		var hitObject = this.scrollBorderUpDown.hitTest(context, x, y, tlw + brw + scrollWidth, interiorClippingHeight);
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		var currentTransform = context.getCurrentTransform();
+		
+		context.translate(tlw, tlh + scrollArrowUpHeight);
+		context.scale(1.0, -1.0);
+		var hitObject = currentScrollArrowUp.hitTest(context, x, y, scrollWidth, interiorClippingHeight - tlh - brh);
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, scrollSpanStartUpDown);
+		context.scale(1.0, -1.0);
+		context.translate(0, -currentScrollEndcapUp.normal.getImageHeight());
+		var hitObject = currentScrollEndcapUp.hitTest(context, x, y, scrollWidth, currentScrollEndcapUp.normal.getImageHeight());
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.translate(0, currentScrollEndcapUp.normal.getImageHeight());
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, currentScrollEndcapUp.normal.getImageHeight());
+		var hitObject = currentScrollCenterUpDown.hitTest(context, x, y, scrollWidth, scrollSpanEndUpDown - scrollSpanStartUpDown - (currentScrollEndcapUp.normal.getImageHeight() * 2));
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.translate(0, scrollSpanEndUpDown - scrollSpanStartUpDown - currentScrollEndcapDown.normal.getImageHeight() * 2);
+		var hitObject = currentScrollEndcapDown.hitTest(context, x, y, scrollWidth, currentScrollEndcapDown.normal.getImageHeight());
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+
+		context.setTransform.apply(context, currentTransform);
+		context.translate(tlw, interiorClippingHeight - scrollArrowUpHeight - brh);
+		var hitObject = currentScrollArrowDown.hitTest(context, x, y, scrollWidth, scrollArrowUpHeight);
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.restore();
+	}
+	
+	if(drawWidthScroller) {
+		
+		context.save();
+		
+		context.translate(0, interiorClippingHeight + tlh + brh + scrollWidth);
+		context.rotate((3 * Math.PI)/2);
+		var currentTransform = context.getCurrentTransform();
+
+		var hitObject = this.scrollBorderLeftRight.hitTest(context, x, y, tlw + brw + scrollWidth, interiorClippingWidth);
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.translate(tlw, tlh + scrollArrowUpHeight);
+		context.scale(1.0, -1.0);
+		var hitObject = currentScrollArrowLeft.hitTest(context, x, y, scrollWidth, interiorClippingWidth - tlh - brh);
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, scrollSpanStartLeftRight);
+		context.scale(1.0, -1.0);
+		context.translate(0, -currentScrollEndcapLeft.normal.getImageHeight());
+		var hitObject = currentScrollEndcapLeft.hitTest(context, x, y, scrollWidth, currentScrollEndcapLeft.normal.getImageHeight());
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.translate(0, currentScrollEndcapLeft.normal.getImageHeight());
+		context.scale(1.0, -1.0);
+		
+		context.translate(0, currentScrollEndcapLeft.normal.getImageHeight());
+		var hitObject = currentScrollCenterLeftRight.hitTest(context, x, y, scrollWidth, scrollSpanEndLeftRight - scrollSpanStartLeftRight - (currentScrollEndcapLeft.normal.getImageHeight() * 2));
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.translate(0, scrollSpanEndLeftRight - scrollSpanStartLeftRight - currentScrollEndcapRight.normal.getImageHeight() * 2);
+		var hitObject = currentScrollEndcapRight.hitTest(context, x, y, scrollWidth, currentScrollEndcapRight.normal.getImageHeight());
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.setTransform.apply(context, currentTransform);
+		context.translate(tlw, interiorClippingWidth - scrollArrowUpHeight - brh);
+		var hitObject = currentScrollArrowRight.hitTest(context, x, y, scrollWidth, scrollArrowUpHeight);
+	
+		if(hitObject !== null) {
+			hitReturn.push(hitObject);
+		}
+		
+		context.restore();
+	}
+	
+	
+	context.translate(-1.0 * realCurrentWidthPosition, -1.0 * realCurrentHeightPosition);
+	
+	context.beginPath();
+	context.lineTo(interiorClippingWidth, 0);
+	context.lineTo(interiorClippingWidth, interiorClippingHeight);
+	context.lineTo(0, height);
+	context.lineTo(0, 0);
+	context.clip();
+	
+	//CrocPanel is going to change our currnet height and width, to the size of the interior.
+	var hitObject = CrocPanel.prototype.hitTest.call(this, context, x, y, context, scrollableAreaWidth, scrollableAreaHeight);
+	
+	if(hitObject !== null) {
+		hitReturn.push(hitObject);
+	}
+	
+	//We don't want that so we convert back here.
+	this.width = this.convertToPixels(this.targetWidth, width);
+	this.height = this.convertToPixels(this.targetHeight, height);
+
+	context.restore();
+	
 	return hitReturn;
 };
 
@@ -301,8 +593,25 @@ CrocPanelScrollable.prototype.paint = function(context, width, height) {
 	var scrollSpanStartUpDown = (realCurrentHeightPosition/scrollableAreaHeight) * (interiorClippingHeight - (scrollArrowUpHeight * 2) - tlh - brh);
 	var scrollSpanEndUpDown = Math.min(scrollSpanStartUpDown + (interiorClippingHeight/scrollableAreaHeight) * (interiorClippingHeight - (scrollArrowUpHeight * 2) - tlh - brh), (interiorClippingHeight - (scrollArrowUpHeight * 2) - tlh - brh)); 
 	
+	context.save();
 	
+	context.translate(-1.0 * realCurrentWidthPosition, -1.0 * realCurrentHeightPosition);
 	
+	context.beginPath();
+	context.lineTo(interiorClippingWidth, 0);
+	context.lineTo(interiorClippingWidth, interiorClippingHeight);
+	context.lineTo(0, height);
+	context.lineTo(0, 0);
+	context.clip();
+	
+	//CrocPanel is going to change our currnet height and width, to the size of the interior.
+	CrocPanel.prototype.paint.call(this, context, scrollableAreaWidth, scrollableAreaHeight);
+	
+	context.restore();
+	
+	//We don't want that so we convert back here.
+	this.width = this.convertToPixels(this.targetWidth, width);
+	this.height = this.convertToPixels(this.targetHeight, height);
 	
 	if(drawHeightScroller) {
 		context.save();
@@ -371,23 +680,6 @@ CrocPanelScrollable.prototype.paint = function(context, width, height) {
 		
 		context.restore();
 	}
-	
-	
-	context.translate(-1.0 * realCurrentWidthPosition, -1.0 * realCurrentHeightPosition);
-	
-	context.beginPath();
-	context.lineTo(interiorClippingWidth, 0);
-	context.lineTo(interiorClippingWidth, interiorClippingHeight);
-	context.lineTo(0, height);
-	context.lineTo(0, 0);
-	context.clip();
-	
-	//CrocPanel is going to change our currnet height and width, to the size of the interior.
-	CrocPanel.prototype.paint.call(this, context, scrollableAreaWidth, scrollableAreaHeight);
-	
-	//We don't want that so we convert back here.
-	this.width = this.convertToPixels(this.targetWidth, width);
-	this.height = this.convertToPixels(this.targetHeight, height);
 
 	context.restore();
 	

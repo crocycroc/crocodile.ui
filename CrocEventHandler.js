@@ -36,11 +36,11 @@ function CrocEventHandler(root) {
 	});
 	
 	window.addEventListener('keydown', function(e) {
-		console.log(e);
+		currentEventHandler.onKeyDown(e);
 	}, false);
 	
 	window.addEventListener('keyup', function(e) {
-		console.log(e);
+		currentEventHandler.onKeyUp(e);
 	}, false);
 	
 	window.addEventListener('resize', function() { 
@@ -51,7 +51,7 @@ function CrocEventHandler(root) {
 CrocEventHandler.prototype.onCanvasResize = function() {
 	
 	//We should just be sending a resize event to the root canvas, and then it should be listening for it.
-	if(this.fullscreen) {
+	if(this.root.fullscreen) {
 		this.root.canvas.width = window.innerWidth;
 		this.root.canvas.height = window.innerHeight;
 	
@@ -126,7 +126,7 @@ CrocEventHandler.prototype.onMouseWheel = function(e) {
 	var hits = this.root.hitTest(coords.x, coords.y);
 	
 	var currentEventType = 'scrollverticle';
-
+	
 	if(this.keysDown.indexOf("Shift") >= 0) {
 		currentEventType = 'scrollhorizontal';
 	}

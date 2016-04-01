@@ -36,13 +36,19 @@
 		<script>			
 			var root = new CrocRoot(document.getElementById("myCanvas"), document.getElementById("hitCanvas"), true);
 			var panel = new CrocPanelScrollable(root);
-			var testDom = new CrocTextfield(root, 'Testing');
+// 			var testDom = new CrocTextfield(root, 'Testing');
+
+			var testDom = new CrocDOM(root, 
+				'<em>I</em> like ' + 
+				'<span style="color:white; text-shadow:0 0 2px blue;">' +
+				'TO BE FLASHY</span> Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going. Also I can just keep going and going and going and going and going and going and going and before you know it there is going is going is going is going.');
+			
 			var button = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
 			var checkbox = new CrocCheckbox(root);
 			root.addChild(panel);
 
 			panel.addChild(button, 140, 100);
-			panel.addChild(testDom, 100, 200);
+			panel.addChild(testDom, 10, 200);
 			panel.addChild(checkbox, 1000, 100);
 			
 		</script>

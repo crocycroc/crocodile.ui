@@ -112,12 +112,14 @@ CrocDOM.prototype.paint = function(context, width, height) {
 	//We should draw the real DOM element z-indexed above our root canvas.
 	if(this.drawDOM) {
 		this.domObject.style.visibility = "visible";
+		this.domObject.style.display = "inline";
 		this.domObject.style.zIndex = 100;
 	}
 	
 	//Draw the dummy image because we don't need to be real right now.
 	else {
 		this.domObject.style.visibility = "hidden";
+		this.domObject.style.display = "none";
 		this.domObject.style.zIndex = "-99";
 		
 		if(this.drawReady && this.drawImage.width > 0 && this.drawImage.height > 0) {

@@ -10,6 +10,8 @@ function CrocHTMLTextfield(root, value) {
 	this.domObject.childNodes[0].addEventListener("change", function() {
 		currentCrocDOM.updateContents();
 	});
+	
+	currentCrocDOM.updateContents();
 };
 
 //We inherit everything from CrocBase
