@@ -43,6 +43,15 @@ function CrocEventHandler(root) {
 		currentEventHandler.onKeyUp(e);
 	}, false);
 	
+	this.root.canvas.addEventListener('touchmove', function(e) {
+	}, false);
+	
+	this.root.canvas.addEventListener('touchstart', function(e) {
+	}, false);
+	
+	this.root.canvas.addEventListener('touchend', function(e) {
+	}, false);
+	
 	window.addEventListener('resize', function() { 
 		currentEventHandler.onCanvasResize() 
 	}, false);
