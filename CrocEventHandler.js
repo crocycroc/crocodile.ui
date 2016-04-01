@@ -9,6 +9,7 @@ function CrocEventHandler(root) {
 	this.root = root;
 	this.lastMouseEvent = {}; //Because firefox is goofy about wheel mouse events.
 	this.triggeredObject = null;
+	this.keysDown = [];
 	
 	this.root.canvas.addEventListener('mousemove', function(e) {
 		currentEventHandler.onMouseMove(e);
@@ -33,6 +34,14 @@ function CrocEventHandler(root) {
 	this.root.canvas.addEventListener('click', function(e) {
 		currentEventHandler.onClick(e);
 	});
+	
+	window.addEventListener('keydown', function(e) {
+		console.log(e);
+	}, false);
+	
+	window.addEventListener('keyup', function(e) {
+		console.log(e);
+	}, false);
 	
 	window.addEventListener('resize', function() { 
 		currentEventHandler.onCanvasResize() 
@@ -116,10 +125,16 @@ CrocEventHandler.prototype.onMouseWheel = function(e) {
 	
 	var hits = this.root.hitTest(coords.x, coords.y);
 	
-	this.propagateHitEvent(hits, 'scrollhorizontal', coords);
+	var currentEventType = 'scrollverticle';
+
+	if(this.keysDown.indexOf("Shift") >= 0) {
+		currentEventType = 'scrollhorizontal';
+	}
 	
+	this.propagateHitEvent(hits, currentEventType, coords);
+		
 	if(this.root.focusedObject !== null) {
-		this.root.focusedObject.event('scrollhorizontal', coords);
+		this.root.focusedObject.event(currentEventType, coords);
 	}
 };
 
@@ -151,6 +166,26 @@ CrocEventHandler.prototype.onClick = function(e) {
 	
 	this.propagateHitEvent(hits, 'click', coords);
 	
+};
+
+CrocEventHandler.prototype.onKeyDown = function(e) {
+	if(this.keysDown.indexOf(e.key) < 0) {
+		this.keysDown.push(e.key);
+	}
+	
+	if(this.root.focusedObject !== null) {
+		this.root.focusedObject.event('keydown', e, true);
+	}
+};
+
+CrocEventHandler.prototype.onKeyUp = function(e) {
+	if(this.keysDown.indexOf(e.key) >= 0) {
+		this.keysDown.splice(this.keysDown.indexOf(e.key));
+	}
+	
+	if(this.root.focusedObject !== null) {
+		this.root.focusedObject.event('keyup', e, true);
+	}
 };
 
 //Given a order tree check to see if anyone wants the event.

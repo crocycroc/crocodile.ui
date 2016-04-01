@@ -48,7 +48,9 @@ CrocBase.prototype.event = function(eventType, eventData, cascadeEvent) {
 	
 	if(cascadeEvent && retValue) {
 		for(var i = 0; i < this.children; i++) {
-			this.children[i].cascadeEvent(eventType, eventData);
+			if(!this.children[i].event(eventType, eventData, cascadeEvent)) {
+				retValue = false;
+			}
 		}
 	}
 	
