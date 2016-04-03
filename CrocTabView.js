@@ -68,7 +68,7 @@ CrocTabView.prototype._tabMouseMove = function(tab) {
 		return;
 	}
 	
-	tab.setState('hover');
+	tab.setMode('hover');
 };
 
 CrocTabView.prototype._tabMouseLeave = function(tab) {
@@ -78,7 +78,7 @@ CrocTabView.prototype._tabMouseLeave = function(tab) {
 		return;
 	}
 	
-	tab.setState('normal');
+	tab.setMode('normal');
 };
 
 CrocTabView.prototype._tabMouseDown = function(tab) {
@@ -113,12 +113,12 @@ CrocTabView.prototype.setCurrentTabByUuid = function(uuid) {
 	}
 	
 	if(this.curretTab !== null && this.tabs[this.currentTab] !== undefined) {
-		this.tabs[this.currentTab].setState('normal');
+		this.tabs[this.currentTab].setMode('normal');
 	}
 	
 	this.currentTab = uuid;
 	
-	this.tabs[this.currentTab].setState('pressed');
+	this.tabs[this.currentTab].setMode('pressed');
 	
 	this.getRoot().repaint();
 };

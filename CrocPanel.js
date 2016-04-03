@@ -90,33 +90,47 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 		hitReturn.push(hitObject);
 	}
 	
-	//When we initialize the context there needs to be a currenTransform value.
-	//This is now standard but some browsers, like firefox call it mozCurrentTransform.
-	//So we map with context.getCurrentTransform() function;
+	context.save();
 	
-	//Push Matrix
-	var parentTransform = context.getCurrentTransform();
+	context.beginPath();
+	context.lineTo(width, 0);
+	context.lineTo(width, height);
+	context.lineTo(0, height);
+	context.lineTo(0, 0);
+	context.clip();
 	
-	for(var key in this.children) {
+	var i = this.children.length;
+	while(i--) {
 		
-		var currentChild = this.children[key];
+		context.save();
+		var currentChild = this.children[i];
 		var currentOrientation = this.childrenOrientations[currentChild.uuid];
+		
+		context.rotate(currentOrientation.rotation);
+		context.scale(currentOrientation.width, currentOrientation.height);
+		
+		var newWidthHeight = this.transformPoint(context.getCurrentTransform(), this.getWidth(), this.getHeight());
+		
+		context.restore();
+		
+		context.save();
 		
 		context.translate(currentOrientation.x, currentOrientation.y);
 		context.rotate(currentOrientation.rotation);
 		context.scale(currentOrientation.width, currentOrientation.height);
-		var childClip = this.transformClipSpace(context.getCurrentTransform(), width, height);
 		
-		hitObject = currentChild.hitTest(context, x, y, childClip.width, childClip.height);
+		var newOriginPosition = this.transformPoint(context.getCurrentTransform(), 0, 0);
+		
+		hitObject = currentChild.hitTest(context, x, y, newWidthHeight.x - newOriginPosition.x, newWidthHeight.y - newOriginPosition.y);
 		
 		if(hitObject !== null) {
 			hitReturn.push(hitObject);
 		}
 		
-		//We reset the transformation for the next pass back to the parents.
-		//Pop Matrix
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+		context.restore();
 	}
+	
+	context.restore();
 	
 	return hitReturn;
 };
@@ -137,19 +151,29 @@ CrocPanel.prototype.paint = function(context, width, height) {
 	context.lineTo(0, 0);
 	context.clip();
 	
-	var parentTransform = context.getCurrentTransform();
-
 	var i = this.children.length;
 	while(i--) {
+		context.save();
 		var currentChild = this.children[i];
 		var currentOrientation = this.childrenOrientations[currentChild.uuid];
+		
+		context.rotate(currentOrientation.rotation);
+		context.scale(currentOrientation.width, currentOrientation.height);
+		
+		var newWidthHeight = this.transformPoint(context.getCurrentTransform(), this.getWidth(), this.getHeight());
+		
+		context.restore();
+		
+		context.save();
 		
 		context.translate(this.convertToPixels(currentOrientation.x, this.getWidth()), this.convertToPixels(currentOrientation.y, this.getHeight()));
 		context.rotate(currentOrientation.rotation);
 		context.scale(currentOrientation.width, currentOrientation.height);
 
-		currentChild.paint(context, width, height);
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+		var newOriginPosition = this.transformPoint(context.getCurrentTransform(), 0, 0);
+		
+		currentChild.paint(context, newWidthHeight.x - newOriginPosition.x, newWidthHeight.y - newOriginPosition.y);
+		context.restore();
 	}
 	
 	context.restore();
