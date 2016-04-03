@@ -100,17 +100,17 @@ CrocPanelScrollable.prototype.setScrollableAreaHeightMode = function(mode) {
 };
 
 CrocPanelScrollable.prototype.setScrollableAreaWidthMode = function(mode) {
-	this.setScrollableAreaWidthMode = mode;
+	this.scrollableAreaWidthMode = mode;
 	this.getRoot().repaint();
 };
 
 CrocPanelScrollable.prototype.setScrollableAreaTargetWidth = function(targetWidth) {
-	this.setScrollableAreaTargetWidth = targetWidth;
+	this.scrollableAreaTargetWidth = targetWidth;
 	this.getRoot().repaint();
 };
 
 CrocPanelScrollable.prototype.setScrollableAreaTargetHeight = function(targetHeight) {
-	this.setScrollableAreaTargetHeight = targetHeight;
+	this.scrollableAreaTargetHeight = targetHeight;
 	this.getRoot().repaint();
 };
 
