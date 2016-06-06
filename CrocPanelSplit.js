@@ -127,7 +127,8 @@ CrocPanelSplit.prototype._gripperMouseUp = function(e) {
 	this.blur();
 	
 	this.getRoot().setGlobalPaintWarning(false);
-	this.setMode('hover');
+	this.setMode('normal');
+	this.getRoot().setCursor("");
 };
 
 CrocPanelSplit.prototype.setSpacing = function(spacing) {
