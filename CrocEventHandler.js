@@ -71,6 +71,20 @@ CrocEventHandler.prototype.onCanvasResize = function() {
 	this.root.repaint();
 };
 
+CrocEventHandler.prototype.sendHitEvent = function(coords, eventType) {
+	if(this.root.focusedObject !== null) {
+		if(this.root.focusedObject.event(eventType, coords)) {
+			var hits = this.root.hitTest(coords.x, coords.y);
+			this.propagateHitEvent(hits, eventType, coords);
+		}
+	}
+	
+	else {
+		var hits = this.root.hitTest(coords.x, coords.y);
+		this.propagateHitEvent(hits, eventType, coords);
+	}
+};
+
 CrocEventHandler.prototype.onMouseMove = function(e) {
 	var rect = this.root.canvas.getBoundingClientRect();
         var coords = {
@@ -84,7 +98,7 @@ CrocEventHandler.prototype.onMouseMove = function(e) {
 	
 	var lastTriggeredObject = this.triggeredObject;
 	
-	var value = this.propagateHitEvent(hits, 'pointermove', coords);
+	this.sendHitEvent(coords, 'pointermove');
 	
 	//If the newly focused object is not the one when we started it means mouseleave has occured.
 	if(lastTriggeredObject !== this.triggeredObject && lastTriggeredObject !== null) {
@@ -104,10 +118,7 @@ CrocEventHandler.prototype.onMouseDown = function(e) {
           y: e.clientY - rect.top
         };
 	
-	var hits = this.root.hitTest(coords.x, coords.y);
-	
-	this.propagateHitEvent(hits, 'pointerdown', coords);
-	
+	this.sendHitEvent(coords, 'pointerdown');
 };
 
 CrocEventHandler.prototype.onMouseWheel = function(e) {
@@ -132,19 +143,13 @@ CrocEventHandler.prototype.onMouseWheel = function(e) {
 		data:e
 	};
 	
-	var hits = this.root.hitTest(coords.x, coords.y);
-	
 	var currentEventType = 'scrollverticle';
 	
 	if(this.keysDown.indexOf("Shift") >= 0) {
 		currentEventType = 'scrollhorizontal';
 	}
 	
-	this.propagateHitEvent(hits, currentEventType, coords);
-		
-	if(this.root.focusedObject !== null) {
-		this.root.focusedObject.event(currentEventType, coords);
-	}
+	this.sendHitEvent(coords, currentEventType);
 };
 
 CrocEventHandler.prototype.onMouseUp = function(e) {
@@ -154,14 +159,7 @@ CrocEventHandler.prototype.onMouseUp = function(e) {
 		y: e.clientY - rect.top
 	};
 	
-	var hits = this.root.hitTest(coords.x, coords.y);
-	
-	this.propagateHitEvent(hits, 'pointerup', coords);
-	
-	if(this.root.focusedObject !== null) {
-		this.root.focusedObject.event('pointerup', coords);
-	}
-	
+	this.sendHitEvent(coords, 'pointerup');
 };
 
 CrocEventHandler.prototype.onClick = function(e) {
@@ -170,11 +168,8 @@ CrocEventHandler.prototype.onClick = function(e) {
 		x: e.clientX - rect.left,
 		y: e.clientY - rect.top
 	};
-	
-	var hits = this.root.hitTest(coords.x, coords.y);
-	
-	this.propagateHitEvent(hits, 'click', coords);
-	
+
+	this.sendHitEvent(coords, 'click');
 };
 
 CrocEventHandler.prototype.onKeyDown = function(e) {
