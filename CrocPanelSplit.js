@@ -63,6 +63,7 @@ function CrocPanelSplit(root,
 		}
 		
 		this.setMode('normal');
+		this.getRoot().setCursor('');
 		return true;
 	});
 	
