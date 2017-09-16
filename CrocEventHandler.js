@@ -2,7 +2,7 @@
 /*
  * The purpose of the event handler in croc is to deal with all input from a client device
  * The input should be converted into the standard expected events types for group UI objects
- * Croc's UI object shouldn't half to worry about handling shortcuts, or touch vs. mouse input.
+ * Croc's UI object shouldn't have to worry about handling shortcuts, or touch vs. mouse input.
  */
 function CrocEventHandler(root) {
 	var currentEventHandler = this;
