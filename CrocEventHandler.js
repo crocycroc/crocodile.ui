@@ -103,7 +103,7 @@ CrocEventHandler.prototype.onMouseMove = function(e) {
 	//If the newly focused object is not the one when we started it means mouseleave has occured.
 	if(lastTriggeredObject !== this.triggeredObject) {
 		
-		this.triggeredObject('pointerenter', coords);
+		this.triggeredObject.event('pointerenter', coords);
 		
 		if(lastTriggeredObject !== null) {
 			lastTriggeredObject.event('pointerleave', coords);
