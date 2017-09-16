@@ -76,13 +76,17 @@ CrocEventHandler.prototype.sendHitEvent = function(coords, eventType) {
 	if(this.root.focusedObject !== null) {
 		if(this.root.focusedObject.event(eventType, coords)) {
 			var hits = this.root.hitTest(coords.x, coords.y);
-			this.propagateHitEvent(hits, eventType, coords);
+			if(this.propagateHitEvent(hits, eventType, coords) === true) {
+				this.triggeredObject = null;
+			}
 		}
 	}
 	
 	else {
 		var hits = this.root.hitTest(coords.x, coords.y);
-		this.propagateHitEvent(hits, eventType, coords);
+		if(this.propagateHitEvent(hits, eventType, coords) === true) {
+			this.triggeredObject = null;
+		}
 	}
 };
 
@@ -100,7 +104,9 @@ CrocEventHandler.prototype.onMouseMove = function(e) {
 	//If the newly focused object is not the one when we started it means mouseleave has occured.
 	if(this.lastTriggeredObject !== this.triggeredObject) {
 		
-		this.triggeredObject.event('pointerenter', coords);
+		if(this.triggeredObject !== null) {
+			this.triggeredObject.event('pointerenter', coords);
+		}
 		
 		if(this.lastTriggeredObject !== null) {
 			this.lastTriggeredObject.event('pointerleave', coords);
