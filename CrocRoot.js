@@ -1,7 +1,7 @@
 //All CrocRoot will do is reset the context and draw the children. Not even sure if it should reset the context.
 //It also has image control so we don't load a million such images.
 
-function CrocRoot(canvas, hitCanvasm, fullscreen, eventHandlerConstructor) {
+function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	CrocBase.call(this, this);
 	
 	eventHandlerConstructor = eventHandlerConstructor || CrocEventHandler;
