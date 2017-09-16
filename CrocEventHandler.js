@@ -8,6 +8,7 @@ function CrocEventHandler(root) {
 	var currentEventHandler = this;
 	this.root = root;
 	this.lastMouseEvent = {}; //Because firefox is goofy about wheel mouse events.
+	this.lastTriggeredObject = null;
 	this.triggeredObject = null;
 	this.keysDown = [];
 	
@@ -94,21 +95,19 @@ CrocEventHandler.prototype.onMouseMove = function(e) {
 	
 	this.lastMouseEvent = e;
 	
-	var hits = this.root.hitTest(coords.x, coords.y);
-	
-	var lastTriggeredObject = this.triggeredObject;
-	
 	this.sendHitEvent(coords, 'pointermove');
 	
 	//If the newly focused object is not the one when we started it means mouseleave has occured.
-	if(lastTriggeredObject !== this.triggeredObject) {
+	if(this.lastTriggeredObject !== this.triggeredObject) {
 		
 		this.triggeredObject.event('pointerenter', coords);
 		
-		if(lastTriggeredObject !== null) {
-			lastTriggeredObject.event('pointerleave', coords);
+		if(this.lastTriggeredObject !== null) {
+			this.lastTriggeredObject.event('pointerleave', coords);
 		}
 	}
+	
+	this.lastTriggeredObject = this.triggeredObject;
 };
 
 CrocEventHandler.prototype.onMouseDown = function(e) {
