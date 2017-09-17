@@ -28,6 +28,10 @@ function CrocEventHandler(root) {
 		currentEventHandler.onMouseWheel(e);
 	}, false);
 	
+	this.root.canvas.addEventListener('mouseout', function(e) {
+		currentEventHandler.onMouseOut(e);
+	}, false);
+	
 	this.root.canvas.addEventListener('DOMMouseScroll', function(e) {
 		currentEventHandler.onMouseWheel(e);
 	}, false);
@@ -155,6 +159,12 @@ CrocEventHandler.prototype.onMouseWheel = function(e) {
 	}
 	
 	this.sendHitEvent(coords, currentEventType);
+};
+
+CrocEventHandler.prototype.onMouseOut = function(e) {
+	if(this.root.focusedObject !== null) {
+		this.root.focusedObject.event('pointerout', e, true);
+	}
 };
 
 CrocEventHandler.prototype.onMouseUp = function(e) {

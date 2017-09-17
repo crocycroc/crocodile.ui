@@ -75,6 +75,11 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 		this.setMode('hover');
 	});
 	
+	this.addEventListener('pointerout', function(e) {
+		this.blur();
+		this.setMode('normal');
+		this.getRoot().setCursor("");
+	});
 };
 
 //We inherit everything from CrocBase
