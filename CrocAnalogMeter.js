@@ -1,15 +1,18 @@
-function CrocAnalogMeter(root, value) {
+function CrocAnalogMeter(root, value, backgroundImagePath, needleImagePath) {
 	CrocBase.call(this, root);
+	
+	backgroundImagePath = backgroundImagePath || "theme/CrocAnalogMeter/background.png";
+	needleImagePath = needleImagePath || "theme/CrocAnalogMeter/needle.png";
 	
 	this.value = value || 0;
 	this.minValue = 0;
 	this.maxValue = 100;
 	this.font = "12px Arial";
 	
-	this.background = new CrocImageSimple(root, "theme/CrocAnalogMeter/background.png");
+	this.background = new CrocImageSimple(root, backgroundImagePath);
 	this.background.setScaling('none');
 	
-	this.needle = new CrocImageSimple(root, "theme/CrocAnalogMeter/needle.png");
+	this.needle = new CrocImageSimple(root, needleImagePath);
 	this.needle.setScaling("none");
 	
 };
