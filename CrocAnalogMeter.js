@@ -15,6 +15,8 @@ function CrocAnalogMeter(root, value, backgroundImagePath, needleImagePath) {
 	this.needle = new CrocImageSimple(root, needleImagePath);
 	this.needle.setScaling("none");
 	
+	this.valueLabel = new CrocLabel(root, this.value.toString(), "18px Helvetica Bold", "black")
+	this.valueLabel.setAlignment("right");
 };
 
 //We inherit everything from CrocBase
@@ -56,6 +58,15 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	context.save();
 	
 	this.background.paint(context, width, height);
+	
+	context.save();
+	
+	context.translate(142, 92);
+	
+	this.valueLabel.setText(this.value.toString());
+	this.valueLabel.paint(context, width, height);
+	
+	context.restore();
 	
 	var needleCenter = this.background.getHeight() / 1.6125;
 	
