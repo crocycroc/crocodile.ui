@@ -5,6 +5,10 @@ function CrocAnalogMeter(root, value, backgroundImagePath, needleImagePath) {
 	needleImagePath = needleImagePath || "theme/CrocAnalogMeter/needle.png";
 	
 	this.value = value || 0;
+	this.valueLabelPostfix = '';
+	this.valueLabelPrefix = '';
+	this.valueLabelScale = 1.0;
+	this.valueLabelToFixed = 0;
 	this.minValue = 0;
 	this.maxValue = 100;
 	this.font = "12px Arial";
@@ -38,6 +42,22 @@ CrocAnalogMeter.prototype.setValue = function(value) {
 	
 };
 
+CrocAnalogMeter.prototype.setValueLabelPostfix = function(valueLabelPostfix) {
+	this.valueLabelPostfix = valueLabelPostfix.toString();
+};
+
+CrocAnalogMeter.prototype.setValueLabelPrefix = function(valueLabelPrefix) {
+	this.valueLabelPrefix = valueLabelPrefix.toString();
+};
+
+CrocAnalogMeter.prototype.setValueLabelScale = function(valueLabelScale) {
+	this.valueLabelScale = Number(valueLabelScale);
+};
+
+CrocAnalogMeter.prototype.setValueLabelToFixed = function(valueLabelToFixed) {
+	this.valueLabelToFixed = Number(valueLabelToFixed);
+};
+
 CrocAnalogMeter.prototype.setMaxValue = function(maxValue) {
 	
 	this.maxValue = maxValue;
@@ -63,7 +83,7 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	
 	context.translate(142, 92);
 	
-	this.valueLabel.setText(this.value.toString());
+	this.valueLabel.setText(this.valueLabelPrefix + (this.value * this.valueLabelScale).toFixed(this.valueLabelToFixed) + this.valueLabelPostfix);
 	this.valueLabel.paint(context, width, height);
 	
 	context.restore();

@@ -70,6 +70,12 @@
 // 			var testDom = new CrocTextfield(root, 'Testing');
 			var testSlider = new CrocSlider(root);
 			var testAnalogMeter = new CrocAnalogMeter(root);
+			
+			testAnalogMeter.setValueLabelScale(0.1);
+			testAnalogMeter.setValueLabelToFixed(1);
+			testAnalogMeter.setValueLabelPrefix("Buck ");
+			testAnalogMeter.setValueLabelPostfix(" (V)");
+			
 			var testProgressBar = new CrocProgressBar(root);
 			var testButtonLabeled = new CrocButtonLabeled(root, "Test Me! And this should wrap while centered in the middle of the button.");
 			testSlider.setTargetWidth("50%");
