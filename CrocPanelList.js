@@ -1,8 +1,10 @@
-function CrocPanelList(root) {
+function CrocPanelList(root, spacing, orientation) {
 	CrocBase.call(this, root);
 	
-	this.spacing = '10px';
-	this.orientation = 'verticle';
+	spacing = spacing || root.themer.getValue(arguments.callee, "spacing");
+	orientation = orientation || root.themer.getValue(arguments.callee, "orientation");
+	this.spacing = spacing;
+	this.orientation = orientation;
 };
 
 CrocPanelList.prototype = Object.create(CrocBase.prototype);

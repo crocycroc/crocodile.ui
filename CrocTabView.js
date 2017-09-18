@@ -7,35 +7,35 @@ function CrocTabView(root,
 
 	CrocBase.call(this, root);
 	
-	this.tr = tr || "theme/CrocTextfield/base-topright.png";
-	this.t = t || "theme/CrocTextfield/base-top.png";
-	this.tl = tl || "theme/CrocTextfield/base-topleft.png";
-	this.l = l || "theme/CrocTextfield/base-left.png";
-	this.r = r || "theme/CrocTextfield/base-right.png";
-	this.bl = bl || "theme/CrocTextfield/base-bottomleft.png";
-	this.b = b || "theme/CrocTextfield/base-bottom.png";
-	this.br = br || "theme/CrocTextfield/base-bottomright.png";
-	this.bkg = bkg || "theme/CrocTextfield/base-center.png";
+	tr = tr || root.themer.getValue(arguments.callee, "tr");
+	t = t || root.themer.getValue(arguments.callee, "t");
+	tl = tl || root.themer.getValue(arguments.callee, "tl");
+	l = l || root.themer.getValue(arguments.callee, "l");
+	r = r || root.themer.getValue(arguments.callee, "r");
+	bl = bl || root.themer.getValue(arguments.callee, "bl");
+	b = b || root.themer.getValue(arguments.callee, "b");
+	br = br || root.themer.getValue(arguments.callee, "br");
+	bkg = bkg || root.themer.getValue(arguments.callee, "bkg");
 	
-	this.trH = trH || "theme/CrocTextfield/hover-topright.png";
-	this.tH = tH || "theme/CrocTextfield/hover-top.png";
-	this.tlH = tlH || "theme/CrocTextfield/hover-topleft.png";
-	this.lH = lH || "theme/CrocTextfield/hover-left.png";
-	this.rH = rH || "theme/CrocTextfield/hover-right.png";
-	this.blH = blH || "theme/CrocTextfield/hover-bottomleft.png";
-	this.bH = bH || "theme/CrocTextfield/hover-bottom.png";
-	this.brH = brH || "theme/CrocTextfield/hover-bottomright.png";
-	this.bkgH = bkgH || "theme/CrocTextfield/base-center.png";
+	trH = trH || root.themer.getValue(arguments.callee, "trH");
+	tH = tH || root.themer.getValue(arguments.callee, "tH");
+	tlH = tlH || root.themer.getValue(arguments.callee, "tlH");
+	lH = lH || root.themer.getValue(arguments.callee, "lH");
+	rH = rH || root.themer.getValue(arguments.callee, "rH");
+	blH = blH || root.themer.getValue(arguments.callee, "blH");
+	bH = bH || root.themer.getValue(arguments.callee, "bH");
+	brH = brH || root.themer.getValue(arguments.callee, "brH");
+	bkgH = bkgH || root.themer.getValue(arguments.callee, "bkgH");
 	
-	this.trF = trF || "theme/CrocTextfield/focus-topright.png";
-	this.tF = tF || "theme/CrocTextfield/focus-top.png";
-	this.tlF = tlF || "theme/CrocTextfield/focus-topleft.png";
-	this.lF = lF || "theme/CrocTextfield/focus-left.png";
-	this.rF = rF || "theme/CrocTextfield/focus-right.png";
-	this.blF = blF || "theme/CrocTextfield/focus-bottomleft.png";
-	this.bF = bF || "theme/CrocTextfield/focus-bottom.png";
-	this.brF = brF || "theme/CrocTextfield/focus-bottomright.png";
-	this.bkgF = bkgF || "theme/CrocTextfield/base-center.png";
+	trF = trF || root.themer.getValue(arguments.callee, "trF");
+	tF = tF || root.themer.getValue(arguments.callee, "tF");
+	tlF = tlF || root.themer.getValue(arguments.callee, "tlF");
+	lF = lF || root.themer.getValue(arguments.callee, "lF");
+	rF = rF || root.themer.getValue(arguments.callee, "rF");
+	blF = blF || root.themer.getValue(arguments.callee, "blF");
+	bF = bF || root.themer.getValue(arguments.callee, "bF");
+	brF = brF || root.themer.getValue(arguments.callee, "brF");
+	bkgF = bkgF || root.themer.getValue(arguments.callee, "bkgF");
 	
 	//The tab object is a mapping from child UUID to tab button.
 	//The order the children are added is the order for their tab position.

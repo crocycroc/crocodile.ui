@@ -8,26 +8,26 @@ function CrocProgressBar(root, value) {
 	
 	this.border = new CrocPanelBorder(
 		root,
-		"theme/CrocProgressBar/groove-topright.png",
-		"theme/CrocProgressBar/groove-top.png",
-		"theme/CrocProgressBar/groove-topleft.png",
-		"theme/CrocProgressBar/groove-left.png",
-		"theme/CrocProgressBar/groove-right.png",
-		"theme/CrocProgressBar/groove-bottomleft.png",
-		"theme/CrocProgressBar/groove-bottom.png",
-		"theme/CrocProgressBar/groove-bottomright.png",
-		"theme/CrocProgressBar/groove-center.png"
+		root.themer.getValue(arguments.callee, "tl"),
+		root.themer.getValue(arguments.callee, "t"),
+		root.themer.getValue(arguments.callee, "tr"),
+		root.themer.getValue(arguments.callee, "l"),
+		root.themer.getValue(arguments.callee, "r"),
+		root.themer.getValue(arguments.callee, "bl"),
+		root.themer.getValue(arguments.callee, "b"),
+		root.themer.getValue(arguments.callee, "br"),
+		root.themer.getValue(arguments.callee, "bkg")
 	);
 	
 	this.label = new CrocLabel(root, this.value.toString(), "22px Arial");
 	
-	this.center = new CrocImageSimple(root, "theme/CrocProgressBar/progress-center.png");
+	this.center = new CrocImageSimple(root, root.themer.getValue(arguments.callee, "progressCenter"));
 	this.center.setScaling('target');
 	
-	this.left = new CrocImageSimple(root, "theme/CrocProgressBar/progress-left.png");
+	this.left = new CrocImageSimple(root, root.themer.getValue(arguments.callee, "progressLeft"));
 	this.left.setScaling('none');
 	
-	this.right = new CrocImageSimple(root, "theme/CrocProgressBar/progress-right.png");
+	this.right = new CrocImageSimple(root, root.themer.getValue(arguments.callee, "progressRight"));
 	this.right.setScaling('none');
 	
 	

@@ -2,6 +2,9 @@
 function CrocLabel(root, text, font, color) {
 	CrocBase.call(this, root);
 	
+	font = font || root.themer.getValue(arguments.callee, "font");
+	color = color || root.themer.getValue(arguments.callee, "color");
+	
 	this.setText(text);
 	this.setFont(font);
 	this.setColor(color);

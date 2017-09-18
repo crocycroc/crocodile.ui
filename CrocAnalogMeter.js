@@ -1,8 +1,8 @@
 function CrocAnalogMeter(root, value, backgroundImagePath, needleImagePath) {
 	CrocBase.call(this, root);
 	
-	backgroundImagePath = backgroundImagePath || "theme/CrocAnalogMeter/background.png";
-	needleImagePath = needleImagePath || "theme/CrocAnalogMeter/needle.png";
+	backgroundImagePath = backgroundImagePath || root.themer.getValue(arguments.callee, "backgroundImage");
+	needleImagePath = needleImagePath || root.themer.getValue(arguments.callee, "needleImage");
 	
 	this.value = value || 0;
 	this.valueLabelPostfix = '';
@@ -11,7 +11,6 @@ function CrocAnalogMeter(root, value, backgroundImagePath, needleImagePath) {
 	this.valueLabelToFixed = 0;
 	this.minValue = 0;
 	this.maxValue = 100;
-	this.font = "12px Arial";
 	
 	this.background = new CrocImageSimple(root, backgroundImagePath);
 	this.background.setScaling('none');
@@ -19,7 +18,7 @@ function CrocAnalogMeter(root, value, backgroundImagePath, needleImagePath) {
 	this.needle = new CrocImageSimple(root, needleImagePath);
 	this.needle.setScaling("none");
 	
-	this.valueLabel = new CrocLabel(root, this.value.toString(), "18px Helvetica Bold", "black")
+	this.valueLabel = new CrocLabel(root, this.value.toString(), root.themer.getValue(arguments.callee, "valueLabelFont"), root.themer.getValue(arguments.callee, "valueLabelFontColor"))
 	this.valueLabel.setAlignment("right");
 };
 

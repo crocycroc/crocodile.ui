@@ -14,27 +14,27 @@ function CrocPanelScrollable(root,
 	
 	CrocPanel.call(this, root);
 	
-	scrollArrow = scrollArrow || "theme/CrocPanelScrollable/scroll-arrow.png";
-	scrollEndcap = scrollEndcap || "theme/CrocPanelScrollable/scroll-endcap.png";
-	scrollCenter = scrollCenter || "theme/CrocPanelScrollable/scroll-center.png";
+	scrollArrow = scrollArrow || root.themer.getValue(arguments.callee, "scrollArrow");
+	scrollEndcap = scrollEndcap || root.themer.getValue(arguments.callee, "scrollEndcap");
+	scrollCenter = scrollCenter || root.themer.getValue(arguments.callee, "scrollCenter");
 	
-	scrollArrowHover = scrollArrowHover || "theme/CrocPanelScrollable/scroll-arrow.png";
-	scrollEndcapHover = scrollEndcapHover || "theme/CrocPanelScrollable/scroll-endcap.png";
-	scrollCenterHover = scrollCenterHover || "theme/CrocPanelScrollable/scroll-center.png";
+	scrollArrowHover = scrollArrowHover || root.themer.getValue(arguments.callee, "scrollArrowHover");
+	scrollEndcapHover = scrollEndcapHover || root.themer.getValue(arguments.callee, "scrollEndcapHover");
+	scrollCenterHover = scrollCenterHover || root.themer.getValue(arguments.callee, "scrollCenterHover");
 	
-	scrollArrowPressed = scrollArrowPressed || "theme/CrocPanelScrollable/scroll-arrow.png";
-	scrollEndcapPressed = scrollEndcapPressed || "theme/CrocPanelScrollable/scroll-endcap.png";
-	scrollCenterPressed = scrollCenterPressed || "theme/CrocPanelScrollable/scroll-center.png";
+	scrollArrowPressed = scrollArrowPressed || root.themer.getValue(arguments.callee, "scrollArrowPressed");
+	scrollEndcapPressed = scrollEndcapPressed || root.themer.getValue(arguments.callee, "scrollEndcapPressed");
+	scrollCenterPressed = scrollCenterPressed || root.themer.getValue(arguments.callee, "scrollCenterPressed");
 	
-	tr = tr || "theme/CrocPanelScrollable/topright.png";
-	t = t || "theme/CrocPanelScrollable/top.png";
-	tl = tl || "theme/CrocPanelScrollable/topleft.png";
-	l = l || "theme/CrocPanelScrollable/left.png";
-	r = r || "theme/CrocPanelScrollable/right.png";
-	bl = bl || "theme/CrocPanelScrollable/bottomleft.png";
-	b = b || "theme/CrocPanelScrollable/bottom.png";
-	br = br || "theme/CrocPanelScrollable/bottomright.png";
-	bkg = bkg || "theme/CrocPanelScrollable/background.png";
+	tr = tr || root.themer.getValue(arguments.callee, "tr");
+	t = t || root.themer.getValue(arguments.callee, "t");
+	tl = tl || root.themer.getValue(arguments.callee, "tl");
+	l = l || root.themer.getValue(arguments.callee, "l");
+	r = r || root.themer.getValue(arguments.callee, "r");
+	bl = bl || root.themer.getValue(arguments.callee, "bl");
+	b = b || root.themer.getValue(arguments.callee, "b");
+	br = br || root.themer.getValue(arguments.callee, "br");
+	bkg = bkg || root.themer.getValue(arguments.callee, "bkg");
 	
 	//Maybe this would be easier if these were buttons.
 	this.scrollArrowUp = new CrocButton(root, scrollArrow, scrollArrow, scrollArrow);
@@ -43,7 +43,7 @@ function CrocPanelScrollable(root,
 	this.scrollEndcapDown = new CrocButton(root, scrollEndcap, scrollEndcap, scrollEndcap);
 	this.scrollCenterUpDown = new CrocButton(root, scrollCenter, scrollCenter, scrollCenter);
 	this.scrollCenterUpDown.setScaling("stretch");
-	this.scrollBorderUpDown = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
+	this.scrollBorderUpDown = new CrocPanelBorder(root, tl, t, tr, l, r, bl, b, br, bkg);
 	
 	this.scrollArrowLeft = new CrocButton(root, scrollArrow, scrollArrow, scrollArrow);
 	this.scrollArrowRight = new CrocButton(root, scrollArrow, scrollArrow, scrollArrow);
@@ -51,7 +51,7 @@ function CrocPanelScrollable(root,
 	this.scrollEndcapRight = new CrocButton(root, scrollEndcap, scrollEndcap, scrollEndcap);
 	this.scrollCenterLeftRight = new CrocButton(root, scrollCenter, scrollCenter, scrollCenter);
 	this.scrollCenterLeftRight.setScaling("stretch");
-	this.scrollBorderLeftRight = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
+	this.scrollBorderLeftRight = new CrocPanelBorder(root, tl, t, tr, l, r, bl, b, br, bkg);
 	
 	this.addEventListener('scrollverticle', function(e) {
 		var realCurrentHeightPosition = this.convertToPixels(this.currentHeightPosition, this.getHeight());

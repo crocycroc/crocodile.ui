@@ -1,19 +1,19 @@
 function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg) {
 	CrocBase.call(this, root);
 
-	tr = tr || "theme/CrocSlider/groove-topright.png";
-	t = t || "theme/CrocSlider/groove-top.png";
-	tl = tl || "theme/CrocSlider/groove-topleft.png";
-	l = l || "theme/CrocSlider/groove-left.png";
-	r = r || "theme/CrocSlider/groove-right.png";
-	bl = bl || "theme/CrocSlider/groove-bottomleft.png";
-	b = b || "theme/CrocSlider/groove-bottom.png";
-	br = br || "theme/CrocSlider/groove-bottomright.png";
-	bkg = bkg || "theme/CrocSlider/groove-center.png";
+	tr = tr || root.themer.getValue(arguments.callee, "tr");
+	t = t || root.themer.getValue(arguments.callee, "t");
+	tl = tl || root.themer.getValue(arguments.callee, "tl");
+	l = l || root.themer.getValue(arguments.callee, "l");
+	r = r || root.themer.getValue(arguments.callee, "r");
+	bl = bl || root.themer.getValue(arguments.callee, "bl");
+	b = b || root.themer.getValue(arguments.callee, "b");
+	br = br || root.themer.getValue(arguments.callee, "br");
+	bkg = bkg || root.themer.getValue(arguments.callee, "bkg");
 	
-	slider = "theme/CrocSlider/horizontal-slider-handle.png";
-	hover = "theme/CrocSlider/horizontal-slider-hover.png";
-	focus = "theme/CrocSlider/horizontal-slider-focus.png";
+	slider = slider || root.themer.getValue(arguments.callee, "slider");
+	hover =  hover || root.themer.getValue(arguments.callee, "hover");
+	focus = focus || root.themer.getValue(arguments.callee, "focus");
 	
 	//normal, hover, and focus are the valid modes
 	this.mode = "normal";
@@ -24,7 +24,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 	this.minValue = 0;
 	this.stepping = 1;
 	
-	this.groove = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
+	this.groove = new CrocPanelBorder(root, tl, t, tr, l, r, bl, b, br, bkg);
 	
 	this.slider = new CrocImageSimple(root, slider);
 	this.slider.setScaling('none');
