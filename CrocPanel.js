@@ -115,9 +115,9 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 		
 		context.save();
 		
-		context.translate(currentOrientation.x, currentOrientation.y);
+		context.translate(this.convertToPixels(currentOrientation.x, width), this.convertToPixels(currentOrientation.y, height));
 		context.rotate(currentOrientation.rotation);
-		context.scale(currentOrientation.width, currentOrientation.height);
+		context.scale(this.convertToPixels(currentOrientation.width, width), this.convertToPixels(currentOrientation.height, height));
 		
 		var newOriginPosition = this.transformPoint(context.getCurrentTransform(), 0, 0);
 		
