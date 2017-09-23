@@ -107,7 +107,7 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 		var currentOrientation = this.childrenOrientations[currentChild.uuid];
 		
 		context.rotate(currentOrientation.rotation);
-		context.scale(currentOrientation.width, currentOrientation.height);
+		context.scale(this.convertToPixels(currentOrientation.width, width), this.convertToPixels(currentOrientation.height, height));
 		
 		var newWidthHeight = this.transformPoint(context.getCurrentTransform(), this.getWidth(), this.getHeight());
 		
