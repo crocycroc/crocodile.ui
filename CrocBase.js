@@ -126,12 +126,14 @@ CrocBase.prototype.addChildren = function(uiObjectList) {
 
 CrocBase.prototype.removeChild = function(uiObject) {
 	
-	if(!(uiObject in this.children)) {
+	var childIndex = this.children.indexOf(uiObject);
+	
+	if(childIndex < 0) {
 		console.log("CrocBase.prototype.removeChild: Has no UIObject!");
 		return false;
 	}
 	
-	this.children.splice(this.children.index(uiObject));
+	this.children.splice(childIndex);
 	
 	this.getRoot().repaint();
 	

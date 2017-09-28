@@ -40,11 +40,8 @@ CrocPanelList.prototype.removeChild = function(uiObject) {
 	if(CrocBase.prototype.removeChild.call(this, uiObject) === false) {
 		return false;
 	}
-
-	this.getRoot().repaint();
 	
 	return true;
-	
 };
 
 CrocPanelList.prototype.removeAllChildren = function() {
