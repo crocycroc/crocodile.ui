@@ -125,13 +125,22 @@ CrocBase.prototype.addChildren = function(uiObjectList) {
 };
 
 CrocBase.prototype.removeChild = function(uiObject) {
+
+	var childIndex = -1;
 	
-	if(!(uiObject in this.children)) {
+	for(var i = 0; i < this.children.length; i++) {
+		if(this.children[i].uuid === uiObject.uuid) {
+			childIndex = i;
+			break;
+		}
+	}
+	
+	if(childIndex < 0) {
 		console.log("CrocBase.prototype.removeChild: Has no UIObject!");
 		return false;
 	}
 	
-	this.children.splice(this.children.index(uiObject));
+	this.children.splice(childIndex);
 	
 	this.getRoot().repaint();
 	
