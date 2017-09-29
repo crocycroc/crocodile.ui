@@ -126,16 +126,7 @@ CrocBase.prototype.addChildren = function(uiObjectList) {
 
 CrocBase.prototype.removeChild = function(uiObject) {
 	
-	var childIndex = -1;
-	
-	for(var i = 0; i < this.children.length; i++) {
-		
-		if(this.children[i].uuid === uiObject.uuid) {
-			childIndex = i;
-			break;
-		}
-		
-	}
+	var childIndex = this.children.indexOf(uiObject);
 	
 	if(childIndex < 0) {
 		console.log("CrocBase.prototype.removeChild: Has no UIObject!");
