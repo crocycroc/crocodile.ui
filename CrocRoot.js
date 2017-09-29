@@ -111,8 +111,6 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 		this.hitCanvas.height = window.innerHeight;
 	}
 	
-// 	this.setDPI(144);
-	
 	this.repaint();
 };
 
@@ -124,23 +122,46 @@ CrocRoot.prototype.getCrocRoot = function() {
 };
 
 CrocRoot.prototype.onCanvasResize = function() {
+	this.repaint();
+};
+
+CrocRoot.prototype.setWidth = function (width) {
 	
 	if(this.fullscreen) {
-		this.canvas.width = window.innerWidth;
-		this.canvas.height = window.innerHeight;
-	
-		this.hitCanvas.width = window.innerWidth;
-		this.hitCanvas.height = window.innerHeight;
+		return;
 	}
+	
+	this.canvas.width = width;
+	this.hitCanvas.width = width;
+	
+	this.repaint();
+};
+
+CrocRoot.prototype.setHeight = function(height) {
+	
+	if(this.fullscreen) {
+		return;
+	}
+	
+	this.canvas.height = height;
+	this.hitCanvas.height = height;
 	
 	this.repaint();
 };
 
 CrocRoot.prototype.getWidth = function () {
+	if(this.fullscreen) {
+		return window.innerWidth;
+	}
+	
 	return this.canvas.width;
 };
 
 CrocRoot.prototype.getHeight = function() {
+	if(this.fullscreen) {
+		return window.innerHeight;
+	}
+	
 	return this.canvas.height;
 };
 
@@ -239,8 +260,6 @@ CrocRoot.prototype.repaint = function() {
 	}
 	
 	this.dirty = true;
-	
-// 	console.trace();
 	
 	var currentCrocRoot = this;
 	window.requestAnimationFrame(function() {
@@ -368,26 +387,6 @@ CrocRoot.prototype.setSmooth = function(smooth) {
 	this.context['webkitImageSmoothingEnabled'] = smooth; /* Safari */
 	this.context['msImageSmoothingEnabled'] = smooth;     /* IE */
 };
-
-CrocRoot.prototype.setDPI = function(dpi) {
-	
-	// Set up CSS size if it's not set up already
-	if (!this.canvas.style.width) {
-		this.canvas.style.width = this.canvas.width + 'px';
-		this.hitCanvas.style.width = this.hitCanvas.width + 'px';
-	}
-	
-	if (!this.canvas.style.height) {
-		this.canvas.style.height = this.canvas.height + 'px';
-		this.hitCanvas.style.height = this.hitCanvas.height + 'px';
-	}
-
-	this.scaleFactor = dpi / 96;
-	this.canvas.width = Math.ceil(this.canvas.width * this.scaleFactor);
-	this.canvas.height = Math.ceil(this.canvas.height * this.scaleFactor);
-	this.hitCanvas.width = Math.ceil(this.hitCanvas.width * this.scaleFactor);
-	this.hitCanvas.height = Math.ceil(this.hitCanvas.height * this.scaleFactor);
-}
 
 CrocRoot.prototype.paint = function() {
 
