@@ -63,7 +63,7 @@ CrocHTMLTextfield.prototype.updateContents = function() {
 	}
 	
 	this.drawImage.onerror = function() {
-		this.error("DOM Render failed with error:" + err.toString());
+		currentCrocDOM.error("DOM Render failed with error!");
 		
 		currentCrocDOM.drawReady = false;
 	}
