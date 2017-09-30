@@ -133,7 +133,7 @@ CrocBase.prototype.removeChild = function(uiObject) {
 		return false;
 	}
 	
-	this.children.splice(childIndex);
+	this.children.splice(childIndex, 1);
 	
 	this.getRoot().repaint();
 	
