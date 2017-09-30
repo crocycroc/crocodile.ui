@@ -326,7 +326,7 @@ CrocRoot.prototype.onImageLoad = function(src) {
 	}
 	
 	if(!(src in this.imageStore)) {
-		console.log("CrocRoot.prototype.onImageLoad: Wasn't waiting for image \"" + src + "\" to load but got event anyway?!");
+		this.error("Wasn't waiting for image \"" + src + "\" to load but got event anyway?!");
 		return;
 	}
 	
@@ -346,7 +346,7 @@ CrocRoot.prototype.getImage = function(src) {
 	}
 	
 	if(!(src in this.imageStore)) {
-		console.log("CrocRoot.prototype.getImage: No such image \"" + src + "\" in image storage!");
+		this.error("No such image \"" + src + "\" in image storage!");
 		return null;
 	}
 	

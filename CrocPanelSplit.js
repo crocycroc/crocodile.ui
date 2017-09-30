@@ -69,10 +69,10 @@ function CrocPanelSplit(root,
 	
 	this.addEventListener('pointerup', function(e){return currentPanelSplit._gripperPointerUp(e);});
 	
-	this.gripper.addEventListener('pointermove', function(e){console.log('gripper: pointermove'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerMove(e);});
-	this.gripper.addEventListener('pointerleave', function(e){console.log('gripper: pointerleave'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerLeave(e);});
-	this.gripper.addEventListener('pointerdown', function(e){console.log('gripper: pointerdown'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerDown(e);});
-	this.gripper.addEventListener('pointerup', function(e){console.log('gripper: pointerup'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerUp(e);});
+	this.gripper.addEventListener('pointermove', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerMove(e);});
+	this.gripper.addEventListener('pointerleave', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerLeave(e);});
+	this.gripper.addEventListener('pointerdown', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerDown(e);});
+	this.gripper.addEventListener('pointerup', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerUp(e);});
 };
 
 CrocPanelSplit.prototype = Object.create(CrocBase.prototype);
