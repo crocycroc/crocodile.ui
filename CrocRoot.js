@@ -331,10 +331,10 @@ CrocRoot.prototype.onImageLoad = function(src) {
 	}
 	
 	this.imageStore[src].loaded = true;
-	
-	this.event("imageload", {"src":src}, true);
 
 	this.repaint();
+	
+	this.event("imageload", {"src":src}, true);
 	
 	return;
 };
