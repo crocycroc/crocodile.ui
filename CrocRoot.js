@@ -321,6 +321,10 @@ CrocRoot.prototype.setCursor = function(type) {
 
 CrocRoot.prototype.onImageLoad = function(src) {
 	
+	if(src === undefined) {
+		return;
+	}
+	
 	if(!(src in this.imageStore)) {
 		console.log("CrocRoot.prototype.onImageLoad: Wasn't waiting for image \"" + src + "\" to load but got event anyway?!");
 		return;
@@ -328,6 +332,8 @@ CrocRoot.prototype.onImageLoad = function(src) {
 	
 	this.imageStore[src].loaded = true;
 	
+	this.event("imageload", {"src":src}, true);
+
 	this.repaint();
 	
 	return;
