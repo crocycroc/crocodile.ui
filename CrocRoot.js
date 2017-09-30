@@ -341,6 +341,10 @@ CrocRoot.prototype.onImageLoad = function(src) {
 
 CrocRoot.prototype.getImage = function(src) {
 	
+	if(src === undefined) {
+		return;
+	}
+	
 	if(!(src in this.imageStore)) {
 		console.log("CrocRoot.prototype.getImage: No such image \"" + src + "\" in image storage!");
 		return null;
