@@ -169,7 +169,7 @@ CrocRoot.prototype.clear = function() {
 	this.context.save();
 	this.context.setTransform(1, 0, 0, 1, 0, 0)
 	this.context.clearRect(0, 0, this.getWidth(), this.getHeight());
-	this.hitContext.restore();
+	this.context.restore();
 };
 
 CrocRoot.prototype.clearHitContext = function() {
