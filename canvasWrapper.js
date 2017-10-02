@@ -78,6 +78,9 @@ cwPrototype.moveTo = function (aX, aY) {
 	this.currentX_ = p.x;
 	this.currentY_ = p.y;
 };
+cwPrototype.getImageData = function(x,y,length,breath) {
+	return this.canvas.getImageData(x,y,length,breath);
+};
 cwPrototype.lineTo = function (aX, aY) {
 	this.applyContextProperties();
 	this.canvas.lineTo(aX, aY);
