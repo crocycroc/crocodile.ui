@@ -99,8 +99,7 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 	context.lineTo(0, 0);
 	context.clip();
 	
-	var i = this.children.length;
-	while(i--) {
+	for(var i = 0; i < this.children.length; i++) {
 		
 		context.save();
 		var currentChild = this.children[i];
