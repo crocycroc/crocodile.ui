@@ -154,6 +154,8 @@ CrocBase.prototype.addChild = function(uiObject) {
 	
 	this.children.push(uiObject);
 	
+	this.getRoot().repaint();
+	
 	return true;
 };
 
@@ -161,8 +163,6 @@ CrocBase.prototype.addChildren = function(uiObjectList) {
 	for(var i = 0; i < uiObjectList.length; i++) {
 		this.addChild(uiObjectList[i]);
 	}
-
-	this.getRoot().repaint();
 	
 	return;
 };
