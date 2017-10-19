@@ -44,6 +44,9 @@ function copyState(o1, o2) {
 	o2.shadowOffsetY = o1.shadowOffsetY;
 	o2.strokeStyle = o1.strokeStyle;
 	o2.globalAlpha = o1.globalAlpha;
+	o2.font = o1.font;
+	o2.textBaseline = o1.textBaseline;
+	o2.textAlign = o1.textAlign;
 }
 function CanvasWrapper(ctx) {
 	this.m_ = createMatrixIdentity();
@@ -68,6 +71,9 @@ cwPrototype.applyContextProperties = function () {
 	this.canvas.lineCap = this.lineCap;
 	this.canvas.miterLimit = this.miterLimit;
 	this.canvas.globalAlpha = this.globalAlpha;
+	this.canvas.font = this.font;
+	this.canvas.textBaseline = this.textBaseline;
+	this.canvas.textAlign = this.textAlign;
 };
 cwPrototype.beginPath = function () {
 	this.canvas.beginPath();
@@ -80,6 +86,9 @@ cwPrototype.moveTo = function (aX, aY) {
 };
 cwPrototype.getImageData = function(x,y,length,breath) {
 	return this.canvas.getImageData(x,y,length,breath);
+};
+cwPrototype.measureText = function(line) {
+	return this.canvas.measureText(line);
 };
 cwPrototype.lineTo = function (aX, aY) {
 	this.applyContextProperties();

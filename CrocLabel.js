@@ -111,10 +111,10 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			break;
 	}
 	
-	context.getContext().font = this.textFont;
-	context.getContext().textBaseline = this.textBaseline;
-	context.getContext().textAlign = this.alignmentHorizontal;
-	context.getContext().fillStyle = this.textColor;
+	context.font = this.textFont;
+	context.textBaseline = this.textBaseline;
+	context.textAlign = this.alignmentHorizontal;
+	context.fillStyle = this.textColor;
 	
 	var currentLine = '';
 	var currentLineNumber = 0;
@@ -133,7 +133,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 		}
 		
 		var testLine = currentLine + splittedText[i] + currentDeviderText;
-		var testMetrics = context.getContext().measureText(testLine);
+		var testMetrics = context.measureText(testLine);
 		
 		if(testMetrics.width > maxWidth) {
 			maxWidth = testMetrics.width;
