@@ -114,7 +114,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	context.getContext().font = this.textFont;
 	context.getContext().textBaseline = this.textBaseline;
 	context.getContext().textAlign = this.alignmentHorizontal;
-	context.fillStyle = this.textColor;
+	context.getContext().fillStyle = this.textColor;
 	
 	var currentLine = '';
 	var currentLineNumber = 0;
