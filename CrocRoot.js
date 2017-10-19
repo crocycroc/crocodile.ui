@@ -319,7 +319,7 @@ CrocRoot.prototype.loadImage = function(src, callback) {
 };
 
 CrocRoot.prototype.setCursor = function(type) {
-	window.document.body.style.cursor = type || "";
+	this.canvas.style.cursor = type || "";
 	return;
 };
 
