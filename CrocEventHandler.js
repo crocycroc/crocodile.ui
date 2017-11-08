@@ -187,6 +187,8 @@ CrocEventHandler.prototype.onKeyDown = function(e) {
 		this.keysDown.push(e.key);
 	}
 	
+	this.root.event('keydown', e, false);
+	
 	if(this.root.focusedObject !== null) {
 		this.root.focusedObject.event('keydown', e, true);
 	}
@@ -196,6 +198,8 @@ CrocEventHandler.prototype.onKeyUp = function(e) {
 	if(this.keysDown.indexOf(e.key) >= 0) {
 		this.keysDown.splice(this.keysDown.indexOf(e.key));
 	}
+	
+	this.root.event('keyup', e, false);
 	
 	if(this.root.focusedObject !== null) {
 		this.root.focusedObject.event('keyup', e, true);
