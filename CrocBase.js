@@ -251,7 +251,7 @@ CrocBase.prototype.getChildren = function() {
 	return this.children;
 };
 
-CrocBase.prototype.childInFrontOf = function(uiObject, fontOfObject) {
+CrocBase.prototype.childInFrontOf = function(uiObject, frontOfObject) {
 	
 	var indexOfObject = this.children.indexOf(uiObject);
 	var indexOfFront = this.children.indexOf(frontOfObject);
