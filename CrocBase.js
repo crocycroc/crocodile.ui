@@ -251,6 +251,22 @@ CrocBase.prototype.getChildren = function() {
 	return this.children;
 };
 
+CrocBase.prototype.childInFrontOf = function(uiObject, fontOfObject) {
+	
+	var indexOfObject = this.children.indexOf(uiObject);
+	var indexOfFront = this.children.indexOf(frontOfObject);
+	
+	if(indexOfObject < 0 || indexOfFront < 0) {
+		return false;
+	}
+	
+	this.children.splice(indexOfObject, 1);
+	
+	indexOfFront = this.children.indexOf(frontOfObject);
+	this.children.splice(indexOfFront, 0, uiObject);
+	return true;
+};
+
 CrocBase.prototype.childToFront = function(uiObject) {
 	if(this.children.indexOf(uiObject) < 0) {
 		return false;
