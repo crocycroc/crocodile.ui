@@ -78,12 +78,7 @@ CrocEventHandler.prototype.onCanvasResize = function() {
 
 CrocEventHandler.prototype.sendHitEvent = function(coords, eventType) {
 	if(this.root.focusedObject !== null) {
-		if(this.root.focusedObject.event(eventType, coords) !== false) {
-			var hits = this.root.hitTest(coords.x, coords.y);
-			if(this.propagateHitEvent(hits, eventType, coords) === true) {
-				this.triggeredObject = null;
-			}
-		}
+		this.root.focusedObject.event(eventType, coords);
 	}
 	
 	else {
