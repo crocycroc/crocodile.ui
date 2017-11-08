@@ -53,6 +53,10 @@ CrocBase.prototype.event = function(eventType, eventData, cascadeEvent) {
 		}
 	}
 	
+	if(eventType !== 'event') {
+		this.event('event', {'type':eventType, 'data':eventData}, false);
+	}
+	
 	return retValue;
 };
 
