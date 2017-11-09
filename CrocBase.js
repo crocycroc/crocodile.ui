@@ -53,6 +53,10 @@ CrocBase.prototype.event = function(eventType, eventData, cascadeEvent) {
 		}
 	}
 	
+	if(eventType !== 'event') {
+		this.event('event', {'type':eventType, 'data':eventData}, false);
+	}
+	
 	return retValue;
 };
 
@@ -154,6 +158,8 @@ CrocBase.prototype.addChild = function(uiObject) {
 	
 	this.children.push(uiObject);
 	
+	this.getRoot().repaint();
+	
 	return true;
 };
 
@@ -161,8 +167,6 @@ CrocBase.prototype.addChildren = function(uiObjectList) {
 	for(var i = 0; i < uiObjectList.length; i++) {
 		this.addChild(uiObjectList[i]);
 	}
-
-	this.getRoot().repaint();
 	
 	return;
 };
@@ -245,6 +249,22 @@ CrocBase.prototype.getParent = function() {
 
 CrocBase.prototype.getChildren = function() {
 	return this.children;
+};
+
+CrocBase.prototype.childInFrontOf = function(uiObject, frontOfObject) {
+	
+	var indexOfObject = this.children.indexOf(uiObject);
+	var indexOfFront = this.children.indexOf(frontOfObject);
+	
+	if(indexOfObject < 0 || indexOfFront < 0) {
+		return false;
+	}
+	
+	this.children.splice(indexOfObject, 1);
+	
+	indexOfFront = this.children.indexOf(frontOfObject);
+	this.children.splice(indexOfFront, 0, uiObject);
+	return true;
 };
 
 CrocBase.prototype.childToFront = function(uiObject) {
