@@ -88,6 +88,7 @@ cwPrototype.getImageData = function(x,y,length,breath) {
 	return this.canvas.getImageData(x,y,length,breath);
 };
 cwPrototype.measureText = function(line) {
+	this.applyContextProperties();
 	return this.canvas.measureText(line);
 };
 cwPrototype.lineTo = function (aX, aY) {

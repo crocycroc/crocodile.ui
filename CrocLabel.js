@@ -116,6 +116,8 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	context.textAlign = this.alignmentHorizontal;
 	context.fillStyle = this.textColor;
 	
+	var currentWidth = this.getWidth();
+	var currentHeight = this.getHeight();
 	var currentLine = '';
 	var currentLineNumber = 0;
 	var currentFontHeightPadding = this.textFontHeightPadding;
@@ -139,17 +141,17 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			maxWidth = testMetrics.width;
 		}
 		
-		if(testMetrics.width > width && i > 0) {
+		if(testMetrics.width > currentWidth && i > 0) {
 			var y = currentLineNumber * (this.textHeight + currentFontHeightPadding);
 			var x = 0;
 			
 			switch(this.alignmentHorizontal) {
 				case 'center':
-					x = width / 2;
+					x = currentWidth / 2;
 					break;
 					
 				case 'end':
-					x = width;
+					x = currentWidth;
 			}
 			
 			context.fillText(currentLine, x, y + this.textHeight);
@@ -178,6 +180,9 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			
 		case 'end':
 			x = width;
+			
+		case 'right':
+			x = width;
 	}
 	
 	switch(this.alignmentVerticle) {
@@ -186,6 +191,10 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			break;
 			
 		case 'end':
+			y = y + this.getHeight() - currentFontHeightPadding;
+			break;
+			
+		case 'right':
 			y = y + this.getHeight() - currentFontHeightPadding;
 			break;
 	}
