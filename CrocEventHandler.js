@@ -40,11 +40,11 @@ function CrocEventHandler(root) {
 		currentEventHandler.onClick(e);
 	});
 	
-	window.addEventListener('keydown', function(e) {
+	this.root.canvas.addEventListener('keydown', function(e) {
 		currentEventHandler.onKeyDown(e);
 	}, false);
 	
-	window.addEventListener('keyup', function(e) {
+	this.root.canvas.addEventListener('keyup', function(e) {
 		currentEventHandler.onKeyUp(e);
 	}, false);
 	
