@@ -205,8 +205,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			y = y + this.getHeight() - currentFontHeightPadding;
 			break;
 	}
-	
-	this.width = maxWidth;
+
 	this.height = y + this.textHeight;
 	
 	context.fillText(currentLine, x, y + this.textHeight);
