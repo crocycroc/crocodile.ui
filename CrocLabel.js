@@ -152,6 +152,11 @@ CrocLabel.prototype.paint = function(context, width, height) {
 					
 				case 'end':
 					x = currentWidth;
+					break;
+					
+				case 'right':
+					x = currentWidth;
+					break;
 			}
 			
 			context.fillText(currentLine, x, y + this.textHeight);
@@ -180,9 +185,11 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			
 		case 'end':
 			x = width;
+			break;
 			
 		case 'right':
 			x = width;
+			break;
 	}
 	
 	switch(this.alignmentVerticle) {
