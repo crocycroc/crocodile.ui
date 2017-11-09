@@ -180,15 +180,15 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	
 	switch(this.alignmentHorizontal) {
 		case 'center':
-			x = width / 2;
+			x = currentWidth / 2;
 			break;
 			
 		case 'end':
-			x = width;
+			x = currentWidth;
 			break;
 			
 		case 'right':
-			x = width;
+			x = currentWidth;
 			break;
 	}
 	
