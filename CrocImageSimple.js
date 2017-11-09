@@ -5,7 +5,6 @@ function CrocImageSimple(root, imgSrc) {
 	
 	CrocBase.call(this, root);
 	
-	this.imgSrc = imgSrc;
 	this.currentImage = null;
 	
 	this.hitTestType = 'bounding';
@@ -19,6 +18,8 @@ CrocImageSimple.prototype.constructor = CrocImageSimple;
 
 CrocImageSimple.prototype.setImage = function(imgSrc) {
 	var currentCrocImageSimple = this;
+	
+	this.imgSrc = imgSrc;
 	
 	this.getRoot().loadImage(imgSrc, function() {
 		currentCrocImageSimple.currentImage = currentCrocImageSimple.getRoot().getImage(currentCrocImageSimple.imgSrc);
