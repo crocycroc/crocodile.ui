@@ -117,7 +117,7 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 			h = this.currentHeight/this.currentImage.height;
 		}
 		
-		if(w > 0 && h > 0) {
+		if(w >= 0 && h >= 0) {
 			context.scale(w, h);
 		}
 	}
