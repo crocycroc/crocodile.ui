@@ -3,6 +3,8 @@ function CrocImageSimple(root, imgSrc) {
 	
 	var currentCrocImageSimple = this;
 	
+	imgSrc = imgSrc || root.themer.getValue(arguments.callee, "image");
+	
 	CrocBase.call(this, root);
 	
 	this.currentImage = null;
