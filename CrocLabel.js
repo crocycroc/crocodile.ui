@@ -134,7 +134,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 			currentDeviderText = deviderText[i];
 		}
 		
-		var testLine = currentLine + splittedText[i] + currentDeviderText;
+		var testLine = currentLine + splittedText[i];
 		var testMetrics = context.measureText(testLine);
 		
 		if(testMetrics.width > maxWidth) {
@@ -165,7 +165,7 @@ CrocLabel.prototype.paint = function(context, width, height) {
 		}
 		
 		else {
-			currentLine = testLine;
+			currentLine = testLine + currentDeviderText;
 		}
 	}
 	
