@@ -1,18 +1,18 @@
 
 //Takes eight image to generate the boarder.
 // If you are wondering why there is no center image, that's beacuse you would simply make that be the children of this boarder panel.
-function CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg) {
+function CrocPanelBorder(root, tl, t, tr, l, r, bl, b, br, bkg) {
 	CrocPanel.call(this, root);
 	
-	tr = tr || "theme/CrocPanelBorder/topright.png";
-	t = t || "theme/CrocPanelBorder/top.png";
-	tl = tl || "theme/CrocPanelBorder/topleft.png";
-	l = l || "theme/CrocPanelBorder/left.png";
-	r = r || "theme/CrocPanelBorder/right.png";
-	bl = bl || "theme/CrocPanelBorder/bottomleft.png";
-	b = b || "theme/CrocPanelBorder/bottom.png";
-	br = br || "theme/CrocPanelBorder/bottomright.png";
-	bkg = bkg || "theme/CrocPanelBorder/background.png";
+	tr = tr || root.themer.getValue(arguments.callee, "tr");
+	t = t || root.themer.getValue(arguments.callee, "t");
+	tl = tl || root.themer.getValue(arguments.callee, "tl");
+	l = l || root.themer.getValue(arguments.callee, "l");
+	r = r || root.themer.getValue(arguments.callee, "r");
+	bl = bl || root.themer.getValue(arguments.callee, "bl");
+	b = b || root.themer.getValue(arguments.callee, "b");
+	br = br || root.themer.getValue(arguments.callee, "br");
+	bkg = bkg || root.themer.getValue(arguments.callee, "bkg");
 	
 	this.backgroundImage = new CrocImageSimple(root, bkg);
 	

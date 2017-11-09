@@ -1,17 +1,25 @@
-function CrocAnalogMeter(root, value) {
+function CrocAnalogMeter(root, value, backgroundImagePath, needleImagePath) {
 	CrocBase.call(this, root);
 	
+	backgroundImagePath = backgroundImagePath || root.themer.getValue(arguments.callee, "backgroundImage");
+	needleImagePath = needleImagePath || root.themer.getValue(arguments.callee, "needleImage");
+	
 	this.value = value || 0;
+	this.valueLabelPostfix = '';
+	this.valueLabelPrefix = '';
+	this.valueLabelScale = 1.0;
+	this.valueLabelToFixed = 0;
 	this.minValue = 0;
 	this.maxValue = 100;
-	this.font = "12px Arial";
 	
-	this.background = new CrocImageSimple(root, "theme/CrocAnalogMeter/background.png");
+	this.background = new CrocImageSimple(root, backgroundImagePath);
 	this.background.setScaling('none');
 	
-	this.needle = new CrocImageSimple(root, "theme/CrocAnalogMeter/needle.png");
+	this.needle = new CrocImageSimple(root, needleImagePath);
 	this.needle.setScaling("none");
 	
+	this.valueLabel = new CrocLabel(root, this.value.toString(), root.themer.getValue(arguments.callee, "valueLabelFont"), root.themer.getValue(arguments.callee, "valueLabelFontColor"))
+	this.valueLabel.setAlignment("right");
 };
 
 //We inherit everything from CrocBase
@@ -31,6 +39,22 @@ CrocAnalogMeter.prototype.setValue = function(value) {
 	this.value = value;
 	this.getRoot().repaint();
 	
+};
+
+CrocAnalogMeter.prototype.setValueLabelPostfix = function(valueLabelPostfix) {
+	this.valueLabelPostfix = valueLabelPostfix.toString();
+};
+
+CrocAnalogMeter.prototype.setValueLabelPrefix = function(valueLabelPrefix) {
+	this.valueLabelPrefix = valueLabelPrefix.toString();
+};
+
+CrocAnalogMeter.prototype.setValueLabelScale = function(valueLabelScale) {
+	this.valueLabelScale = Number(valueLabelScale);
+};
+
+CrocAnalogMeter.prototype.setValueLabelToFixed = function(valueLabelToFixed) {
+	this.valueLabelToFixed = Number(valueLabelToFixed);
 };
 
 CrocAnalogMeter.prototype.setMaxValue = function(maxValue) {
@@ -53,6 +77,15 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	context.save();
 	
 	this.background.paint(context, width, height);
+	
+	context.save();
+	
+	context.translate(142, 92);
+	
+	this.valueLabel.setText(this.valueLabelPrefix + (this.value * this.valueLabelScale).toFixed(this.valueLabelToFixed) + this.valueLabelPostfix);
+	this.valueLabel.paint(context, width, height);
+	
+	context.restore();
 	
 	var needleCenter = this.background.getHeight() / 1.6125;
 	

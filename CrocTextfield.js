@@ -39,41 +39,41 @@ function CrocTextfield(root, value) {
 	
 	this.border = new CrocPanelBorder(
 		root,
-		"theme/CrocTextfield/base-topright.png",
-		"theme/CrocTextfield/base-top.png",
-		"theme/CrocTextfield/base-topleft.png",
-		"theme/CrocTextfield/base-left.png",
-		"theme/CrocTextfield/base-right.png",
-		"theme/CrocTextfield/base-bottomleft.png",
-		"theme/CrocTextfield/base-bottom.png",
-		"theme/CrocTextfield/base-bottomright.png",
-		"theme/CrocTextfield/base-center.png"
+		root.themer.getValue(arguments.callee, "tl"),
+		root.themer.getValue(arguments.callee, "t"),
+		root.themer.getValue(arguments.callee, "tr"),
+		root.themer.getValue(arguments.callee, "l"),
+		root.themer.getValue(arguments.callee, "r"),
+		root.themer.getValue(arguments.callee, "bl"),
+		root.themer.getValue(arguments.callee, "b"),
+		root.themer.getValue(arguments.callee, "br"),
+		root.themer.getValue(arguments.callee, "bkg")
 	);
 	
 	this.borderFocus = new CrocPanelBorder(
 		root,
-		"theme/CrocTextfield/focus-topright.png",
-		"theme/CrocTextfield/focus-top.png",
-		"theme/CrocTextfield/focus-topleft.png",
-		"theme/CrocTextfield/focus-left.png",
-		"theme/CrocTextfield/focus-right.png",
-		"theme/CrocTextfield/focus-bottomleft.png",
-		"theme/CrocTextfield/focus-bottom.png",
-		"theme/CrocTextfield/focus-bottomright.png",
-		"theme/CrocTextfield/base-center.png"
+		root.themer.getValue(arguments.callee, "tlF"),
+		root.themer.getValue(arguments.callee, "tF"),
+		root.themer.getValue(arguments.callee, "trF"),
+		root.themer.getValue(arguments.callee, "lF"),
+		root.themer.getValue(arguments.callee, "rF"),
+		root.themer.getValue(arguments.callee, "blF"),
+		root.themer.getValue(arguments.callee, "bF"),
+		root.themer.getValue(arguments.callee, "brF"),
+		root.themer.getValue(arguments.callee, "bkgF")
 	);
 	
 	this.borderHover = new CrocPanelBorder(
 		root,
-		"theme/CrocTextfield/hover-topright.png",
-		"theme/CrocTextfield/hover-top.png",
-		"theme/CrocTextfield/hover-topleft.png",
-		"theme/CrocTextfield/hover-left.png",
-		"theme/CrocTextfield/hover-right.png",
-		"theme/CrocTextfield/hover-bottomleft.png",
-		"theme/CrocTextfield/hover-bottom.png",
-		"theme/CrocTextfield/hover-bottomright.png",
-		"theme/CrocTextfield/base-center.png"
+		root.themer.getValue(arguments.callee, "tlH"),
+		root.themer.getValue(arguments.callee, "tH"),
+		root.themer.getValue(arguments.callee, "trH"),
+		root.themer.getValue(arguments.callee, "lH"),
+		root.themer.getValue(arguments.callee, "rH"),
+		root.themer.getValue(arguments.callee, "blH"),
+		root.themer.getValue(arguments.callee, "bH"),
+		root.themer.getValue(arguments.callee, "brH"),
+		root.themer.getValue(arguments.callee, "bkgH")
 	);
 	
 	this.border.addChild(this.htmlTextfield);

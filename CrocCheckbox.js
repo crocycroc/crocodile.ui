@@ -1,21 +1,21 @@
 function CrocCheckbox(root, tr, t, tl, l, r, bl, b, br, bkg, unchecked) {
 	CrocBase.call(this, root);
 
-	tr = tr || "theme/CrocCheckbox/topright.png";
-	t = t || "theme/CrocCheckbox/top.png";
-	tl = tl || "theme/CrocCheckbox/topleft.png";
-	l = l || "theme/CrocCheckbox/left.png";
-	r = r || "theme/CrocCheckbox/right.png";
-	bl = bl || "theme/CrocCheckbox/bottomleft.png";
-	b = b || "theme/CrocCheckbox/bottom.png";
-	br = br || "theme/CrocCheckbox/bottomright.png";
-	bkg = bkg || "theme/CrocCheckbox/center.png";
+	tr = tr || root.themer.getValue(arguments.callee, "tr");
+	t = t || root.themer.getValue(arguments.callee, "t");
+	tl = tl || root.themer.getValue(arguments.callee, "tl");
+	l = l || root.themer.getValue(arguments.callee, "l");
+	r = r || root.themer.getValue(arguments.callee, "r");
+	bl = bl || root.themer.getValue(arguments.callee, "bl");
+	b = b || root.themer.getValue(arguments.callee, "b");
+	br = br || root.themer.getValue(arguments.callee, "br");
+	bkg = bkg || root.themer.getValue(arguments.callee, "bkg");
 	
-	unchecked = "theme/CrocCheckbox/center-unchecked.png";
+	unchecked = unchecked || root.themer.getValue(arguments.callee, "unchecked");
 	
 	this.value = false;
 	
-	this.border = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
+	this.border = new CrocPanelBorder(root, tl, t, tr, l, r, bl, b, br, bkg);
 	this.uncheckedImage = new CrocImageSimple(root, unchecked);
 	
 	this.addEventListener('pointermove', function(e){

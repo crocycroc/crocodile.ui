@@ -11,8 +11,7 @@ function CrocBase(root){
 	
 	if(root !== this) {
 		if(typeof root !== 'object' || root.getRoot() !== root) {
-			console.log('CrocBase: Was passed a root that may not in fact be a root!');
-			console.trace();
+			this.error('Was passed a root that may not in fact be a root!');
 		}
 	}
 	
@@ -54,7 +53,55 @@ CrocBase.prototype.event = function(eventType, eventData, cascadeEvent) {
 		}
 	}
 	
+	if(eventType !== 'event') {
+		this.event('event', {'type':eventType, 'data':eventData}, false);
+	}
+	
 	return retValue;
+};
+
+CrocBase.prototype.error = function(type) {
+	
+	var sourceString = this.constructor.name;
+	var currentCaller = arguments.callee.caller;
+	var currentProto = this.constructor.prototype;
+	
+	while(true) {
+		var currentProtoKeys = Object.keys(currentProto);
+		
+		for(var i = 0; i < currentProtoKeys.length; i++) {
+			
+			var currentKey = currentProtoKeys[i];
+			var currentPrototypeProperty = this[currentKey];
+			
+			if(typeof currentPrototypeProperty === 'function') {
+				if(currentPrototypeProperty === currentCaller) {
+					sourceString = currentProto.constructor.name + ".prototype." + currentKey;
+					break;
+				}
+			}
+			
+		}
+		
+		currentProto = currentProto.__proto__;
+		
+		if(currentProto === null || currentProto.length === 0) {
+			break;
+		}
+	}
+	
+	var constructor = null;
+
+	if(currentProto !== null) {
+		constructor = currentProto.constructor;
+	}
+	
+	var err = new Error();
+	
+	console.trace();
+	console.log("Error: " + sourceString + " : " + type);
+	
+	this.event("error", {"type":type, "constructor":constructor, "attribute":currentProto, "source":sourceString, "stack":err.stack}, false);
 };
 
 CrocBase.prototype.addEventListener = function(event, callback) {
@@ -98,18 +145,20 @@ CrocBase.prototype.removeAllEventListeners = function(event) {
 CrocBase.prototype.addChild = function(uiObject) {
 	
 	if(typeof uiObject !== "object") {
-		console.log("CrocBase.prototype.addChild: Not a UIObject!");
+		this.error("Not a UIObject!");
 		console.trace();
 		return false;
 	}
 	
 	if(uiObject.setParent(this) === false) {
-		console.log("CrocBase.prototype.addChild: Unable to set UIObject's parent to this!");
+		this.error("Unable to set UIObject's parent to this!");
 		console.trace();
 		return false;
 	}
 	
 	this.children.push(uiObject);
+	
+	this.getRoot().repaint();
 	
 	return true;
 };
@@ -118,8 +167,6 @@ CrocBase.prototype.addChildren = function(uiObjectList) {
 	for(var i = 0; i < uiObjectList.length; i++) {
 		this.addChild(uiObjectList[i]);
 	}
-
-	this.getRoot().repaint();
 	
 	return;
 };
@@ -135,12 +182,14 @@ CrocBase.prototype.removeChild = function(uiObject) {
 		}
 	}
 	
+	var childIndex = this.children.indexOf(uiObject);
+	
 	if(childIndex < 0) {
-		console.log("CrocBase.prototype.removeChild: Has no UIObject!");
+		this.error("Has no UIObject!");
 		return false;
 	}
 	
-	this.children.splice(childIndex);
+	this.children.splice(childIndex, 1);
 	
 	this.getRoot().repaint();
 	
@@ -174,7 +223,7 @@ CrocBase.prototype.getRoot = function() {
 CrocBase.prototype.setParent = function(parent) {
 	
 	if(parent.hasAncestor(this)) {
-		console.log("CrocBase.prototype.setParent: Attempting to set parent would cause infinite child loop!");
+		this.error("Attempting to set parent would cause infinite child loop!");
 		return false;
 	}
 	
@@ -209,6 +258,22 @@ CrocBase.prototype.getParent = function() {
 
 CrocBase.prototype.getChildren = function() {
 	return this.children;
+};
+
+CrocBase.prototype.childInFrontOf = function(uiObject, frontOfObject) {
+	
+	var indexOfObject = this.children.indexOf(uiObject);
+	var indexOfFront = this.children.indexOf(frontOfObject);
+	
+	if(indexOfObject < 0 || indexOfFront < 0) {
+		return false;
+	}
+	
+	this.children.splice(indexOfObject, 1);
+	
+	indexOfFront = this.children.indexOf(frontOfObject);
+	this.children.splice(indexOfFront, 0, uiObject);
+	return true;
 };
 
 CrocBase.prototype.childToFront = function(uiObject) {
@@ -261,7 +326,6 @@ CrocBase.prototype.hitTest = function(context, x, y, width, height) {
 	var currentInvTransform = this.inverseTransform(context.getCurrentTransform());
 	
 	var p = this.transformPoint(currentInvTransform, x, y);
-// 	console.log(p);
 	var a = {x:0, y:0};
 	var d = {x:this.getWidth(), y:this.getHeight()};
 	
@@ -389,12 +453,7 @@ CrocBase.prototype.inverseTransform = function(t) {
 };
 
 CrocBase.prototype.transformClipSpace = function(transform, width, height) {
-	
-// 	console.log(transform);
-	
 	var iMat = this.inverseTransform(transform);
-	
-// 	console.log(iMat);
 	
 	var vA = this.transformPoint(iMat, 0, 0);
 	var vB = this.transformPoint(iMat, width, 0);

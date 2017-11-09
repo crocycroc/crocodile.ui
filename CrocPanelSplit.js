@@ -7,39 +7,39 @@ function CrocPanelSplit(root,
 
 	CrocBase.call(this, root);
 	
-	tr = tr || "theme/CrocPanelSplit/groove-topright.png";
-	t = t || "theme/CrocPanelSplit/groove-top.png";
-	tl = tl || "theme/CrocPanelSplit/groove-topleft.png";
-	l = l || "theme/CrocPanelSplit/groove-left.png";
-	r = r || "theme/CrocPanelSplit/groove-right.png";
-	bl = bl || "theme/CrocPanelSplit/groove-bottomleft.png";
-	b = b || "theme/CrocPanelSplit/groove-bottom.png";
-	br = br || "theme/CrocPanelSplit/groove-bottomright.png";
-	bkg = bkg || "theme/CrocPanelSplit/groove-center.png";
+	tr = tr || root.themer.getValue(arguments.callee, "tr");
+	t = t || root.themer.getValue(arguments.callee, "t");
+	tl = tl || root.themer.getValue(arguments.callee, "tl");
+	l = l || root.themer.getValue(arguments.callee, "l");
+	r = r || root.themer.getValue(arguments.callee, "r");
+	bl = bl || root.themer.getValue(arguments.callee, "bl");
+	b = b || root.themer.getValue(arguments.callee, "b");
+	br = br || root.themer.getValue(arguments.callee, "br");
+	bkg = bkg || root.themer.getValue(arguments.callee, "bkg");
 	
-	trH = trH || "theme/CrocPanelSplit/groove-highlight-topright.png";
-	tH = tH || "theme/CrocPanelSplit/groove-highlight-top.png";
-	tlH = tlH || "theme/CrocPanelSplit/groove-highlight-topleft.png";
-	lH = lH || "theme/CrocPanelSplit/groove-highlight-left.png";
-	rH = rH || "theme/CrocPanelSplit/groove-highlight-right.png";
-	blH = blH || "theme/CrocPanelSplit/groove-highlight-bottomleft.png";
-	bH = bH || "theme/CrocPanelSplit/groove-highlight-bottom.png";
-	brH = brH || "theme/CrocPanelSplit/groove-highlight-bottomright.png";
-	bkgH = bkgH || "theme/CrocPanelSplit/groove-highlight-center.png";
+	trH = trH || root.themer.getValue(arguments.callee, "trH");
+	tH = tH || root.themer.getValue(arguments.callee, "tH");
+	tlH = tlH || root.themer.getValue(arguments.callee, "tlH");
+	lH = lH || root.themer.getValue(arguments.callee, "lH");
+	rH = rH || root.themer.getValue(arguments.callee, "rH");
+	blH = blH || root.themer.getValue(arguments.callee, "blH");
+	bH = bH || root.themer.getValue(arguments.callee, "bH");
+	brH = brH || root.themer.getValue(arguments.callee, "brH");
+	bkgH = bkgH || root.themer.getValue(arguments.callee, "bkgH");
 	
-	trF = trF || "theme/CrocPanelSplit/groove-highlight-topright.png";
-	tF = tF || "theme/CrocPanelSplit/groove-highlight-top.png";
-	tlF = tlF || "theme/CrocPanelSplit/groove-highlight-topleft.png";
-	lF = lF || "theme/CrocPanelSplit/groove-highlight-left.png";
-	rF = rF || "theme/CrocPanelSplit/groove-highlight-right.png";
-	blF = blF || "theme/CrocPanelSplit/groove-highlight-bottomleft.png";
-	bF = bF || "theme/CrocPanelSplit/groove-highlight-bottom.png";
-	brF = brF || "theme/CrocPanelSplit/groove-highlight-bottomright.png";
-	bkgF = bkgF || "theme/CrocPanelSplit/groove-highlight-center.png";
+	trF = trF || root.themer.getValue(arguments.callee, "trF");
+	tF = tF || root.themer.getValue(arguments.callee, "tF");
+	tlF = tlF || root.themer.getValue(arguments.callee, "tlF");
+	lF = lF || root.themer.getValue(arguments.callee, "lF");
+	rF = rF || root.themer.getValue(arguments.callee, "rF");
+	blF = blF || root.themer.getValue(arguments.callee, "blF");
+	bF = bF || root.themer.getValue(arguments.callee, "bF");
+	brF = brF || root.themer.getValue(arguments.callee, "brF");
+	bkgF = bkgF || root.themer.getValue(arguments.callee, "bkgF");
 	
-	this.gripper = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
-	this.gripperHover = new CrocPanelBorder(root, trH, tH, tlH, lH, rH, blH, bH, brH, bkgH);
-	this.gripperFocused = new CrocPanelBorder(root, trF, tF, tlF, lF, rF, blF, bF, brF, bkgF);
+	this.gripper = new CrocPanelBorder(root, tl, t, tr, l, r, bl, b, br, bkg);
+	this.gripperHover = new CrocPanelBorder(root, tlH, tH, trH, lH, rH, blH, bH, brH, bkgH);
+	this.gripperFocused = new CrocPanelBorder(root, tlF, tF, trF, lF, rF, blF, bF, brF, bkgF);
 	
 	this.mode = 'normal';
 	this.spacing = '10px';
@@ -69,10 +69,10 @@ function CrocPanelSplit(root,
 	
 	this.addEventListener('pointerup', function(e){return currentPanelSplit._gripperPointerUp(e);});
 	
-	this.gripper.addEventListener('pointermove', function(e){console.log('gripper: pointermove'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerMove(e);});
-	this.gripper.addEventListener('pointerleave', function(e){console.log('gripper: pointerleave'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerLeave(e);});
-	this.gripper.addEventListener('pointerdown', function(e){console.log('gripper: pointerdown'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerDown(e);});
-	this.gripper.addEventListener('pointerup', function(e){console.log('gripper: pointerup'); if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerUp(e);});
+	this.gripper.addEventListener('pointermove', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerMove(e);});
+	this.gripper.addEventListener('pointerleave', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerLeave(e);});
+	this.gripper.addEventListener('pointerdown', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerDown(e);});
+	this.gripper.addEventListener('pointerup', function(e){if(currentPanelSplit.showGripper) return currentPanelSplit._gripperPointerUp(e);});
 };
 
 CrocPanelSplit.prototype = Object.create(CrocBase.prototype);

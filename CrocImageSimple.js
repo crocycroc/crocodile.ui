@@ -5,16 +5,16 @@ function CrocImageSimple(root, imgSrc) {
 	
 	CrocBase.call(this, root);
 	
-	this.getRoot().loadImage(imgSrc, function() {
-		currentCrocImageSimple.currentImage = currentCrocImageSimple.getRoot().getImage(currentCrocImageSimple.imgSrc);
-		currentCrocImageSimple.getRoot().repaint();
-	});
-	
 	this.imgSrc = imgSrc;
 	this.currentImage = null;
 	
 	this.hitTestType = 'bounding';
 	this.scaling = 'none';
+	
+	this.getRoot().loadImage(imgSrc, function() {
+		currentCrocImageSimple.currentImage = currentCrocImageSimple.getRoot().getImage(currentCrocImageSimple.imgSrc);
+		currentCrocImageSimple.getRoot().repaint();
+	});
 };
 
 CrocImageSimple.prototype = Object.create(CrocBase.prototype);

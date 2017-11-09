@@ -2,7 +2,7 @@
 /*
  * The purpose of the event handler in croc is to deal with all input from a client device
  * The input should be converted into the standard expected events types for group UI objects
- * Croc's UI object shouldn't half to worry about handling shortcuts, or touch vs. mouse input.
+ * Croc's UI object shouldn't have to worry about handling shortcuts, or touch vs. mouse input.
  */
 function CrocEventHandler(root) {
 	var currentEventHandler = this;
@@ -26,6 +26,10 @@ function CrocEventHandler(root) {
 	
 	this.root.canvas.addEventListener('mousewheel', function(e) {
 		currentEventHandler.onMouseWheel(e);
+	}, false);
+	
+	this.root.canvas.addEventListener('mouseout', function(e) {
+		currentEventHandler.onMouseOut(e);
 	}, false);
 	
 	this.root.canvas.addEventListener('DOMMouseScroll', function(e) {
@@ -74,15 +78,14 @@ CrocEventHandler.prototype.onCanvasResize = function() {
 
 CrocEventHandler.prototype.sendHitEvent = function(coords, eventType) {
 	if(this.root.focusedObject !== null) {
-		if(this.root.focusedObject.event(eventType, coords)) {
-			var hits = this.root.hitTest(coords.x, coords.y);
-			this.propagateHitEvent(hits, eventType, coords);
-		}
+		this.root.focusedObject.event(eventType, coords);
 	}
 	
 	else {
 		var hits = this.root.hitTest(coords.x, coords.y);
-		this.propagateHitEvent(hits, eventType, coords);
+		if(this.propagateHitEvent(hits, eventType, coords) === true) {
+			this.triggeredObject = null;
+		}
 	}
 };
 
@@ -100,7 +103,9 @@ CrocEventHandler.prototype.onMouseMove = function(e) {
 	//If the newly focused object is not the one when we started it means mouseleave has occured.
 	if(this.lastTriggeredObject !== this.triggeredObject) {
 		
-		this.triggeredObject.event('pointerenter', coords);
+		if(this.triggeredObject !== null) {
+			this.triggeredObject.event('pointerenter', coords);
+		}
 		
 		if(this.lastTriggeredObject !== null) {
 			this.lastTriggeredObject.event('pointerleave', coords);
@@ -151,6 +156,12 @@ CrocEventHandler.prototype.onMouseWheel = function(e) {
 	this.sendHitEvent(coords, currentEventType);
 };
 
+CrocEventHandler.prototype.onMouseOut = function(e) {
+	if(this.root.focusedObject !== null) {
+		this.root.focusedObject.event('pointerout', e, true);
+	}
+};
+
 CrocEventHandler.prototype.onMouseUp = function(e) {
 	var rect = this.root.canvas.getBoundingClientRect();
 	var coords = {
@@ -176,6 +187,8 @@ CrocEventHandler.prototype.onKeyDown = function(e) {
 		this.keysDown.push(e.key);
 	}
 	
+	this.root.event('keydown', e, false);
+	
 	if(this.root.focusedObject !== null) {
 		this.root.focusedObject.event('keydown', e, true);
 	}
@@ -185,6 +198,8 @@ CrocEventHandler.prototype.onKeyUp = function(e) {
 	if(this.keysDown.indexOf(e.key) >= 0) {
 		this.keysDown.splice(this.keysDown.indexOf(e.key));
 	}
+	
+	this.root.event('keyup', e, false);
 	
 	if(this.root.focusedObject !== null) {
 		this.root.focusedObject.event('keyup', e, true);

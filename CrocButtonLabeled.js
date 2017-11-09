@@ -8,42 +8,42 @@ function CrocButtonLabeled(root, text,
 	
 	this.label = new CrocLabel(root, text);
 
-	tr = tr || "theme/CrocTextfield/base-topright.png";
-	t = t || "theme/CrocTextfield/base-top.png";
-	tl = tl || "theme/CrocTextfield/base-topleft.png";
-	l = l || "theme/CrocTextfield/base-left.png";
-	r = r || "theme/CrocTextfield/base-right.png";
-	bl = bl || "theme/CrocTextfield/base-bottomleft.png";
-	b = b || "theme/CrocTextfield/base-bottom.png";
-	br = br || "theme/CrocTextfield/base-bottomright.png";
-	bkg = bkg || "theme/CrocTextfield/base-center.png";
+	tr = tr || root.themer.getValue(arguments.callee, "tr");
+	t = t || root.themer.getValue(arguments.callee, "t");
+	tl = tl || root.themer.getValue(arguments.callee, "tl");
+	l = l || root.themer.getValue(arguments.callee, "l");
+	r = r || root.themer.getValue(arguments.callee, "r");
+	bl = bl || root.themer.getValue(arguments.callee, "bl");
+	b = b || root.themer.getValue(arguments.callee, "b");
+	br = br || root.themer.getValue(arguments.callee, "br");
+	bkg = bkg || root.themer.getValue(arguments.callee, "bkg");
 	
-	trH = trH || "theme/CrocTextfield/hover-topright.png";
-	tH = tH || "theme/CrocTextfield/hover-top.png";
-	tlH = tlH || "theme/CrocTextfield/hover-topleft.png";
-	lH = lH || "theme/CrocTextfield/hover-left.png";
-	rH = rH || "theme/CrocTextfield/hover-right.png";
-	blH = blH || "theme/CrocTextfield/hover-bottomleft.png";
-	bH = bH || "theme/CrocTextfield/hover-bottom.png";
-	brH = brH || "theme/CrocTextfield/hover-bottomright.png";
-	bkgH = bkgH || "theme/CrocTextfield/base-center.png";
+	trH = trH || root.themer.getValue(arguments.callee, "trH");
+	tH = tH || root.themer.getValue(arguments.callee, "tH");
+	tlH = tlH || root.themer.getValue(arguments.callee, "tlH");
+	lH = lH || root.themer.getValue(arguments.callee, "lH");
+	rH = rH || root.themer.getValue(arguments.callee, "rH");
+	blH = blH || root.themer.getValue(arguments.callee, "blH");
+	bH = bH || root.themer.getValue(arguments.callee, "bH");
+	brH = brH || root.themer.getValue(arguments.callee, "brH");
+	bkgH = bkgH || root.themer.getValue(arguments.callee, "bkgH");
 	
-	trF = trF || "theme/CrocTextfield/focus-topright.png";
-	tF = tF || "theme/CrocTextfield/focus-top.png";
-	tlF = tlF || "theme/CrocTextfield/focus-topleft.png";
-	lF = lF || "theme/CrocTextfield/focus-left.png";
-	rF = rF || "theme/CrocTextfield/focus-right.png";
-	blF = blF || "theme/CrocTextfield/focus-bottomleft.png";
-	bF = bF || "theme/CrocTextfield/focus-bottom.png";
-	brF = brF || "theme/CrocTextfield/focus-bottomright.png";
-	bkgF = bkgF || "theme/CrocTextfield/base-center.png";
+	trF = trF || root.themer.getValue(arguments.callee, "trF");
+	tF = tF || root.themer.getValue(arguments.callee, "tF");
+	tlF = tlF || root.themer.getValue(arguments.callee, "tlF");
+	lF = lF || root.themer.getValue(arguments.callee, "lF");
+	rF = rF || root.themer.getValue(arguments.callee, "rF");
+	blF = blF || root.themer.getValue(arguments.callee, "blF");
+	bF = bF || root.themer.getValue(arguments.callee, "bF");
+	brF = brF || root.themer.getValue(arguments.callee, "brF");
+	bkgF = bkgF || root.themer.getValue(arguments.callee, "bkgF");
 	
 	//normal, hover, and focus are the valid modes a textfield can be in.
 	this.mode = "normal";
 	
-	this.border = new CrocPanelBorder(root, tr, t, tl, l, r, bl, b, br, bkg);
-	this.borderPressed = new CrocPanelBorder(root, trF, tF, tlF, lF, rF, blF, bF, brF, bkgF);
-	this.borderHover = new CrocPanelBorder(root, trH, tH, tlH, lH, rH, blH, bH, brH, bkgH);
+	this.border = new CrocPanelBorder(root, tl, t, tr, l, r, bl, b, br, bkg);
+	this.borderPressed = new CrocPanelBorder(root, tlF, tF, trF, lF, rF, blF, bF, brF, bkgF);
+	this.borderHover = new CrocPanelBorder(root, tlH, tH, trH, lH, rH, blH, bH, brH, bkgH);
 	
 	CrocButton.call(this, root, this.border, this.borderHover, this.borderPressed);
 	

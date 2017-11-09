@@ -12,6 +12,7 @@
 		<script src="CrocPanelGrid.js"></script>
 		<script src="CrocPanelSplit.js"></script>
 		<script src="CrocPanelList.js"></script>
+		<script src="CrocPanelScrollable.js"></script>
 		<script src="CrocLabel.js"></script>
 		<script src="CrocDOM.js"></script>
 		<script src="CrocHTMLTextfield.js"></script>
@@ -19,21 +20,26 @@
 		<script src="CrocSlider.js"></script>
 		<script src="CrocAnalogMeter.js"></script>
 		<script src="CrocProgressBar.js"></script>
+		<script src="CrocButtonLabeled.js"></script>
+		<script src="CrocGraph.js"></script>
 		<script src="CrocCheckbox.js"></script>
+		<script src="CrocTabView.js"></script>
 		<script src="CrocEventHandler.js"></script>
+		<script src="CrocThemer.js"></script>
+		<script src="CrocThemeDefault.js"></script>
 		<script src="CrocRoot.js"></script>
 	</head>
 
 	<body>
-		<canvas id="myCanvas" width="1024" height="768" style="position:fixed; right:0; top:0;" width="800" height="600">
+		<canvas id="myCanvas" width="100" height="100" style="position:fixed; right:100; top:100;" width="800" height="600">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
-		<canvas id="hitCanvas" width="1024" height="768" style="position:fixed; right:0; top:0; z-index:-99">
+		<canvas id="hitCanvas" width="100" height="100" style="position:fixed; right:100; top:100; z-index:-99">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
 
 		<script>			
-			var root = new CrocRoot(document.getElementById("myCanvas"), document.getElementById("hitCanvas"), true);
+			var root = new CrocRoot(document.getElementById("myCanvas"), document.getElementById("hitCanvas"), false);
 			var panel = new CrocPanel(root);
 // 			var testDom = new CrocTextfield(root, 'Testing');
 // 			var button = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");

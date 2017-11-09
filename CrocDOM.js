@@ -60,8 +60,8 @@ CrocDOM.prototype.updateContents = function() {
 		currentCrocDOM.getRoot().repaint();
 	}
 	
-	this.drawImage.onerror = function() {
-		console.log("DOM Render failed!");
+	this.drawImage.onerror = function(err) {
+		currentCrocDOM.error("DOM Render failed with error!");
 		
 		currentCrocDOM.drawReady = false;
 	}

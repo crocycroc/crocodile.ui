@@ -62,11 +62,13 @@ function CrocButton(root, normal, hover, pressed) {
 	this.addEventListener('pointerdown', function(e) {
 		this.focus();
 		this.setMode('pressed');
+		this.getRoot().setCursor('pointer');
 	});
 	
 	this.addEventListener('pointerup', function(e) {
 		this.blur();
 		this.setMode('hover');
+		this.getRoot().setCursor('pointer');
 	});
 };
 

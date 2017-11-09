@@ -99,15 +99,14 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 	context.lineTo(0, 0);
 	context.clip();
 	
-	var i = this.children.length;
-	while(i--) {
+	for(var i = 0; i < this.children.length; i++) {
 		
 		context.save();
 		var currentChild = this.children[i];
 		var currentOrientation = this.childrenOrientations[currentChild.uuid];
 		
 		context.rotate(currentOrientation.rotation);
-		context.scale(currentOrientation.width, currentOrientation.height);
+		context.scale(this.convertToPixels(currentOrientation.width, width), this.convertToPixels(currentOrientation.height, height));
 		
 		var newWidthHeight = this.transformPoint(context.getCurrentTransform(), this.getWidth(), this.getHeight());
 		
@@ -115,9 +114,9 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 		
 		context.save();
 		
-		context.translate(currentOrientation.x, currentOrientation.y);
+		context.translate(this.convertToPixels(currentOrientation.x, width), this.convertToPixels(currentOrientation.y, height));
 		context.rotate(currentOrientation.rotation);
-		context.scale(currentOrientation.width, currentOrientation.height);
+		context.scale(this.convertToPixels(currentOrientation.width, width), this.convertToPixels(currentOrientation.height, height));
 		
 		var newOriginPosition = this.transformPoint(context.getCurrentTransform(), 0, 0);
 		
