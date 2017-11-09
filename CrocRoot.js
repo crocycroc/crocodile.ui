@@ -11,7 +11,6 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	this.canvas = canvas;
 	this.hitCanvas = hitCanvas;
 	this.scaleFactor = 1.0;
-	this.themer = new CrocThemer(crocThemeDefault);
 	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
@@ -101,6 +100,7 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	this.paintWarnings = [];
 	this.globalPaintWarning = false;
 	
+	this.themer = new CrocThemer(this, crocThemeDefault);
 	this.eventHandler = new eventHandlerConstructor(this);
 	
 	if(this.fullscreen) {

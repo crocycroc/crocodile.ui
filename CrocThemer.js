@@ -1,6 +1,7 @@
 
-function CrocThemer(theme) {
+function CrocThemer(root, theme) {
 	this.values = {};
+	this.root = root;
 	
 	this.importTheme(theme);
 }
@@ -13,6 +14,11 @@ CrocThemer.prototype.importTheme = function(theme) {
 			
 			for(var tag in theme[constructorName]) {
 				this.setValue(window[constructorName], tag, theme[constructorName][tag]);
+				
+				if(/\.png$|\.svg$|\.jpg$|\.bmp/.test(theme[constructorName][tag])) {
+					this.root.loadImage(theme[constructorName][tag], function(){});
+				}
+				
 			}
 			
 		}
