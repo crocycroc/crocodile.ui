@@ -11,14 +11,20 @@ function CrocImageSimple(root, imgSrc) {
 	this.hitTestType = 'bounding';
 	this.scaling = 'none';
 	
+	this.setImage(imgSrc);
+};
+
+CrocImageSimple.prototype = Object.create(CrocBase.prototype);
+CrocImageSimple.prototype.constructor = CrocImageSimple;
+
+CrocImageSimple.prototype.setImage = function(imgSrc) {
+	var currentCrocImageSimple = this;
+	
 	this.getRoot().loadImage(imgSrc, function() {
 		currentCrocImageSimple.currentImage = currentCrocImageSimple.getRoot().getImage(currentCrocImageSimple.imgSrc);
 		currentCrocImageSimple.getRoot().repaint();
 	});
 };
-
-CrocImageSimple.prototype = Object.create(CrocBase.prototype);
-CrocImageSimple.prototype.constructor = CrocImageSimple;
 
 CrocImageSimple.prototype.setScaling = function(scaling) {
 	
