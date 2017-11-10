@@ -398,7 +398,7 @@ CrocRoot.prototype.hitTest = function(x, y) {
 };
 
 CrocRoot.prototype.setScaleFactor = function(factor) {
-	this.scaleFactor = parseFloat(factor);
+	this.scaleFactor = factor;
 	this.repaint();
 };
 
