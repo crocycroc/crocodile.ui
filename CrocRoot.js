@@ -421,9 +421,10 @@ CrocRoot.prototype.paint = function() {
 	if(this.dirty && this.visible) {
 		this.dirty = false;
 		this.context.save();
-		this.context.scale(this.scaleFactor, this.scaleFactor);
 		//Reset context transformation
 		this.clear();
+		
+		this.context.scale(this.scaleFactor, this.scaleFactor);
 		
 		this.setSmooth(true);
 		
