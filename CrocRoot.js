@@ -375,10 +375,11 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	
 	var hitReturn = [];
 	var hitObject = null;
-	
-	//Reset context transformation
-	this.clearHitContext();
+
 	this.hitContext.save();
+	
+	this.clearHitContext();
+	
 	this.hitContext.scale(this.scaleFactor, this.scaleFactor);
 	
 	CrocBase.prototype.hitTest.call(this, this.hitContext, x, y, this.getWidth(), this.getHeight())
