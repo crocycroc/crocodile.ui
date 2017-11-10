@@ -103,6 +103,9 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	this.needle.paint(context, width, height);
 	this.getRoot().setSmooth(false);
 	
+	this.width = this.background.getWidth();
+	this.height = this.background.getHeight();
+	
 	context.restore();
 	
 	return;
