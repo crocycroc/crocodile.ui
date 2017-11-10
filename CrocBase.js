@@ -26,6 +26,7 @@ function CrocBase(root){
 	this.targetWidth = null;
 	this.targetHeight = null;
 	this.scaling = 'none';
+	this.localHitCoord = {x:0, y:0};
 	
 	this.root = root;
 	
@@ -307,18 +308,26 @@ CrocBase.prototype.getDescendants = function() {
 	return retValue;
 };
 
+CrocBase.prototype.getLocalHitCoord = function() {
+	return this.localHitCoord;
+};
+
 //Hit test is handled almost exactly like a paint except you use the context to create a bounding box test and then draw.
 CrocBase.prototype.hitTest = function(context, x, y, width, height) {
 	
-	if(!this.visible) {
-		return null;
-	}
+
 	
 	var currentInvTransform = this.inverseTransform(context.getCurrentTransform());
 	
 	var p = this.transformPoint(currentInvTransform, x, y);
 	var a = {x:0, y:0};
 	var d = {x:this.getWidth(), y:this.getHeight()};
+	
+	this.localHitCoord = p; //Store this for our event that's coming up.
+
+	if(!this.visible) {
+		return null;
+	}
 	
 	if(p.x > a.x && p.x < d.x && p.y > a.y && p.y < d.y) {
 		return this;
