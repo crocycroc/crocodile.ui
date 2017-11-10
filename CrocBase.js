@@ -315,8 +315,6 @@ CrocBase.prototype.getLocalHitCoord = function() {
 //Hit test is handled almost exactly like a paint except you use the context to create a bounding box test and then draw.
 CrocBase.prototype.hitTest = function(context, x, y, width, height) {
 	
-
-	
 	var currentInvTransform = this.inverseTransform(context.getCurrentTransform());
 	
 	var p = this.transformPoint(currentInvTransform, x, y);

@@ -381,6 +381,8 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	this.hitContext.save();
 	this.hitContext.scale(this.scaleFactor, this.scaleFactor);
 	
+	CrocBase.prototype.hitTest.call(this, this.hitContext, x, y, this.getWidth(), this.getHeight())
+	
 	for(var i = 0; i < this.children.length; i++) {
 		hitObject = this.children[i].hitTest(this.hitContext, x, y, this.getWidth(), this.getHeight());
 		
