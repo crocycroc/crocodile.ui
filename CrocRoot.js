@@ -394,6 +394,11 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	return hitReturn;
 };
 
+CrocRoot.prototype.setScaleFactor = function(factor) {
+	this.scaleFactor = parseFloat(factor);
+	this.repaint();
+};
+
 CrocRoot.prototype.setSmooth = function(smooth) {
 	this.context['imageSmoothingEnabled'] = smooth;       /* standard */
 	this.context['mozImageSmoothingEnabled'] = smooth;    /* Firefox */
