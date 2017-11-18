@@ -125,6 +125,26 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 		}
 	}
 	
+	else if(this.scaling === 'targetWidth') {
+		this.currentWidth = this.convertToPixels(this.targetWidth, width);
+		this.currentHeight = (this.currentWidth * this.currentImage.height) / this.currentImage.width;
+
+		var w = 0;
+		var h = 0;
+		
+		if(this.currentWidth !== 0) {
+			w = this.currentWidth/this.currentImage.width;
+		}
+		
+		if(this.currentHeight !== 0) {
+			h = this.currentHeight/this.currentImage.height;
+		}
+		
+		if(w >= 0 && h >= 0) {
+			context.scale(w, h);
+		}
+	}
+	
 	else {
 		this.currentWidth = this.currentImage.width;
 		this.currentHeight = this.currentImage.height;
