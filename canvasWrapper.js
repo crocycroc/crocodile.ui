@@ -164,6 +164,15 @@ cwPrototype.fill = function () {
 	this.canvas.fill();
 };
 
+cwPrototype.setLineDash = function (value) {
+	this.applyContextProperties();
+	this.canvas.setLineDash(value);
+};
+
+cwPrototype.getLineDash = function() {
+	return this.canvas.getLineDash();
+};
+
 cwPrototype.fillText = function(text, x, y) {
 	this.applyContextProperties();
 	this.canvas.fillText(text, x, y);
