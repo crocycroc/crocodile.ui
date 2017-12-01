@@ -41,7 +41,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 		}
 		
 		else {
-			this.globalPointToValue(e.x, e.y);
+			this.localPointToValue(e.local.x, e.local.y);
 			this.getRoot().setCursor("pointer");
 			this.event('valuechanged', this.getValue());
 		}
@@ -63,7 +63,7 @@ function CrocSlider(root, slider, hover, focus, tr, t, tl, l, r, bl, b, br, bkg)
 	this.addEventListener('pointerdown', function(e) {
 		this.focus();
 		
-		this.globalPointToValue(e.x, e.y);
+		this.localPointToValue(e.local.x, e.local.y);
 		
 		this.event('valuechanged', this.getValue());
 		
@@ -178,10 +178,8 @@ CrocSlider.prototype.setOrientation = function(orientation) {
 	this.getRoot().repaint();
 };
 
-CrocSlider.prototype.globalPointToValue = function(x, y) {
-	var t = this.inverseTransform(this.lastTransform);
-	
-	var c = this.transformPoint(t, x, y);
+CrocSlider.prototype.localPointToValue = function(x, y) {
+	var c = {x:x, y:y}
 	
 	if(this.orientation === 'verticle') {
 		var value = ((c.y - (this.slider.getHeight() / 2)) * (this.maxValue - this.minValue))/(this.getHeight() - this.slider.getHeight());

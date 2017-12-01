@@ -80,10 +80,10 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	
 	context.save();
 	
-	context.translate(142, 92);
+	context.translate(-14, 92);
 	
 	this.valueLabel.setText(this.valueLabelPrefix + (this.value * this.valueLabelScale).toFixed(this.valueLabelToFixed) + this.valueLabelPostfix);
-	this.valueLabel.paint(context, width, height);
+	this.valueLabel.paint(context, this.background.getWidth(), this.background.getHeight());
 	
 	context.restore();
 	
@@ -102,6 +102,9 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	this.getRoot().setSmooth(true);
 	this.needle.paint(context, width, height);
 	this.getRoot().setSmooth(false);
+	
+	this.width = this.background.getWidth();
+	this.height = this.background.getHeight();
 	
 	context.restore();
 	

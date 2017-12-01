@@ -3,22 +3,31 @@ function CrocImageSimple(root, imgSrc) {
 	
 	var currentCrocImageSimple = this;
 	
+	imgSrc = imgSrc || root.themer.getValue(arguments.callee, "image");
+	
 	CrocBase.call(this, root);
 	
-	this.imgSrc = imgSrc;
 	this.currentImage = null;
 	
 	this.hitTestType = 'bounding';
 	this.scaling = 'none';
+	
+	this.setImage(imgSrc);
+};
+
+CrocImageSimple.prototype = Object.create(CrocBase.prototype);
+CrocImageSimple.prototype.constructor = CrocImageSimple;
+
+CrocImageSimple.prototype.setImage = function(imgSrc) {
+	var currentCrocImageSimple = this;
+	
+	this.imgSrc = imgSrc;
 	
 	this.getRoot().loadImage(imgSrc, function() {
 		currentCrocImageSimple.currentImage = currentCrocImageSimple.getRoot().getImage(currentCrocImageSimple.imgSrc);
 		currentCrocImageSimple.getRoot().repaint();
 	});
 };
-
-CrocImageSimple.prototype = Object.create(CrocBase.prototype);
-CrocImageSimple.prototype.constructor = CrocImageSimple;
 
 CrocImageSimple.prototype.setScaling = function(scaling) {
 	
@@ -111,7 +120,27 @@ CrocImageSimple.prototype.paint = function(context, width, height) {
 			h = this.currentHeight/this.currentImage.height;
 		}
 		
-		if(w > 0 && h > 0) {
+		if(w >= 0 && h >= 0) {
+			context.scale(w, h);
+		}
+	}
+	
+	else if(this.scaling === 'targetWidth') {
+		this.currentWidth = this.convertToPixels(this.targetWidth, width);
+		this.currentHeight = (this.currentWidth * this.currentImage.height) / this.currentImage.width;
+
+		var w = 0;
+		var h = 0;
+		
+		if(this.currentWidth !== 0) {
+			w = this.currentWidth/this.currentImage.width;
+		}
+		
+		if(this.currentHeight !== 0) {
+			h = this.currentHeight/this.currentImage.height;
+		}
+		
+		if(w >= 0 && h >= 0) {
 			context.scale(w, h);
 		}
 	}

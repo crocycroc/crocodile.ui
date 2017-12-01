@@ -118,7 +118,9 @@ CrocProgressBar.prototype.paint = function(context, width, height) {
 	currentBorder.setChildOrientation(this.label, (interiorWidth / 2) - (this.label.getWidth() / 2), (currentHeight / 2) - this.label.getHeight());
 	this.label.setVisible(this.showLabel);
 	
-	currentBorder.paint(context, this.getWidth(), currentHeight);
+	this.height = currentHeight;
+	
+	currentBorder.paint(context, this.getWidth(), this.getHeight());
 	
 	return;
 }

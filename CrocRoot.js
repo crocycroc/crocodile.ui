@@ -11,13 +11,12 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	this.canvas = canvas;
 	this.hitCanvas = hitCanvas;
 	this.scaleFactor = 1.0;
-	this.themer = new CrocThemer(crocThemeDefault);
 	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
 
 	//Stupid failure to implement this
-	if(this.context.mozCurrentTransform === undefined && this.context.currentTransform === undefined) {
+	if(this.context.mozCurrentTransform === undefined && this.context.currenTransform === undefined) {
 		
 		this.hitContext = new CanvasWrapper(this.hitContext);
 		this.context = new CanvasWrapper(this.context);
@@ -28,6 +27,10 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 			
 			return [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]];
 		};
+		
+		this.context.getContext = function() {
+			return this.canvas;
+		}
 		
 		this.hitContext.getCurrentTransform = function() {
 			
@@ -54,9 +57,13 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 			}
 			
 			else  {
-				return this.currentTransform;
+				return this.currenTransform;
 			}
 			
+		}
+		
+		this.context.getContext = function() {
+			return this;
 		}
 		
 		this.hitContext.getCurrentTransform = function() {
@@ -66,9 +73,13 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 			}
 			
 			else  {
-				return this.currentTransform;
+				return this.currenTransform;
 			}
 			
+		}
+		
+		this.hitContext.getContext = function() {
+			return this;
 		}
 	}
 	
@@ -89,6 +100,7 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	this.paintWarnings = [];
 	this.globalPaintWarning = false;
 	
+	this.themer = new CrocThemer(this, crocThemeDefault);
 	this.eventHandler = new eventHandlerConstructor(this);
 	
 	if(this.fullscreen) {
@@ -154,10 +166,10 @@ CrocRoot.prototype.getHeight = function() {
 };
 
 CrocRoot.prototype.clear = function() {
-	this.context.save();
+	this.hitContext.save();
 	this.context.setTransform(1, 0, 0, 1, 0, 0)
 	this.context.clearRect(0, 0, this.getWidth(), this.getHeight());
-	this.context.restore();
+	this.hitContext.restore();
 };
 
 CrocRoot.prototype.clearHitContext = function() {
@@ -307,7 +319,7 @@ CrocRoot.prototype.loadImage = function(src, callback) {
 };
 
 CrocRoot.prototype.setCursor = function(type) {
-	this.canvas.style.cursor = type || "";
+	window.document.body.style.cursor = type || "";
 	return;
 };
 
@@ -363,12 +375,15 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	
 	var hitReturn = [];
 	var hitObject = null;
-	
-	//Reset context transformation
-	this.clearHitContext();
+
 	this.hitContext.save();
+	
+	this.clearHitContext();
+	
 	this.hitContext.scale(this.scaleFactor, this.scaleFactor);
-		
+	
+	CrocBase.prototype.hitTest.call(this, this.hitContext, x, y, this.getWidth(), this.getHeight())
+	
 	for(var i = 0; i < this.children.length; i++) {
 		hitObject = this.children[i].hitTest(this.hitContext, x, y, this.getWidth(), this.getHeight());
 		
@@ -380,6 +395,11 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	this.hitContext.restore();
 	
 	return hitReturn;
+};
+
+CrocRoot.prototype.setScaleFactor = function(factor) {
+	this.scaleFactor = factor;
+	this.repaint();
 };
 
 CrocRoot.prototype.setSmooth = function(smooth) {
@@ -404,9 +424,10 @@ CrocRoot.prototype.paint = function() {
 	if(this.dirty && this.visible) {
 		this.dirty = false;
 		this.context.save();
-		this.context.scale(this.scaleFactor, this.scaleFactor);
 		//Reset context transformation
 		this.clear();
+		
+		this.context.scale(this.scaleFactor, this.scaleFactor);
 		
 		this.setSmooth(true);
 		

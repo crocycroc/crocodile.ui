@@ -40,11 +40,11 @@ function CrocEventHandler(root) {
 		currentEventHandler.onClick(e);
 	});
 	
-	window.addEventListener('keydown', function(e) {
+	this.root.canvas.addEventListener('keydown', function(e) {
 		currentEventHandler.onKeyDown(e);
 	}, false);
 	
-	window.addEventListener('keyup', function(e) {
+	this.root.canvas.addEventListener('keyup', function(e) {
 		currentEventHandler.onKeyUp(e);
 	}, false);
 	
@@ -77,12 +77,16 @@ CrocEventHandler.prototype.onCanvasResize = function() {
 };
 
 CrocEventHandler.prototype.sendHitEvent = function(coords, eventType) {
+	var hits = this.root.hitTest(coords.x, coords.y);
+	
+	coords.root = this.root.getLocalHitCoord();
+	
 	if(this.root.focusedObject !== null) {
+		coords.local = this.root.focusedObject.getLocalHitCoord();
 		this.root.focusedObject.event(eventType, coords);
 	}
 	
 	else {
-		var hits = this.root.hitTest(coords.x, coords.y);
 		if(this.propagateHitEvent(hits, eventType, coords) === true) {
 			this.triggeredObject = null;
 		}
@@ -218,6 +222,9 @@ CrocEventHandler.prototype.propagateHitEvent = function(objects, event, data) {
 	}
 	
 	else if(typeof objects === 'object' && objects.event !== undefined && typeof objects.event === 'function') {
+		
+		data.local = objects.getLocalHitCoord();
+		
 		if(objects.event(event, data) === false) {
 			this.triggeredObject = objects;
 			return false; 

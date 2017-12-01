@@ -88,6 +88,7 @@ cwPrototype.getImageData = function(x,y,length,breath) {
 	return this.canvas.getImageData(x,y,length,breath);
 };
 cwPrototype.measureText = function(line) {
+	this.applyContextProperties();
 	return this.canvas.measureText(line);
 };
 cwPrototype.lineTo = function (aX, aY) {
@@ -161,6 +162,15 @@ cwPrototype.stroke = function (aPath) {
 cwPrototype.fill = function () {
 	this.applyContextProperties();
 	this.canvas.fill();
+};
+
+cwPrototype.setLineDash = function (value) {
+	this.applyContextProperties();
+	this.canvas.setLineDash(value);
+};
+
+cwPrototype.getLineDash = function() {
+	return this.canvas.getLineDash();
 };
 
 cwPrototype.fillText = function(text, x, y) {
