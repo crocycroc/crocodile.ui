@@ -115,6 +115,8 @@ CrocBase.prototype.addEventListener = function(event, callback) {
 	}
 	
 	this.listeners[event].push(callback);
+	
+	return callback;
 };
 
 CrocBase.prototype.removeEventListener = function(event, callback) {
