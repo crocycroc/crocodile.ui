@@ -127,7 +127,7 @@ CrocBase.prototype.removeEventListener = function(event, callback) {
 	var index = this.listeners[event].indexOf(callback);
 	
 	if(index > -1) {
-		this.listeners.splice(index, 1);
+		this.listeners[event].splice(index, 1);
 	}
 };
 
