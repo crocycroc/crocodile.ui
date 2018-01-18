@@ -82,7 +82,7 @@ CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	
 	context.translate(-14, 92);
 	
-	this.valueLabel.setText(this.valueLabelPrefix + (this.value * this.valueLabelScale).toFixed(this.valueLabelToFixed) + this.valueLabelPostfix);
+	this.valueLabel.text = this.valueLabelPrefix + (this.value * this.valueLabelScale).toFixed(this.valueLabelToFixed) + this.valueLabelPostfix;
 	this.valueLabel.paint(context, this.background.getWidth(), this.background.getHeight());
 	
 	context.restore();
