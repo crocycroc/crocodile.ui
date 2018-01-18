@@ -12,6 +12,7 @@
 		<script src="CrocBase.js"></script>
 		<script src="CrocButton.js"></script>
 		<script src="CrocImageSimple.js"></script>
+		<script src="CrocToggle.js"></script>
 		<script src="CrocPanel.js"></script>
 		<script src="CrocPanelBorder.js"></script>
 		<script src="CrocPanelGrid.js"></script>
@@ -50,6 +51,7 @@
 			var buttonB = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
 			var buttonC = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
 			var buttonD = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
+			var toggle = new CrocToggle(root, "imgs/Button.svg", "imgs/ButtonHover.svg");
 			var buttonLabeled = new CrocButtonLabeled(root, "Testing");
 			var zebraImage = new CrocImageSimple(root, "imgs/zebra.jpg");
 			var testLabel = new CrocLabel(root, "Hello World! Long time no see, good to know that all is well and I can trust that the future is bright! With word wrapping we can easily create rich text experiances.", "18px Arial", "Red");
@@ -206,7 +208,7 @@
 			buttonsPanelList.addChild(testAnalogMeter);
 			buttonsPanelList.addChild(testSlider);
 			buttonsPanelList.addChild(testProgressBar);
-// 			buttonsPanelList.addChild(testDom);
+			buttonsPanelList.addChild(toggle);
 			buttonsPanelList.addChild(button);
 			buttonsPanelList.addChild(buttonB);
 			buttonsPanelList.addChild(buttonC);
