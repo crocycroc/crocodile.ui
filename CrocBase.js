@@ -397,6 +397,10 @@ CrocBase.prototype.hasFocus = function() {
 CrocBase.prototype.paint = function(context, width, height) {
 	this.lastTransform = context.getCurrentTransform();
 	
+	if(!this.visible) {
+		return;
+	}
+	
 	this.width = this.convertToPixels(this.targetWidth, width);
 	this.height = this.convertToPixels(this.targetHeight, height);
 	
