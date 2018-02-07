@@ -81,6 +81,10 @@ CrocCheckbox.prototype.getHeight = function() {
 CrocCheckbox.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	if(!this.visible) {
+		return;
+	}
+	
 	context.save();
 	
 	var currentBorder = this.border;
