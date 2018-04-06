@@ -1,30 +1,69 @@
 
-function CrocThemer(root, theme) {
+function CrocThemer(root) {
 	this.values = {};
 	this.root = root;
-	
-	this.importTheme(theme);
 }
 
-CrocThemer.prototype.importTheme = function(theme) {
+CrocThemer.prototype.importTheme = function(theme, callback) {
+	
+	var currentThemer = this;
+	var constructorNames = Object.keys(theme);
 	
 	for(var constructorName in theme) {
-		
 		if(window[constructorName] !== undefined && typeof window[constructorName] === 'function') {
 			
 			for(var tag in theme[constructorName]) {
 				this.setValue(window[constructorName], tag, theme[constructorName][tag]);
+			}
+			
+		}
+	}
+	
+	function _importCrocThemeHelper() {
+		
+		console.log('constructorNames.length: ' + constructorNames.length);
+		
+		if(constructorNames.length <= 0) {
+			callback.call(currentThemer, false);
+			return;
+		}
+		
+		var constructorName = constructorNames.shift();
+		
+		var tagKeys = Object.keys(theme[constructorName]);
+		
+		function _importThemeHelper() {
+			
+			console.log('tagKeys.length: ' + tagKeys.length);
+		
+			if(tagKeys.length <= 0) {
+				_importCrocThemeHelper();
+				return;
+			}
+			
+			var currentTag = tagKeys.shift();
+			
+			currentThemer.setValue(window[constructorName], currentTag, theme[constructorName][currentTag]);
+			
+			if(/\.png$|\.svg$|\.jpg$|\.bmp/.test(theme[constructorName][currentTag])) {
+				console.log("theme[constructorName][currentTag]: " + theme[constructorName][currentTag]);
 				
-				if(/\.png$|\.svg$|\.jpg$|\.bmp/.test(theme[constructorName][tag])) {
-					this.root.loadImage(theme[constructorName][tag], function(){});
-				}
-				
+				currentThemer.root.loadImage(theme[constructorName][currentTag], function() {
+					_importThemeHelper();
+				});
+			}
+			
+			else {
+				_importThemeHelper();
 			}
 			
 		}
 		
-	}
+		_importThemeHelper();
+		
+	};
 	
+	_importCrocThemeHelper();
 };
 
 CrocThemer.prototype.setValue = function(constructor, tag, value) {
