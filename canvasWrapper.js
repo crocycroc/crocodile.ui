@@ -116,6 +116,11 @@ cwPrototype.arc = function (aX, aY, aRadius, aStartAngle, aEndAngle, aClockwise)
 	this.applyContextProperties();
 	this.canvas.arc(aX, aY, aRadius, aStartAngle, aEndAngle, aClockwise);
 };
+
+cwPrototype.arcTo = function (x1, y1, x2, y2, radius) {
+	this.applyContextProperties();
+	this.canvas.arcTo(x1, y1, x2, y2, radius);
+};
 cwPrototype.rect = function (aX, aY, aWidth, aHeight) {
 	this.applyContextProperties();
 	this.canvas.rect(aX, aY, aWidth, aHeight);
