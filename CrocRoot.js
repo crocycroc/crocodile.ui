@@ -114,9 +114,6 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	this.themer = new CrocThemer(this);
 	
 	this.themer.importTheme(crocThemeDefault, function(err) {
-		
-		console.log('importTheme: done');
-		
 		currentCrocRoot.loaded = true;
 		currentCrocRoot.event('loaded', {});
 		currentCrocRoot.repaint();
@@ -345,8 +342,6 @@ CrocRoot.prototype.loadImage = function(src, callback) {
 	}
 	
 	image.onerror = function(err) {
-		console.log('onerror: ' + this.origSrc);
-		
 		currentCrocRoot.imageStore[this.origSrc].image = null;
 		
 		currentCrocRoot.onImageLoad.call(currentCrocRoot, this.origSrc);
@@ -379,8 +374,6 @@ CrocRoot.prototype.onImageLoad = function(src) {
 		this.error("Wasn't waiting for image \"" + src + "\" to load but got event anyway?!");
 		return;
 	}
-	
-	console.log('src: ' + src);
 	
 	this.imageStore[src].loaded = true;
 
