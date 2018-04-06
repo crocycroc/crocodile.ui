@@ -85,6 +85,10 @@ CrocProgressBar.prototype.setShowLabel = function(value) {
 CrocProgressBar.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	if(!this.visible) {
+		return;
+	}
+	
 	var currentBorder = this.border;
 	
 	var lh = this.left.getHeight();

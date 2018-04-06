@@ -182,10 +182,13 @@ CrocRoot.prototype.clearHitContext = function() {
 CrocRoot.prototype.setFocusedObject = function(object) {
 	
 	if(this.focusedObject !== undefined && this.focusedObject !== null) {
+		
 		this.focusedObject.event('blur', object);
 	}
 	
 	this.focusedObject = object;
+	
+	this.event('objectfocusedset', object);
 	
 	return this.focusedObject;
 };

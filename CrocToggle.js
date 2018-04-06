@@ -81,6 +81,10 @@ CrocToggle.prototype.getHeight = function() {
 CrocToggle.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	if(!this.visible) {
+		return;
+	}
+	
 	context.save();
 	
 	if(this.getValue()) {
