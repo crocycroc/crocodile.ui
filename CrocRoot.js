@@ -99,8 +99,8 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	this.dirty = false;
 	this.paintWarnings = [];
 	this.globalPaintWarning = false;
+	this.loaded = false;
 	
-	this.themer = new CrocThemer(this, crocThemeDefault);
 	this.eventHandler = new eventHandlerConstructor(this);
 	
 	if(this.fullscreen) {
@@ -111,11 +111,36 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 		this.hitCanvas.height = window.innerHeight;
 	}
 	
-	this.repaint();
+	this.themer = new CrocThemer(this);
+	
+	this.themer.importTheme(crocThemeDefault, function(err) {
+		
+		console.log('importTheme: done');
+		
+		currentCrocRoot.loaded = true;
+		currentCrocRoot.event('loaded', {});
+		currentCrocRoot.repaint();
+	});
 };
 
 CrocRoot.prototype = Object.create(CrocBase.prototype);
 CrocRoot.prototype.constructor = CrocRoot;
+
+CrocRoot.prototype.onReady = function(callback) {
+	
+	var currentCrocRoot = this;
+	
+	if(this.loaded) {
+		callback.call(this, false);
+		return;
+	}
+	
+	var waitingEventCallback = this.addEventListener('loaded', function(data) {
+		currentCrocRoot.removeEventListener('loaded', waitingEventCallback);
+		callback.call(currentCrocRoot, false);
+	});
+	
+};
 
 CrocRoot.prototype.getCrocRoot = function() {
 	return this;
@@ -282,7 +307,7 @@ CrocRoot.prototype.loadImage = function(src, callback) {
 		if(this.imageStore[src].loaded) {
 			
 			if(callback !== undefined) {
-				callback.call(currentCrocRoot);
+				callback.call(currentCrocRoot, false);
 			}
 		}
 		
@@ -312,8 +337,26 @@ CrocRoot.prototype.loadImage = function(src, callback) {
 		
 		if(this.origSrc in currentCrocRoot.imageStoreListeners) {
 			for(var i = 0; i < currentCrocRoot.imageStoreListeners[this.origSrc].length; i++) {
-				currentCrocRoot.imageStoreListeners[this.origSrc][i].call(currentCrocRoot);
+				currentCrocRoot.imageStoreListeners[this.origSrc][i].call(currentCrocRoot, false);
 			}
+			
+			currentCrocRoot.imageStoreListeners[this.origSrc] = [];
+		}
+	}
+	
+	image.onerror = function(err) {
+		console.log('onerror: ' + this.origSrc);
+		
+		currentCrocRoot.imageStore[this.origSrc].image = null;
+		
+		currentCrocRoot.onImageLoad.call(currentCrocRoot, this.origSrc);
+		
+		if(this.origSrc in currentCrocRoot.imageStoreListeners) {
+			for(var i = 0; i < currentCrocRoot.imageStoreListeners[this.origSrc].length; i++) {
+				currentCrocRoot.imageStoreListeners[this.origSrc][i].call(currentCrocRoot, err);
+			}
+			
+			currentCrocRoot.imageStoreListeners[this.origSrc] = [];
 		}
 	}
 	
@@ -336,6 +379,8 @@ CrocRoot.prototype.onImageLoad = function(src) {
 		this.error("Wasn't waiting for image \"" + src + "\" to load but got event anyway?!");
 		return;
 	}
+	
+	console.log('src: ' + src);
 	
 	this.imageStore[src].loaded = true;
 
