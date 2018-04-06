@@ -46,6 +46,11 @@
 
 		<script>			
 			var root = new CrocRoot(document.getElementById("myCanvas"), document.getElementById("hitCanvas"), true);
+			
+			root.onReady(function() {
+				console.log("WE ARE READY TO CROC!");
+			});
+			
 			var panel = new CrocPanel(root);
 			var button = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
 			var buttonB = new CrocButton(root, "imgs/Button.svg", "imgs/ButtonHover.svg", "imgs/ButtonPress.svg");
