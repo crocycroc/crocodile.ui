@@ -1,4 +1,6 @@
 
+var determineFontHeightCache = {};
+
 function fastHitArrayTest(arr) {
 	var i=0, len=arr.length;
 	while (i != len) {
@@ -14,6 +16,11 @@ function fastHitArrayTest(arr) {
 }
 
 function determineFontHeight(fontStyle) {
+	
+	if(determineFontHeightCache[fontStyle] !== undefined) {
+		return determineFontHeightCache[fontStyle];
+	}
+	
 	var body = document.getElementsByTagName("body")[0];
 	var dummy = document.createElement("span");
 	var dummyText = document.createTextNode("M");
@@ -22,6 +29,7 @@ function determineFontHeight(fontStyle) {
 	body.appendChild(dummy);
 	var result = dummy.offsetHeight - (dummy.offsetHeight / 3);
 	body.removeChild(dummy);
+	determineFontHeightCache[fontStyle] = result;
 	return result;
 }
 
