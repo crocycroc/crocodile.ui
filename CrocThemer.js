@@ -21,8 +21,6 @@ CrocThemer.prototype.importTheme = function(theme, callback) {
 	
 	function _importCrocThemeHelper() {
 		
-		console.log('constructorNames.length: ' + constructorNames.length);
-		
 		if(constructorNames.length <= 0) {
 			callback.call(currentThemer, false);
 			return;
@@ -34,8 +32,6 @@ CrocThemer.prototype.importTheme = function(theme, callback) {
 		
 		function _importThemeHelper() {
 			
-			console.log('tagKeys.length: ' + tagKeys.length);
-		
 			if(tagKeys.length <= 0) {
 				_importCrocThemeHelper();
 				return;
@@ -46,7 +42,6 @@ CrocThemer.prototype.importTheme = function(theme, callback) {
 			currentThemer.setValue(window[constructorName], currentTag, theme[constructorName][currentTag]);
 			
 			if(/\.png$|\.svg$|\.jpg$|\.bmp/.test(theme[constructorName][currentTag])) {
-				console.log("theme[constructorName][currentTag]: " + theme[constructorName][currentTag]);
 				
 				currentThemer.root.loadImage(theme[constructorName][currentTag], function() {
 					_importThemeHelper();
