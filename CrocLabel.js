@@ -182,8 +182,6 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	var testMetrics = context.measureText(currentLine);
 	context.restore();
 	
-	console.log(testMetrics.width);
-	
 	if(testMetrics.width > maxWidth) {
 		maxWidth = testMetrics.width;
 	}
