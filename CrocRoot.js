@@ -423,13 +423,13 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	this.clearHitContext();
 	
 	this.hitContext.scale(this.scaleFactorX, this.scaleFactorY);
+		
+	this.rootTransform = this.hitContext.getCurrentTransform();
 	
 	var newWidthHeight = this.transformPoint(this.inverseTransform(this.context.getCurrentTransform()), this.getWidth(), this.getHeight());
 		
-	CrocBase.prototype.hitTest.call(this, this.hitContext, x, y, this.getWidth(), this.getHeight())
-	
 	for(var i = 0; i < this.children.length; i++) {
-		hitObject = this.children[i].hitTest(this.hitContext, x, y, newWidthHeight.x, newWidthHeight.y);
+		hitObject = this.children[i].hitTest(this.hitContext, x, y, this.getWidth(), this.getHeight());
 		
 		if(hitObject !== null) {
 			hitReturn.push(hitObject);
@@ -475,14 +475,14 @@ CrocRoot.prototype.paint = function() {
 		
 		this.context.scale(this.scaleFactorX, this.scaleFactorY);
 		
+		this.rootTransform = this.context.getCurrentTransform();
+		
 		this.setSmooth(false);
 		
 		var i = this.children.length;
 		
-		var newWidthHeight = this.transformPoint(this.inverseTransform(this.context.getCurrentTransform()), this.getWidth(), this.getHeight());
-		
 		while(i--) {
-			this.children[i].paint(this.context, newWidthHeight.x, newWidthHeight.y);
+			this.children[i].paint(this.context, this.getWidth(), this.getHeight());
 		}
 		
 		this.clearPaintWarnings();

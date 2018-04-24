@@ -80,6 +80,7 @@ CrocLabel.prototype.hitTest = function(context, x, y, width, height) {
 };
 
 CrocLabel.prototype.paint = function(context, width, height) {
+
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
 	if(!this.visible) {
@@ -135,7 +136,11 @@ CrocLabel.prototype.paint = function(context, width, height) {
 		}
 		
 		var testLine = currentLine + splittedText[i];
+		
+		context.save();
+		context.setTransform(1, 0, 0, 1, 0, 0)
 		var testMetrics = context.measureText(testLine);
+		context.restore();
 		
 		if(testMetrics.width > maxWidth) {
 			maxWidth = testMetrics.width;
@@ -172,8 +177,13 @@ CrocLabel.prototype.paint = function(context, width, height) {
 	var y = currentLineNumber * (this.textHeight + currentFontHeightPadding);
 	var x = 0;
 	
+	context.save();
+	context.setTransform(1, 0, 0, 1, 0, 0)
 	var testMetrics = context.measureText(currentLine);
-		
+	context.restore();
+	
+	console.log(testMetrics.width);
+	
 	if(testMetrics.width > maxWidth) {
 		maxWidth = testMetrics.width;
 	}

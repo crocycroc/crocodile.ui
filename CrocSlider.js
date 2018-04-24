@@ -231,11 +231,10 @@ CrocSlider.prototype.paint = function(context, width, height) {
 	var brh = currentGroove.bottomLeftImage.getHeight();
 	
 	if(this.orientation === 'verticle') {
+		context.save();
 		context.translate((currentSlider.getWidth() / 2) - ((tlw + brw) / 2), currentSlider.getHeight() / 2);
 		currentGroove.paint(context, tlw + brw, this.getHeight() - currentSlider.getHeight());
-		
-		
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+		context.restore();
 		
 		var y = (((this.getHeight() - currentSlider.getHeight()) * (this.value - this.minValue)) / (this.maxValue - this.minValue));
 		
@@ -244,10 +243,10 @@ CrocSlider.prototype.paint = function(context, width, height) {
 	}
 	
 	else {
+		context.save();
 		context.translate(currentSlider.getWidth() / 2, (currentSlider.getHeight() / 2) - ((tlh + brh) / 2));
 		currentGroove.paint(context, this.getWidth() - currentSlider.getWidth(), tlh + brh);
-		
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+		context.restore();
 		
 		var x = (((this.getWidth() - currentSlider.getWidth()) * (this.value - this.minValue)) /  (this.maxValue - this.minValue));
 		

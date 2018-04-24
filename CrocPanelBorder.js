@@ -59,17 +59,11 @@ CrocPanelBorder.prototype.hitTest = function(context, x, y, width, height) {
 		hitReturn.push(hitObject);
 	}
 	
-	//When we initialize the context there needs to be a currenTransform value.
-	//This is now standard but some browsers, like firefox call it mozCurrentTransform.
-	//So we map with context.getCurrentTransform() function;
-	
-	//Push Matrix
-	var parentTransform = context.getCurrentTransform();
-	
 	interiorWidth = this.width - this.topLeftImage.getWidth() - this.topLeftImage.getWidth();	
 	interiorHeight = this.height - this.topLeftImage.getHeight() - this.topLeftImage.getHeight();
 	
 	for(var i = 0; i < this.children.length; i++) {
+		context.save();
 		context.translate(this.topLeftImage.getWidth(), this.topLeftImage.getHeight());
 		
 		var currentChild = this.children[i];
@@ -85,15 +79,14 @@ CrocPanelBorder.prototype.hitTest = function(context, x, y, width, height) {
 			hitReturn.push(hitObject);
 		}
 		
-		//We reset the transformation for the next pass back to the parents.
-		//Pop Matrix
-		context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+		context.restore();
 	}
 	
 	return hitReturn;
 };
 
 CrocPanelBorder.prototype.paint = function(context, width, height) {
+
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
 	if(!this.visible) {
@@ -108,9 +101,7 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	context.lineTo(0, this.getHeight());
 	context.lineTo(0, 0);
 	context.clip();
-	
-	var parentTransform = context.getCurrentTransform();
-	
+
 	var interiorWidth = 0;
 	var interiorHeight = 0;
 	
@@ -118,7 +109,8 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	
 	interiorWidth = this.width - this.topLeftImage.getWidth() - this.bottomRightImage.getWidth();	
 	interiorHeight = this.height - this.topLeftImage.getHeight() - this.bottomRightImage.getHeight();
-		
+	
+	context.save();
 	context.translate(this.topLeftImage.getWidth(), 0);
 	this.topImage.setTargetHeight(this.topLeftImage.getHeight());
 	this.topImage.setTargetWidth(interiorWidth);
@@ -128,8 +120,9 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	this.topRightImage.setTargetHeight(this.topLeftImage.getHeight());
 	this.topRightImage.setTargetWidth(this.topLeftImage.getWidth());
 	this.topRightImage.paint(context, width, height);
+	context.restore();
 	
-	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+	context.save();
 	context.translate(0, this.topLeftImage.getHeight());
 	
 	this.leftImage.setTargetWidth(this.topLeftImage.getWidth());
@@ -145,8 +138,9 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	this.rightImage.setTargetWidth(this.topLeftImage.getWidth());
 	this.rightImage.setTargetHeight(interiorHeight);
 	this.rightImage.paint(context, width, height);
+	context.restore();
 	
-	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+	context.save();
 	context.translate(0, this.topLeftImage.getHeight() + interiorHeight);
 	
 	this.bottomLeftImage.setTargetWidth(this.topLeftImage.getWidth());
@@ -166,12 +160,14 @@ CrocPanelBorder.prototype.paint = function(context, width, height) {
 	this.bottomRightImage.paint(context, width, height);
 	
 	//Resetting for the next part for painting.
+	context.restore();
 	
-	context.setTransform(parentTransform[0], parentTransform[1], parentTransform[2], parentTransform[3], parentTransform[4], parentTransform[5]);
+	context.restore();
+	
+	context.save();
 	
 	context.translate(this.topLeftImage.getWidth(), this.topLeftImage.getHeight());
-	
-	//CrocPanel is going to change our currnet height and width, to the size of the interior.
+
 	CrocPanel.prototype.paint.call(this, context, interiorWidth, interiorHeight);
 	
 	//We don't want that so we convert back here.

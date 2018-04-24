@@ -53,8 +53,6 @@ CrocPanelList.prototype.removeAllChildren = function() {
 CrocPanelList.prototype.hitTest = function(context, x, y, width, height) {
 	var hitReturn = [];
 	
-	var parentTransform = context.getCurrentTransform();
-	
 	var hitObject = CrocBase.prototype.hitTest.call(this, context, x, y, width, height);
 	
 	context.save();

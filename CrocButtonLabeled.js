@@ -49,7 +49,10 @@ function CrocButtonLabeled(root, text,
 	
 	this.label.setAlignment("center", "center");
 	this.label.setWrapping("word");
+	this.label.setTargetWidth("100%");
+	this.label.setTargetHeight("100%");
 	this.border.addChild(this.label);
+	this.border.setChildOrientation(this.label, 0, 0, 0, "100%", "100%");
 	this.borderPressed.addChild(this.label);
 	this.borderHover.addChild(this.label);
 };

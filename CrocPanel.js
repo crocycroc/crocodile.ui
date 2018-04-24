@@ -109,6 +109,7 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 		context.scale(this.convertToPixels(currentOrientation.width, width), this.convertToPixels(currentOrientation.height, height));
 		
 		var newWidthHeight = this.transformPoint(context.getCurrentTransform(), this.getWidth(), this.getHeight());
+		newWidthHeight = this.transformPoint(this.inverseTransform(this.getRoot().rootTransform), newWidthHeight.x, newWidthHeight.y);
 		
 		context.restore();
 		
@@ -119,6 +120,7 @@ CrocPanel.prototype.hitTest = function(context, x, y, width, height) {
 		context.scale(this.convertToPixels(currentOrientation.width, width), this.convertToPixels(currentOrientation.height, height));
 		
 		var newOriginPosition = this.transformPoint(context.getCurrentTransform(), 0, 0);
+		newOriginPosition = this.transformPoint(this.inverseTransform(this.getRoot().rootTransform), newOriginPosition.x, newOriginPosition.y);
 		
 		hitObject = currentChild.hitTest(context, x, y, newWidthHeight.x - newOriginPosition.x, newWidthHeight.y - newOriginPosition.y);
 		
@@ -160,6 +162,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 		context.scale(currentOrientation.width, currentOrientation.height);
 		
 		var newWidthHeight = this.transformPoint(context.getCurrentTransform(), this.getWidth(), this.getHeight());
+		newWidthHeight = this.transformPoint(this.inverseTransform(this.getRoot().rootTransform), newWidthHeight.x, newWidthHeight.y);
 		
 		context.restore();
 		
@@ -170,6 +173,7 @@ CrocPanel.prototype.paint = function(context, width, height) {
 		context.scale(currentOrientation.width, currentOrientation.height);
 
 		var newOriginPosition = this.transformPoint(context.getCurrentTransform(), 0, 0);
+		newOriginPosition = this.transformPoint(this.inverseTransform(this.getRoot().rootTransform), newOriginPosition.x, newOriginPosition.y);
 		
 		currentChild.paint(context, newWidthHeight.x - newOriginPosition.x, newWidthHeight.y - newOriginPosition.y);
 		context.restore();
