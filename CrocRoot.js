@@ -470,11 +470,14 @@ CrocRoot.prototype.paint = function() {
 		
 		this.context.scale(this.scaleFactor, this.scaleFactor);
 		
-		this.setSmooth(true);
+		this.setSmooth(false);
 		
 		var i = this.children.length;
+		
+		var newWidthHeight = this.transformPoint(this.inverseTransform(this.context.getCurrentTransform()), this.getWidth(), this.getHeight());
+		
 		while(i--) {
-			this.children[i].paint(this.context, this.getWidth(), this.getHeight());
+			this.children[i].paint(this.context, newWidthHeight.x, newWidthHeight.y);
 		}
 		
 		this.clearPaintWarnings();
