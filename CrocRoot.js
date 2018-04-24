@@ -10,7 +10,8 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	
 	this.canvas = canvas;
 	this.hitCanvas = hitCanvas;
-	this.scaleFactor = 1.0;
+	this.scaleFactorX = 1.0;
+	this.scaleFactorY = 1.0;
 	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
@@ -421,12 +422,14 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	
 	this.clearHitContext();
 	
-	this.hitContext.scale(this.scaleFactor, this.scaleFactor);
+	this.hitContext.scale(this.scaleFactorX, this.scaleFactorY);
 	
+	var newWidthHeight = this.transformPoint(this.inverseTransform(this.context.getCurrentTransform()), this.getWidth(), this.getHeight());
+		
 	CrocBase.prototype.hitTest.call(this, this.hitContext, x, y, this.getWidth(), this.getHeight())
 	
 	for(var i = 0; i < this.children.length; i++) {
-		hitObject = this.children[i].hitTest(this.hitContext, x, y, this.getWidth(), this.getHeight());
+		hitObject = this.children[i].hitTest(this.hitContext, x, y, newWidthHeight.x, newWidthHeight.y);
 		
 		if(hitObject !== null) {
 			hitReturn.push(hitObject);
@@ -438,8 +441,10 @@ CrocRoot.prototype.hitTest = function(x, y) {
 	return hitReturn;
 };
 
-CrocRoot.prototype.setScaleFactor = function(factor) {
-	this.scaleFactor = factor;
+CrocRoot.prototype.setScaleFactor = function(factor, yScale) {
+
+	this.scaleFactorX = factor;
+	this.scaleFactorY = yScale || factor;
 	this.repaint();
 };
 
@@ -468,7 +473,7 @@ CrocRoot.prototype.paint = function() {
 		//Reset context transformation
 		this.clear();
 		
-		this.context.scale(this.scaleFactor, this.scaleFactor);
+		this.context.scale(this.scaleFactorX, this.scaleFactorY);
 		
 		this.setSmooth(false);
 		
