@@ -1,0 +1,25 @@
+{
+  "name": "crocodile.ui",
+  "version": "1.0.0",
+  "description": "A Canvas UI library with Hybrid DOM element integration. ",
+  "author": "Kieron Gillespie",
+  "url": "https://github.com/crocycroc/crocodile.ui",
+  "email": "ciaran.gillespie@gmail.com",
+  "dependencies": {
+  },
+  "scripts": {
+    "build":"gulp"
+  },
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-babel": "^7.0.1",
+    "gulp-concat": "latest",
+    "gulp-jshint": "latest",
+    "gulp-rename": "latest",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "latest",
+    "htmlparser":"latest",
+    "jshint": "^2.9.5",
+    "jshint-stylish": "^2.2.1"
+  }
+}
