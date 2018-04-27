@@ -180,27 +180,23 @@ CrocPanelSplit.prototype.setSplitSize = function(size) {
 };
 
 CrocPanelSplit.prototype.globalPointToSplitSize = function(x, y) {
-	var t = this.inverseTransform(this.lastTransform);
-	
-	var c = this.transformPoint(t, x, y);
-	
 	if(this.orientation === 'verticle') {
 		if(this.splitSizeScaling === 'absolute') {
-			this.setSplitSize(c.y);
+			this.setSplitSize(y);
 		}
 		
 		else {
-			this.setSplitSize(this.convertToPercentile(c.y, this.getHeight()));
+			this.setSplitSize(this.convertToPercentile(y, this.getHeight()));
 		}
 	}
 	
 	else {
 		if(this.splitSizeScaling === 'absolute') {
-			this.setSplitSize(c.x);
+			this.setSplitSize(x);
 		}
 		
 		else {
-			this.setSplitSize(this.convertToPercentile(c.x, this.getWidth()));
+			this.setSplitSize(this.convertToPercentile(x, this.getWidth()));
 		}
 	}
 	

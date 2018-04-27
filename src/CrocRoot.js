@@ -13,6 +13,10 @@ function CrocRoot(canvas, hitCanvas, fullscreen, eventHandlerConstructor) {
 	this.scaleFactorX = 1.0;
 	this.scaleFactorY = 1.0;
 	
+	this.lastCorrectedDPIRatio = 1;
+	this.lastCorrectedWidth = 0;
+	this.lastCorrectedHeight = 0;
+	
 	this.context = canvas.getContext("2d");
 	this.hitContext = hitCanvas.getContext("2d");
 
@@ -148,6 +152,42 @@ CrocRoot.prototype.onCanvasResize = function() {
 	this.repaint();
 };
 
+CrocRoot.prototype.getDPIRatio = function() {
+	var devicePixelRatio = window.devicePixelRatio || 1;
+
+	var backingStoreRatio = this.context.webkitBackingStorePixelRatio ||
+						this.context.mozBackingStorePixelRatio ||
+						this.context.msBackingStorePixelRatio ||
+						this.context.oBackingStorePixelRatio ||
+						this.context.backingStorePixelRatio || 1;
+
+	return devicePixelRatio / backingStoreRatio;
+};
+
+CrocRoot.prototype.correctCanvasSize = function() {
+	
+	var oldWidth = this.canvas.width;
+	var oldHeight = this.canvas.height;
+	var dpiRatio = this.getDPIRatio();
+		
+	if(this.lastCorrectedWidth === oldWidth && this.lastCorrectedHeight === oldHeight && this.lastCorrectedDPIRatio === dpiRatio) {
+		return;
+	}
+	
+	if (dpiRatio !== 1.0) {
+
+		this.canvas.width = oldWidth * dpiRatio;
+		this.canvas.height = oldHeight * dpiRatio;
+		
+		this.canvas.style.width = oldWidth + 'px';
+		this.canvas.style.height = oldHeight + 'px';
+	}
+	
+	this.lastCorrectedWidth = this.canvas.width;
+	this.lastCorrectedHeight = this.canvas.height;
+	this.lastCorrectedDPIRatio = dpiRatio;
+};
+
 CrocRoot.prototype.setWidth = function (width) {
 	
 	if(this.fullscreen) {
@@ -156,7 +196,7 @@ CrocRoot.prototype.setWidth = function (width) {
 	
 	this.canvas.width = width;
 	this.hitCanvas.width = width;
-	
+		
 	this.repaint();
 };
 
@@ -168,37 +208,46 @@ CrocRoot.prototype.setHeight = function(height) {
 	
 	this.canvas.height = height;
 	this.hitCanvas.height = height;
-	
+
 	this.repaint();
 };
 
 CrocRoot.prototype.getWidth = function () {
+	
+	var dpiRatio = this.getDPIRatio();
+	
 	if(this.fullscreen) {
-		return window.innerWidth;
+		return (window.innerWidth / this.scaleFactorX) / dpiRatio;
 	}
 	
-	return this.canvas.width;
+	return (this.canvas.width / this.scaleFactorX) / dpiRatio;
 };
 
 CrocRoot.prototype.getHeight = function() {
+	
+	var dpiRatio = this.getDPIRatio();
+	
 	if(this.fullscreen) {
-		return window.innerHeight;
+		return (window.innerHeight / this.scaleFactorY) / dpiRatio;
 	}
 	
-	return this.canvas.height;
+	return (this.canvas.height / this.scaleFactorY) / dpiRatio;
 };
 
 CrocRoot.prototype.clear = function() {
+	
+	var dpiRatio = this.getDPIRatio();
+	
 	this.context.save();
 	this.context.setTransform(1, 0, 0, 1, 0, 0)
-	this.context.clearRect(0, 0, this.getWidth(), this.getHeight());
+	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	this.context.restore();
 };
 
 CrocRoot.prototype.clearHitContext = function() {
 	this.hitContext.save();
 	this.hitContext.setTransform(1, 0, 0, 1, 0, 0)
-	this.hitContext.clearRect(0, 0, this.getWidth(), this.getHeight());
+	this.hitContext.clearRect(0, 0, this.hitCanvas.width, this.hitCanvas.height);
 	this.hitContext.restore();
 };
 
@@ -468,21 +517,31 @@ CrocRoot.prototype.paint = function() {
 	}
 	
 	if(this.dirty && this.visible) {
+		
 		this.dirty = false;
+		
+		this.correctCanvasSize();
+		
 		this.context.save();
+		
 		//Reset context transformation
 		this.clear();
-		
+	
 		this.context.scale(this.scaleFactorX, this.scaleFactorY);
 		
-		this.rootTransform = this.context.getCurrentTransform();
+		var dpiRatio = this.getDPIRatio();
 		
+		if (dpiRatio !== 1.0) {
+			this.context.scale(dpiRatio, dpiRatio);
+		}
+		
+		this.rootTransform = this.context.getCurrentTransform();
 		this.setSmooth(false);
 		
 		var i = this.children.length;
 		
 		while(i--) {
-			this.children[i].paint(this.context, this.getWidth() / this.scaleFactorX, this.getHeight() / this.scaleFactorY);
+			this.children[i].paint(this.context, this.getWidth() * dpiRatio, this.getHeight() * dpiRatio);
 		}
 		
 		this.clearPaintWarnings();
