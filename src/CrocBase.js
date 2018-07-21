@@ -436,6 +436,9 @@ CrocBase.prototype.applyOpacity = function(context) {
 	context.globalAlpha = context.globalAlpha * this.opacity;
 };
 
+CrocBase.prototype.removeOpacity = function(context) {
+};
+
 CrocBase.prototype.removeClip = function(context) {
 	context.restore();
 };
