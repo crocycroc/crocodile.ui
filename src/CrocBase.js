@@ -27,6 +27,7 @@ function CrocBase(root){
 	this.targetHeight = null;
 	this.scaling = 'none';
 	this.localHitCoord = {x:0, y:0};
+	this.opacity = 1.0;
 	
 	this.root = root;
 	
@@ -238,6 +239,20 @@ CrocBase.prototype.setVisible = function(visible) {
 	}
 };
 
+CrocBase.prototype.setOpacity = function(value) {
+	
+	if(value > 1.0) {
+		value = 1.0;
+	}
+	
+	if(value < 0.0) {
+		value = 0.0;
+	}
+	
+	this.opacity = value;
+	return;
+};
+
 CrocBase.prototype.getVisible = function() {
 	return this.visible;
 };
@@ -415,6 +430,10 @@ CrocBase.prototype.applyClip = function(context, width, height) {
 	context.save();
 	context.rect(0, 0, width, height);
 	context.clip();
+};
+
+CrocBase.prototype.applyOpacity = function(context) {
+	context.globalAlpha = context.globalAlpha * this.opacity;
 };
 
 CrocBase.prototype.removeClip = function(context) {
