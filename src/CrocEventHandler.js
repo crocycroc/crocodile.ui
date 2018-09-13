@@ -14,14 +14,17 @@ function CrocEventHandler(root) {
 	
 	this.root.canvas.addEventListener('mousemove', function(e) {
 		currentEventHandler.onMouseMove(e);
+		return currentEventHandler._onEventAbsorb(e);
 	});
 	
 	this.root.canvas.addEventListener('mousedown', function(e) {
 		currentEventHandler.onMouseDown(e);
+		return currentEventHandler._onEventAbsorb(e);
 	});
 	
 	this.root.canvas.addEventListener('mouseup', function(e) {
 		currentEventHandler.onMouseUp(e);
+		return currentEventHandler._onEventAbsorb(e);
 	});
 	
 	this.root.canvas.addEventListener('mousewheel', function(e) {
@@ -49,17 +52,52 @@ function CrocEventHandler(root) {
 	}, false);
 	
 	this.root.canvas.addEventListener('touchmove', function(e) {
+		
+		if(e.changedTouches !== undefined && e.changedTouches[0] !== undefined) {
+			e.clientX = e.changedTouches[0].clientX;
+			e.clientY = e.changedTouches[0].clientY;
+		}
+		
+		currentEventHandler.onMouseMove(e);
+		return currentEventHandler._onEventAbsorb(e);
 	}, false);
 	
 	this.root.canvas.addEventListener('touchstart', function(e) {
+		
+		if(e.changedTouches !== undefined && e.changedTouches[0] !== undefined) {
+			e.clientX = e.changedTouches[0].clientX;
+			e.clientY = e.changedTouches[0].clientY;
+		}
+		
+		currentEventHandler.onMouseDown(e);
+		return currentEventHandler._onEventAbsorb(e);
 	}, false);
 	
 	this.root.canvas.addEventListener('touchend', function(e) {
+		
+		if(e.changedTouches !== undefined && e.changedTouches[0] !== undefined) {
+			e.clientX = e.changedTouches[0].clientX;
+			e.clientY = e.changedTouches[0].clientY;
+		}
+		
+		currentEventHandler.onMouseUp(e);
+		return currentEventHandler._onEventAbsorb(e);
 	}, false);
 	
 	window.addEventListener('resize', function() { 
 		currentEventHandler.onCanvasResize() 
 	}, false);
+};
+
+CrocEventHandler.prototype._onEventAbsorb = function(event) {
+	
+	var e = event || window.event;
+	
+	e.preventDefault && e.preventDefault();
+	e.stopPropagation && e.stopPropagation();      
+	e.cancelBubble = true;
+	e.returnValue = false;
+	return false;
 };
 
 CrocEventHandler.prototype.onCanvasResize = function() {
@@ -95,10 +133,11 @@ CrocEventHandler.prototype.sendHitEvent = function(coords, eventType) {
 
 CrocEventHandler.prototype.onMouseMove = function(e) {
 	var rect = this.root.canvas.getBoundingClientRect();
-        var coords = {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        };
+
+	var coords = {
+		x: e.clientX - rect.left,
+		y: e.clientY - rect.top
+	};
 	
 	this.lastMouseEvent = e;
 	
@@ -121,10 +160,11 @@ CrocEventHandler.prototype.onMouseMove = function(e) {
 
 CrocEventHandler.prototype.onMouseDown = function(e) {
 	var rect = this.root.canvas.getBoundingClientRect();
-        var coords = {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        };
+	
+	var coords = {
+		x: e.clientX - rect.left,
+		y: e.clientY - rect.top
+	};
 	
 	this.sendHitEvent(coords, 'pointerdown');
 };

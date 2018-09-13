@@ -97,8 +97,8 @@ CrocDOM.prototype.paint = function(context, width, height) {
 	this.domObject.style.position = "absolute";
 	this.domObject.style.top = position.y.toString() + "px";
 	this.domObject.style.left = position.x.toString() + "px";
-	this.domObject.style.width = this.getWidth().toString() + "px";
-	this.domObject.style.height = this.getHeight().toString() + "px";
+	this.domObject.style.width = (this.getWidth()).toString() + "px";
+	this.domObject.style.height = (this.getHeight()).toString() + "px";
 	this.domObject.style.overflow = "hidden";
 	
 	if(oldWidth !== this.getWidth() || oldHeight !== this.getHeight()) {
