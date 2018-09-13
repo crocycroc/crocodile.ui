@@ -14,17 +14,14 @@ function CrocEventHandler(root) {
 	
 	this.root.canvas.addEventListener('mousemove', function(e) {
 		currentEventHandler.onMouseMove(e);
-		return currentEventHandler._onEventAbsorb(e);
 	});
 	
 	this.root.canvas.addEventListener('mousedown', function(e) {
 		currentEventHandler.onMouseDown(e);
-		return currentEventHandler._onEventAbsorb(e);
 	});
 	
 	this.root.canvas.addEventListener('mouseup', function(e) {
 		currentEventHandler.onMouseUp(e);
-		return currentEventHandler._onEventAbsorb(e);
 	});
 	
 	this.root.canvas.addEventListener('mousewheel', function(e) {
