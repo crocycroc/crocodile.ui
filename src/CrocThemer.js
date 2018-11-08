@@ -13,7 +13,7 @@ CrocThemer.prototype.importTheme = function(theme, callback) {
 		if(window[constructorName] !== undefined && typeof window[constructorName] === 'function') {
 			
 			for(var tag in theme[constructorName]) {
-				this.setValue(window[constructorName], tag, theme[constructorName][tag]);
+				this.setValue(constructorName, tag, theme[constructorName][tag]);
 			}
 			
 		}
@@ -39,7 +39,7 @@ CrocThemer.prototype.importTheme = function(theme, callback) {
 			
 			var currentTag = tagKeys.shift();
 			
-			currentThemer.setValue(window[constructorName], currentTag, theme[constructorName][currentTag]);
+			currentThemer.setValue(constructorName, currentTag, theme[constructorName][currentTag]);
 			
 			if(/\.png$|\.svg$|\.jpg$|\.bmp/.test(theme[constructorName][currentTag])) {
 				
@@ -63,23 +63,27 @@ CrocThemer.prototype.importTheme = function(theme, callback) {
 
 CrocThemer.prototype.setValue = function(constructor, tag, value) {
 	
-	if(this.values[constructor] === undefined) {
-		this.values[constructor] = {};
+	var constructorName = constructor.name || constructor.toString();
+	
+	if(this.values[constructorName] === undefined) {
+		this.values[constructorName] = {};
 	}
 	
-	this.values[constructor][tag] = value;
+	this.values[constructorName][tag] = value;
 	return;
 };
 
 CrocThemer.prototype.getValue = function(constructor, tag) {
 	
-	if(this.values[constructor] === undefined) {
+	var constructorName = constructor.name || constructor.toString();
+	
+	if(this.values[constructorName] === undefined) {
 		return null;
 	}
 	
-	if(this.values[constructor][tag] === undefined) {
+	if(this.values[constructorName][tag] === undefined) {
 		return null;
 	}
 	
-	return this.values[constructor][tag];
+	return this.values[constructorName][tag];
 };
