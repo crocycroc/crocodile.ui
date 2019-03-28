@@ -23,6 +23,20 @@ CrocVideo.prototype._onPlay = function() {
 	
 	this.getRoot().repaint();
 	
+	this.event('play');
+	
+};
+
+CrocVideo.prototype.play = function() {
+	this._videoElement.play();
+};
+
+CrocVideo.prototype.pause = function() {
+	this._videoElement.pause();
+};
+
+CrocVideo.prototype.stop = function() {
+	this._videoElement.stop();
 };
 
 CrocVideo.prototype.paint = function(context, width, height) {
@@ -43,7 +57,7 @@ CrocVideo.prototype.paint = function(context, width, height) {
 	if(!this._videoElement.paused && !this._videoElement.ended) {
 		this._drawTimeout = setTimeout(function() {
 			currentCrocVideo.getRoot().repaint();
-		}, 20);
+		}, 16);
 	}
 	
 	return;
