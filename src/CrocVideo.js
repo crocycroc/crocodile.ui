@@ -35,10 +35,6 @@ CrocVideo.prototype.pause = function() {
 	this._videoElement.pause();
 };
 
-CrocVideo.prototype.stop = function() {
-	this._videoElement.stop();
-};
-
 CrocVideo.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
