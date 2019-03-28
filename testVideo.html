@@ -54,6 +54,12 @@
 			root.addChild(panel);
 			panel.addChild(video0, 800, 500, Math.PI * 0.75, 0.5, 0.5);
 			panel.addChild(video1, -120, -1420, Math.PI * 0.25, 6.0, 6.0);
+			video1.setRepeat(true);
+			video1.play();
+			
+			setTimeout(function() {
+				video0.play();
+			}, 2000);
 			
 		</script>
 

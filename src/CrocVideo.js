@@ -6,6 +6,7 @@ function CrocVideo(root, videoFile) {
 	
 	this._videoElement = document.createElement('video');
 	this._drawTimeout = null;
+	this._repeat = false;
 	
 	this._videoElement.addEventListener('play', function() {
 		currentCrocVideo._onPlay();
@@ -18,6 +19,11 @@ function CrocVideo(root, videoFile) {
 //We inherit everything from CrocBase
 CrocVideo.prototype = Object.create(CrocBase.prototype);
 CrocVideo.prototype.constructor = CrocVideo;
+
+CrocVideo.prototype.setRepeat = function(repeat) {
+	this._repeat = Boolean(repeat);
+	this.getRoot().repaint();
+};
 
 CrocVideo.prototype._onPlay = function() {
 	
@@ -54,6 +60,10 @@ CrocVideo.prototype.paint = function(context, width, height) {
 		this._drawTimeout = setTimeout(function() {
 			currentCrocVideo.getRoot().repaint();
 		}, 16);
+	}
+	
+	else if(this._repeat && this._videoElement.ended) {
+		this.play();
 	}
 	
 	return;
