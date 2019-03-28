@@ -25,6 +25,14 @@ CrocVideo.prototype.setRepeat = function(repeat) {
 	this.getRoot().repaint();
 };
 
+CrocVideo.prototype.setMuted = function(muted) {
+	this._videoElement.muted = Boolean(muted);
+};
+
+CrocVideo.prototype.isMuted = function() {
+	return this._videoElement.muted;
+};
+
 CrocVideo.prototype._onPlay = function() {
 	
 	this.getRoot().repaint();
