@@ -88,6 +88,9 @@
 			var testProgressBar = new CrocProgressBar(root);
 			var testButtonLabeled = new CrocButtonLabeled(root, "Test Me! And this should wrap while centered in the middle of the button.");
 			testSlider.setTargetWidth("50%");
+			testSlider.setMinValue(-100);
+			testSlider.setMaxValue(100);
+			testSlider.setValue(0);
 // 			testSlider.setOrientation("verticle");
 			testProgressBar.setTargetWidth("400px");
 			testButtonLabeled.setTargetWidth("300px");
