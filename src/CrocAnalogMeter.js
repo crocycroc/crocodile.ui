@@ -81,6 +81,10 @@ CrocAnalogMeter.prototype.setMinValue = function(minValue) {
 CrocAnalogMeter.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
 	
+	if(!this.visible) {
+		return;
+	}
+	
 	context.save();
 	
 	this.background.paint(context, width, height);

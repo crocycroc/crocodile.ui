@@ -5,20 +5,19 @@
   "author": "Kieron Gillespie",
   "url": "https://github.com/crocycroc/crocodile.ui",
   "email": "ciaran.gillespie@gmail.com",
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
-    "build":"gulp"
+    "build": "gulp"
   },
   "devDependencies": {
-    "gulp": "latest",
+    "gulp": "3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-concat": "latest",
     "gulp-jshint": "latest",
     "gulp-rename": "latest",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "latest",
-    "htmlparser":"latest",
+    "htmlparser": "latest",
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1"
   }
