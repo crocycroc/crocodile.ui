@@ -182,14 +182,14 @@ CrocSlider.prototype.localPointToValue = function(x, y) {
 	var c = {x:x, y:y}
 	
 	if(this.orientation === 'verticle') {
-		var value = ((c.y - (this.slider.getHeight() / 2)) * (this.maxValue - this.minValue))/(this.getHeight() - this.slider.getHeight());
+		var value = (((c.y - (this.slider.getHeight() / 2)) * (this.maxValue - this.minValue))/(this.getHeight() - this.slider.getHeight())) + this.minValue;
 		
 		this.setValue(value);
 		
 	}
 	
 	else {
-		var value = ((c.x - (this.slider.getWidth() / 2)) * (this.maxValue - this.minValue))/(this.getWidth() - this.slider.getWidth());
+		var value = (((c.x - (this.slider.getWidth() / 2)) * (this.maxValue - this.minValue))/(this.getWidth() - this.slider.getWidth())) + this.minValue;
 		
 		this.setValue(value);
 	}
