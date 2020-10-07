@@ -197,7 +197,11 @@ CrocSlider.prototype.localPointToValue = function(x, y) {
 
 CrocSlider.prototype.paint = function(context, width, height) {
 	CrocBase.prototype.paint.call(this, context, width, height);
-	
+    
+    if(!this.visible) {
+        return;
+    }
+    
 	context.save();
 	
 	var parentTransform = context.getCurrentTransform();
